@@ -5,7 +5,7 @@
  * Publica las citas en formato .ics para poder suscribirse desde Google
  * Calendar, Outlook o Apple Calendario.
  *
- * Nota de seguridad: en la versión original el hash de acceso al feed era
+ * Nota de seguridad: el hash de acceso al feed era
  * `md5( 'booked_ical_feed_' . get_site_url() )`, es decir, un valor
  * completamente predecible a partir de la URL del sitio. Cualquiera podía
  * calcularlo y descargar todas las citas con nombres y correos sin estar

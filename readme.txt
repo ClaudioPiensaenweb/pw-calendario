@@ -84,12 +84,12 @@ No. WooCommerce solo hace falta si quieres cobrar las citas.
 * **SEGURIDAD:** Los ajustes de «no permitir cancelaciones» y «margen de cancelación» se aplican también en el servidor, no solo en la interfaz.
 * **SEGURIDAD:** La cancelación de citas valida que el identificador corresponda realmente a una cita.
 * **SEGURIDAD:** Limitados los intentos de acceso y de recuperación de contraseña desde el calendario.
-* **SEGURIDAD:** Eliminado el comprobador de actualizaciones que consultaba un dominio externo ajeno, y la llamada a una API de terceros con una clave incrustada en el código.
+* **SEGURIDAD:** Eliminadas las llamadas a servicios externos que hacía el plugin, incluida una que enviaba peticiones con una clave de API incrustada en el código.
 * **SEGURIDAD:** Consultas SQL preparadas, guardas de acceso directo en todos los archivos PHP y escapado de la salida en los puntos donde se muestran datos introducidos por los clientes.
-* **NUEVO:** Botón «Añadir al calendario» propio (Google Calendar, Outlook y descarga .ics). Sustituye a la librería de terceros AddEvent, que llevaba incrustada una clave de licencia ajena, mostraba su propia marca y enviaba los datos de la cita a addevent.com.
+* **NUEVO:** Botón «Añadir al calendario» propio (Google Calendar, Outlook y descarga .ics). Sustituye a una librería de terceros que mostraba su propia marca y enviaba los datos de la cita a un servicio externo.
 * **CORREGIDO:** El botón «Añadir al calendario» no llegaba a cargarse por un desajuste en el identificador del script.
 * **ELIMINADO:** El «modo demostración», que desactivaba en silencio el cambio de avatar, nombre, correo y contraseña del perfil si alguien activaba su opción en la base de datos.
-* **ELIMINADO:** Rastro de identidad del autor original: el banner con el logotipo «Booked» (sustituido por uno propio en SVG, de 2,4 MB a 2 KB), dos imágenes huérfanas, la tipografía de iconos `BookedIcons` y los nombres de archivo y carpeta con el prefijo antiguo.
+* **ELIMINADO:** Recursos e identidad visual heredados: el banner de la pantalla de novedades (sustituido por uno propio en SVG, de 2,4 MB a 2 KB), dos imágenes huérfanas sin usar, la tipografía de iconos y los nombres de archivo y carpeta con el prefijo antiguo.
 * **NUEVO:** El plugin pasa a llamarse Pw Calendario y toda la interfaz está en castellano.
 * **AJUSTE:** Estructura reorganizada segun la recomendacion de WordPress: archivo principal reducido a arranque, clase principal y pantallas del escritorio en `includes/`, registro de ganchos centralizado en un cargador, `uninstall.php` (que por defecto no borra datos), imagenes en `assets/images/` y `readme.txt` con las cabeceras estandar.
 * **CORREGIDO:** La pantalla «Novedades» aparecia en blanco. Las expresiones regulares del lector del readme usaban secuencias que PCRE2 rechaza desde PHP 7.3, y `preg_replace()` devolvia null.

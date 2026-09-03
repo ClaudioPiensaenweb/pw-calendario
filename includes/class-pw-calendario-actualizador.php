@@ -1,6 +1,6 @@
 <?php
 /**
- * Actualizaciones automáticas desde un repositorio privado de GitHub.
+ * Actualizaciones automáticas desde GitHub.
  *
  * Integra el plugin en el sistema de actualizaciones de WordPress: la
  * versión nueva aparece en **Escritorio → Actualizaciones** y en la
@@ -14,15 +14,14 @@
  * 3. Si hay una posterior, la ofrece a WordPress.
  * 4. Al actualizar, descarga el ZIP adjunto a la release.
  *
- * El repositorio es privado, así que hacen falta credenciales tanto para
- * consultar la API como para descargar el ZIP. El token se lee de la
- * constante `PWCAL_GITHUB_TOKEN`, que debe definirse en `wp-config.php`
- * (nunca en la base de datos ni en este archivo):
+ * No hace falta configurar nada: el repositorio es público, así que no hay
+ * credenciales, ni tokens que caduquen, ni nada que rotar.
  *
- *     define( 'PWCAL_GITHUB_TOKEN', 'github_pat_...' );
- *
- * Sin token el plugin funciona con normalidad; simplemente no busca
- * actualizaciones.
+ * Sobre por qué no se incrusta un token: si el plugin pudiera descifrar un
+ * token por sí solo, la clave tendría que viajar dentro del propio plugin,
+ * y cualquiera con los archivos tendría ambas cosas. Sería ofuscación, no
+ * cifrado. Un repositorio público sin secreto alguno da la misma
+ * protección efectiva y es mucho más robusto: nada caduca.
  *
  * @package Pw_Calendario
  */
@@ -53,19 +52,23 @@ class Pw_Calendario_Actualizador {
 	const CACHE = 'pwcal_release_github';
 
 	/**
-	 * Duración de la caché. Evita consultar la API en cada carga.
+	 * Duración de la caché.
+	 *
+	 * La API de GitHub sin autenticar admite 60 peticiones por hora e IP.
+	 * Con esta caché basta de sobra: WordPress comprueba actualizaciones
+	 * dos veces al día.
 	 */
 	const CACHE_DURACION = 6 * HOUR_IN_SECONDS;
 
 	/**
-	 * Ruta relativa del archivo principal (por ejemplo `pw-calendario/pw-calendario.php`).
+	 * Ruta relativa del archivo principal (`pw-calendario/pw-calendario.php`).
 	 *
 	 * @var string
 	 */
 	private $basename;
 
 	/**
-	 * Carpeta del plugin (por ejemplo `pw-calendario`).
+	 * Carpeta del plugin (`pw-calendario`).
 	 *
 	 * @var string
 	 */
@@ -85,9 +88,6 @@ class Pw_Calendario_Actualizador {
 		// Ficha de detalles del plugin («Ver detalles de la versión»).
 		add_filter( 'plugins_api', array( $this, 'ficha_del_plugin' ), 10, 3 );
 
-		// Autoriza la descarga del ZIP desde un repositorio privado.
-		add_filter( 'http_request_args', array( $this, 'autorizar_descarga' ), 10, 2 );
-
 		// Corrige el nombre de la carpeta extraída si no coincide.
 		add_filter( 'upgrader_source_selection', array( $this, 'corregir_carpeta' ), 10, 4 );
 
@@ -103,94 +103,15 @@ class Pw_Calendario_Actualizador {
 	}
 
 	/**
-	 * Muestra el resultado de la comprobación manual de actualizaciones.
-	 *
-	 * @return void
-	 */
-	public function aviso_resultado() {
-
-		if ( ! isset( $_GET['pwcal_resultado'] ) || ! current_user_can( 'update_plugins' ) ) {
-			return;
-		}
-
-		$resultado = sanitize_key( $_GET['pwcal_resultado'] );
-
-		$avisos = array(
-			'disponible' => array(
-				'notice-warning',
-				__( 'Hay una versión nueva de Pw Calendario disponible. La verás en el listado de plugins.', 'pw-calendario' ),
-			),
-			'al-dia'     => array(
-				'notice-success',
-				__( 'Pw Calendario está actualizado a la última versión.', 'pw-calendario' ),
-			),
-			'error'      => array(
-				'notice-error',
-				__( 'No se ha podido consultar GitHub. Comprueba que la constante PWCAL_GITHUB_TOKEN está definida en wp-config.php y que el token sigue siendo válido.', 'pw-calendario' ),
-			),
-		);
-
-		if ( ! isset( $avisos[ $resultado ] ) ) {
-			return;
-		}
-
-		printf(
-			'<div class="notice %1$s is-dismissible"><p>%2$s</p></div>',
-			esc_attr( $avisos[ $resultado ][0] ),
-			esc_html( $avisos[ $resultado ][1] )
-		);
-	}
-
-	/**
-	 * Devuelve el token de acceso a GitHub, si está configurado.
-	 *
-	 * @return string Cadena vacía si no hay token.
-	 */
-	private function token() {
-
-		$token = defined( 'PWCAL_GITHUB_TOKEN' ) ? PWCAL_GITHUB_TOKEN : '';
-
-		/**
-		 * Permite proporcionar el token por otra vía (por ejemplo, un gestor
-		 * de secretos) sin tocar `wp-config.php`.
-		 *
-		 * @param string $token Token actual.
-		 */
-		$token = apply_filters( 'pwcal_github_token', $token );
-
-		return is_string( $token ) ? trim( $token ) : '';
-	}
-
-	/**
-	 * Cabeceras comunes de las peticiones a la API de GitHub.
-	 *
-	 * @param string $accept Valor de la cabecera Accept.
-	 * @return array
-	 */
-	private function cabeceras( $accept = 'application/vnd.github+json' ) {
-
-		return array(
-			'Accept'               => $accept,
-			'X-GitHub-Api-Version' => '2022-11-28',
-			'Authorization'        => 'Bearer ' . $this->token(),
-			'User-Agent'           => 'Pw-Calendario/' . PWCAL_VERSION,
-		);
-	}
-
-	/**
 	 * Recupera la última release del repositorio.
 	 *
 	 * El resultado se guarda en un transitorio, incluido el fallo, para no
-	 * repetir la consulta en cada carga si algo va mal.
+	 * repetir la consulta en cada carga si GitHub no responde.
 	 *
 	 * @param bool $forzar Si es cierto, ignora la caché.
 	 * @return array|false Datos de la release, o false si no se puede obtener.
 	 */
 	private function obtener_release( $forzar = false ) {
-
-		if ( ! $this->token() ) {
-			return false;
-		}
 
 		if ( ! $forzar ) {
 
@@ -215,8 +136,12 @@ class Pw_Calendario_Actualizador {
 			$url,
 			array(
 				'timeout'   => 15,
-				'headers'   => $this->cabeceras(),
 				'sslverify' => true,
+				'headers'   => array(
+					'Accept'               => 'application/vnd.github+json',
+					'X-GitHub-Api-Version' => '2022-11-28',
+					'User-Agent'           => 'Pw-Calendario/' . PWCAL_VERSION,
+				),
 			)
 		);
 
@@ -234,16 +159,16 @@ class Pw_Calendario_Actualizador {
 		}
 
 		$release = array(
-			'version'     => ltrim( $datos['tag_name'], 'vV' ),
-			'publicada'   => isset( $datos['published_at'] ) ? $datos['published_at'] : '',
-			'notas'       => isset( $datos['body'] ) ? (string) $datos['body'] : '',
-			'url'         => isset( $datos['html_url'] ) ? $datos['html_url'] : '',
-			'descarga'    => '',
-			'prerelease'  => ! empty( $datos['prerelease'] ),
+			'version'    => ltrim( $datos['tag_name'], 'vV' ),
+			'publicada'  => isset( $datos['published_at'] ) ? $datos['published_at'] : '',
+			'notas'      => isset( $datos['body'] ) ? (string) $datos['body'] : '',
+			'url'        => isset( $datos['html_url'] ) ? $datos['html_url'] : '',
+			'descarga'   => '',
+			'prerelease' => ! empty( $datos['prerelease'] ),
 		);
 
-		// Se prefiere el ZIP adjunto a la release. En un repositorio privado
-		// hay que pedirlo por su URL de API, no por `browser_download_url`.
+		// Se prefiere el ZIP adjunto a la release: lleva la estructura de
+		// carpetas correcta y se descarga sin pasar por la API.
 		if ( ! empty( $datos['assets'] ) && is_array( $datos['assets'] ) ) {
 			foreach ( $datos['assets'] as $adjunto ) {
 
@@ -255,18 +180,18 @@ class Pw_Calendario_Actualizador {
 					continue;
 				}
 
-				$release['descarga'] = sprintf(
-					'https://api.github.com/repos/%s/%s/releases/assets/%d',
-					self::PROPIETARIO,
-					self::REPOSITORIO,
-					(int) $adjunto['id']
-				);
+				if ( empty( $adjunto['browser_download_url'] ) ) {
+					continue;
+				}
 
+				$release['descarga'] = $adjunto['browser_download_url'];
 				break;
 			}
 		}
 
-		// Sin adjunto, se recurre al ZIP que genera GitHub del código fuente.
+		// Sin adjunto, se recurre al ZIP del código fuente que genera
+		// GitHub. Se descomprime en una carpeta con el hash del commit, y
+		// de eso se encarga `corregir_carpeta()`.
 		if ( ! $release['descarga'] && ! empty( $datos['zipball_url'] ) ) {
 			$release['descarga'] = $datos['zipball_url'];
 		}
@@ -306,14 +231,14 @@ class Pw_Calendario_Actualizador {
 		}
 
 		$ficha = array(
-			'id'          => self::PROPIETARIO . '/' . self::REPOSITORIO,
-			'slug'        => $this->carpeta,
-			'plugin'      => $this->basename,
-			'new_version' => $release['version'],
-			'url'         => $release['url'],
-			'package'     => $release['descarga'],
-			'tested'      => '6.8',
-			'requires'    => '6.0',
+			'id'           => self::PROPIETARIO . '/' . self::REPOSITORIO,
+			'slug'         => $this->carpeta,
+			'plugin'       => $this->basename,
+			'new_version'  => $release['version'],
+			'url'          => $release['url'],
+			'package'      => $release['descarga'],
+			'tested'       => '6.8',
+			'requires'     => '6.0',
 			'requires_php' => '7.4',
 		);
 
@@ -345,8 +270,8 @@ class Pw_Calendario_Actualizador {
 	/**
 	 * Rellena la ficha que se muestra en «Ver detalles de la versión».
 	 *
-	 * @param mixed  $resultado Resultado previo.
-	 * @param string $accion    Acción solicitada.
+	 * @param mixed  $resultado  Resultado previo.
+	 * @param string $accion     Acción solicitada.
 	 * @param object $argumentos Argumentos de la consulta.
 	 * @return mixed
 	 */
@@ -366,82 +291,64 @@ class Pw_Calendario_Actualizador {
 			return $resultado;
 		}
 
-		// Las notas de la release vienen en Markdown; se convierte lo
-		// mínimo para que se lean bien en el modal de WordPress.
-		$notas = esc_html( $release['notas'] );
-		$notas = preg_replace( '/^\s*[\*\-]\s+(.*)$/m', '<li>$1</li>', $notas );
-		$notas = preg_replace( '/(<li>.*<\/li>)/s', '<ul>$1</ul>', $notas );
-		$notas = preg_replace( '/\*\*(.*?)\*\*/', '<strong>$1</strong>', $notas );
-
-		if ( null === $notas ) {
-			$notas = esc_html( $release['notas'] );
-		}
-
 		return (object) array(
-			'name'           => 'Pw Calendario',
-			'slug'           => $this->carpeta,
-			'version'        => $release['version'],
-			'author'         => '<a href="https://piensaenweb.com">Piensaenweb</a>',
-			'homepage'       => $release['url'],
-			'requires'       => '6.0',
-			'tested'         => '6.8',
-			'requires_php'   => '7.4',
-			'last_updated'   => $release['publicada'],
-			'download_link'  => $release['descarga'],
-			'sections'       => array(
-				'changelog' => $notas ? $notas : esc_html__( 'No hay notas para esta versión.', 'pw-calendario' ),
+			'name'          => 'Pw Calendario',
+			'slug'          => $this->carpeta,
+			'version'       => $release['version'],
+			'author'        => '<a href="https://piensaenweb.com">Piensaenweb</a>',
+			'homepage'      => $release['url'],
+			'requires'      => '6.0',
+			'tested'        => '6.8',
+			'requires_php'  => '7.4',
+			'last_updated'  => $release['publicada'],
+			'download_link' => $release['descarga'],
+			'sections'      => array(
+				'changelog' => $this->notas_a_html( $release['notas'] ),
 			),
 		);
 	}
 
 	/**
-	 * Añade la autorización a la descarga del ZIP.
+	 * Convierte las notas de la release (Markdown) en HTML sencillo.
 	 *
-	 * `download_url()` no admite cabeceras propias, así que se inyectan
-	 * aquí. Sin esto, un repositorio privado devuelve 404 al descargar.
-	 *
-	 * @param array  $argumentos Argumentos de la petición HTTP.
-	 * @param string $url        URL solicitada.
-	 * @return array
+	 * @param string $notas Texto en Markdown.
+	 * @return string
 	 */
-	public function autorizar_descarga( $argumentos, $url ) {
+	private function notas_a_html( $notas ) {
 
-		if ( ! is_string( $url ) ) {
-			return $argumentos;
+		$notas = trim( (string) $notas );
+
+		if ( '' === $notas ) {
+			return esc_html__( 'No hay notas para esta versión.', 'pw-calendario' );
 		}
 
-		$prefijo_activos = sprintf(
-			'https://api.github.com/repos/%s/%s/',
-			self::PROPIETARIO,
-			self::REPOSITORIO
+		// Se escapa primero y se aplica formato después, para que el
+		// contenido de la release no pueda inyectar HTML.
+		$html = esc_html( $notas );
+
+		$reemplazos = array(
+			'/^\s*[\*\-]\s+(.*)$/m' => '<li>$1</li>',
+			'/\*\*(.*?)\*\*/'       => '<strong>$1</strong>',
 		);
 
-		// Solo se toca lo que va a nuestro propio repositorio: nunca se
-		// adjunta el token a peticiones de terceros.
-		if ( 0 !== strpos( $url, $prefijo_activos ) ) {
-			return $argumentos;
+		foreach ( $reemplazos as $patron => $sustituto ) {
+
+			$resultado = preg_replace( $patron, $sustituto, $html );
+
+			// Si un patrón fallara, se conserva el texto anterior en lugar
+			// de propagar un null.
+			if ( null !== $resultado ) {
+				$html = $resultado;
+			}
 		}
 
-		$token = $this->token();
+		$agrupado = preg_replace( '/(<li>.*<\/li>)/s', '<ul>$1</ul>', $html );
 
-		if ( ! $token ) {
-			return $argumentos;
+		if ( null !== $agrupado ) {
+			$html = $agrupado;
 		}
 
-		if ( ! isset( $argumentos['headers'] ) || ! is_array( $argumentos['headers'] ) ) {
-			$argumentos['headers'] = array();
-		}
-
-		$argumentos['headers']['Authorization']        = 'Bearer ' . $token;
-		$argumentos['headers']['X-GitHub-Api-Version'] = '2022-11-28';
-		$argumentos['headers']['User-Agent']           = 'Pw-Calendario/' . PWCAL_VERSION;
-
-		// Para bajar el binario del adjunto hay que pedir octet-stream.
-		if ( false !== strpos( $url, '/releases/assets/' ) ) {
-			$argumentos['headers']['Accept'] = 'application/octet-stream';
-		}
-
-		return $argumentos;
+		return wpautop( $html );
 	}
 
 	/**
@@ -450,13 +357,12 @@ class Pw_Calendario_Actualizador {
 	 * El ZIP que genera GitHub del código fuente se descomprime en una
 	 * carpeta con el nombre del repositorio y el hash del commit
 	 * (`pw-calendario-a1b2c3d/`). Si se instalara así, WordPress lo tomaría
-	 * por un plugin distinto y quedarían dos copias. Se renombra a la
-	 * carpeta correcta.
+	 * por un plugin distinto y quedarían dos copias.
 	 *
-	 * @param string $origen      Ruta de la carpeta extraída.
+	 * @param string $origen        Ruta de la carpeta extraída.
 	 * @param string $origen_remoto Ruta remota original.
-	 * @param object $actualizador Instancia del actualizador.
-	 * @param array  $extra       Datos adicionales del proceso.
+	 * @param object $actualizador  Instancia del actualizador.
+	 * @param array  $extra         Datos adicionales del proceso.
 	 * @return string|WP_Error
 	 */
 	public function corregir_carpeta( $origen, $origen_remoto, $actualizador, $extra = array() ) {
@@ -545,6 +451,45 @@ class Pw_Calendario_Actualizador {
 			add_query_arg( 'pwcal_resultado', $estado, admin_url( 'plugins.php' ) )
 		);
 		exit;
+	}
+
+	/**
+	 * Muestra el resultado de la comprobación manual de actualizaciones.
+	 *
+	 * @return void
+	 */
+	public function aviso_resultado() {
+
+		if ( ! isset( $_GET['pwcal_resultado'] ) || ! current_user_can( 'update_plugins' ) ) {
+			return;
+		}
+
+		$resultado = sanitize_key( $_GET['pwcal_resultado'] );
+
+		$avisos = array(
+			'disponible' => array(
+				'notice-warning',
+				__( 'Hay una versión nueva de Pw Calendario disponible. La verás en el listado de plugins.', 'pw-calendario' ),
+			),
+			'al-dia'     => array(
+				'notice-success',
+				__( 'Pw Calendario está actualizado a la última versión.', 'pw-calendario' ),
+			),
+			'error'      => array(
+				'notice-error',
+				__( 'No se ha podido consultar GitHub para comprobar si hay actualizaciones. Vuelve a intentarlo en unos minutos.', 'pw-calendario' ),
+			),
+		);
+
+		if ( ! isset( $avisos[ $resultado ] ) ) {
+			return;
+		}
+
+		printf(
+			'<div class="notice %1$s is-dismissible"><p>%2$s</p></div>',
+			esc_attr( $avisos[ $resultado ][0] ),
+			esc_html( $avisos[ $resultado ][1] )
+		);
 	}
 
 	/**

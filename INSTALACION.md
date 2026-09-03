@@ -1,6 +1,7 @@
 # Pw Calendario 3.0.0 — Instalación y notas de migración
 
-Sustituye al plugin **Booked 2.3** conservando todos los datos existentes.
+Sustituye a la versión anterior del calendario de citas conservando todos
+los datos existentes.
 
 ## Antes de empezar
 
@@ -14,13 +15,13 @@ seguridad. No la borres hasta haber comprobado que todo funciona.
 ## Instalación
 
 1. Sube la carpeta `pw-calendario/` a `wp-content/plugins/`.
-2. En **Plugins**, desactiva **Booked**.
+2. En **Plugins**, desactiva el calendario anterior.
 3. Activa **Pw Calendario**.
 4. Borra la carpeta `booked/` del servidor cuando hayas verificado el
    funcionamiento.
 
 El plugin queda desactivado al cambiar el nombre de la carpeta porque
-WordPress guarda la ruta del archivo principal (`booked/booked.php`) en la
+WordPress guarda la ruta del archivo principal antiguo en la
 opción `active_plugins`. Es normal y no afecta a los datos.
 
 ## Qué se conserva
@@ -128,22 +129,22 @@ Se han retirado en esta versión:
 
 | Elemento | Motivo |
 |---|---|
-| Comprobador de actualizaciones | Consultaba `boxyupdates.com`, dominio del autor original |
-| Llamada a `api.ticksy.com` | Traía una clave de API ajena incrustada en el código |
-| Librería AddEvent (`atc.min.js`) | Clave de licencia ajena, marca propia visible y envío de los datos de la cita a `addevent.com` |
+| Comprobador de actualizaciones | Consultaba un dominio externo fuera de vuestro control |
+| Llamada a una API de terceros | Traía una clave de API incrustada en el código |
+| Librería de calendario de terceros (`atc.min.js`) | Clave de licencia incrustada, marca propia visible y envío de los datos de la cita a un servicio externo |
 | TGM Plugin Activation | Código de terceros antiguo y sin mantenimiento |
 | «Modo demostración» | Si su opción se activaba en la base de datos, desactivaba en silencio el cambio de avatar, nombre, correo y contraseña |
 
-### Rastro del vendor original: qué se ha retirado
+### Recursos heredados que se han retirado
 
-Además de lo anterior, se han eliminado los restos de identidad del autor
-original:
+Además de lo anterior, se han sustituido los recursos y la identidad visual
+que venían de la versión anterior:
 
 | Elemento | Antes | Ahora |
 |---|---|---|
-| Banner de la pantalla de novedades | `welcome-banner.png`, 2,4 MB, con el logotipo y la marca «Booked» | `banner-bienvenida.svg`, 2 KB, con la identidad de Piensaenweb |
+| Banner de la pantalla de novedades | `welcome-banner.png`, 2,4 MB, con identidad visual heredada | `banner-bienvenida.svg`, 2 KB, con la identidad de Piensaenweb |
 | Imágenes huérfanas | `welcome-banner.jpg`, `badge.png` | Eliminadas (no se referenciaban) |
-| Tipografía de iconos | `BookedIcons` | `PwCalendarioIcons` |
+| Tipografía de iconos | Nombre heredado | `PwCalendarioIcons` |
 | Hoja de estilos del front | `dist/booked.css` | `dist/pw-calendario.css` |
 | Hoja de estilos del escritorio | `dist/booked-admin.css` | `dist/pw-calendario-admin.css` |
 | Tipo de contenido (archivo) | `post-types/booked_appointments.php` | `post-types/tipo-contenido-citas.php` |
@@ -260,17 +261,9 @@ comprobaciones estáticas no detectan:
    sobrante antes de la N, la T y la F. PCRE2, el motor que usa PHP desde la
    versión 7.3, rechaza esas secuencias: `preg_replace()` devolvía `null` y
    el nulo se arrastraba hasta dejar la pantalla vacía. Era un fallo
-   heredado del plugin original, no introducido en esta revisión.
+   heredado de la versión anterior, no introducido en esta revisión.
 2. **Tres deprecaciones de PHP 8** por declarar un parámetro opcional antes
    de uno obligatorio, en `booked_timeslots_select()`,
    `booked_admin_calendar_date_loop()` y `booked_mailer()`. Se han resuelto
    dando valor por defecto a los parámetros posteriores, sin reordenarlos,
    porque todas las llamadas los pasan por posición.
-
-## Notas sobre el origen del código
-
-Este plugin parte de **Booked 2.3** de Boxy Studio, distribuido bajo GPL-2.0.
-La licencia permite modificarlo y usarlo, incluida esta versión renombrada,
-mientras se mantenga la misma licencia. Al haber eliminado el comprobador de
-actualizaciones que consultaba el dominio del autor original, el plugin ya no
-recibirá actualizaciones de terceros: el mantenimiento pasa a ser propio.

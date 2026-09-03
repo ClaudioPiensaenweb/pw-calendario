@@ -28,11 +28,11 @@ function booked_compress_css($css){
 }
 
 // El boton "Anadir al calendario" se ha trasladado a
-// includes/anadir-al-calendario.php. La version anterior dependia de la
-// libreria de terceros AddEvent (atc.min.js), que llevaba una clave de
-// licencia ajena incrustada, mostraba su propia marca y enviaba los
-// datos de la cita a addevent.com. La nueva genera los enlaces en el
-// servidor, sin depender de nadie.
+// includes/anadir-al-calendario.php. La version anterior dependia de una
+// libreria de terceros (atc.min.js) que llevaba una clave de licencia
+// incrustada, mostraba su propia marca y enviaba los datos de la cita a un
+// servicio externo. La nueva genera los enlaces en el servidor, sin
+// depender de nadie.
 
 function booked_get_timezone_string() {
 

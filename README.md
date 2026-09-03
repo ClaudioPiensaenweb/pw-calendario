@@ -28,44 +28,26 @@ servicio externo en tiempo de ejecución.
 Descarga el ZIP de la [última release](../../releases/latest) y súbelo desde
 **Plugins → Añadir nuevo → Subir plugin**.
 
-Si vienes del plugin Booked, lee [INSTALACION.md](INSTALACION.md): se
-conservan todas las citas y la configuración, pero hay que renovar las URL
-de los feeds de calendario.
+Si vienes de la versión anterior del calendario, lee
+[INSTALACION.md](INSTALACION.md): se conservan todas las citas y la
+configuración, pero hay que renovar las URL de los feeds de calendario.
 
 ## Actualizaciones automáticas
 
 El plugin se actualiza solo desde este repositorio: la versión nueva aparece
-en **Escritorio → Actualizaciones**, igual que un plugin del directorio
-oficial.
+en **Escritorio → Actualizaciones** y en la pantalla de **Plugins**, igual
+que un plugin del directorio oficial.
 
-Como el repositorio es privado, hace falta un token de lectura. Añádelo al
-`wp-config.php` del sitio, **antes** de la línea
-`/* That's all, stop editing! */`:
-
-```php
-define( 'PWCAL_GITHUB_TOKEN', 'github_pat_...' );
-```
-
-### Generar el token
-
-1. En GitHub: **Settings → Developer settings → Personal access tokens →
-   Fine-grained tokens → Generate new token**.
-2. **Repository access:** «Only select repositories» → `pw-calendario`.
-3. **Permissions → Repository permissions → Contents:** `Read-only`.
-   No hace falta ningún otro permiso.
-4. Copia el token y pégalo en `wp-config.php`.
-
-El token va en `wp-config.php` y no en la base de datos a propósito: así no
-aparece en los volcados de la base de datos ni es accesible desde el
-escritorio.
-
-Sin token el plugin funciona con normalidad; simplemente no busca
-actualizaciones.
+**No hay que configurar nada.** Ni tokens, ni claves, ni tocar
+`wp-config.php`: el repositorio es público, así que el plugin consulta la
+API de GitHub y descarga el ZIP sin credenciales. Nada caduca y nada hay
+que rotar.
 
 ### Forzar una comprobación
 
 En la pantalla de **Plugins**, enlace **«Buscar actualizaciones»** bajo Pw
-Calendario. Sin eso, la comprobación se cachea 6 horas.
+Calendario. Sin eso, la comprobación se cachea 6 horas, que es de sobra:
+WordPress busca actualizaciones dos veces al día por su cuenta.
 
 ## Publicar una versión nueva
 
@@ -121,19 +103,3 @@ Para que se borre todo, activa la opción antes de desinstalar:
 ```php
 update_option( 'pwcal_borrar_datos_al_desinstalar', 1 );
 ```
-
-## Origen del código
-
-Parte de **Booked 2.3** de Boxy Studio, distribuido bajo GPL-2.0. Esta
-versión mantiene la misma licencia, como exige la GPL.
-
-Respecto al original se han corregido varias vulnerabilidades (ausencia de
-nonces en 31 puntos AJAX, borrado arbitrario de contenido desde el
-complemento de agentes, clave predecible en los feeds de calendario, XSS
-almacenado en los campos personalizados, exportación CSV sin permisos) y se
-han retirado el comprobador de actualizaciones que consultaba el dominio del
-autor original, una llamada a una API de terceros con una clave incrustada y
-una librería de calendario que enviaba los datos de las citas a un servicio
-externo.
-
-El detalle está en el `== Changelog ==` de [readme.txt](readme.txt).

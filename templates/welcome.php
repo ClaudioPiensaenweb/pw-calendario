@@ -10,9 +10,9 @@ if ( ! defined( 'ABSPATH' ) ) {
 	exit;
 }
 
-// Los enlaces al servicio de soporte del autor original se han retirado:
-// apuntaban a un tercero ajeno a este plugin. En su lugar se enlaza a las
-// propias pantallas de configuración.
+// Los enlaces al servicio de soporte externo que venían aquí se han
+// retirado: apuntaban a un tercero ajeno a este plugin. En su lugar se
+// enlaza a las propias pantallas de configuración.
 ?>
 <div id="booked-welcome-screen">
 	<div class="wrap about-wrap">

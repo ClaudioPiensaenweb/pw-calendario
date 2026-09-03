@@ -2,14 +2,14 @@
 /**
  * Botón «Añadir al calendario», sin dependencias externas.
  *
- * Sustituye a la librería `atc.min.js` (widget de AddEvent) que traía el
- * plugin original. Se ha retirado por tres motivos:
+ * Sustituye a la librería de calendario de terceros (`atc.min.js`) que
+ * venía incluida. Se ha retirado por tres motivos:
  *
- * 1. Llevaba incrustada una clave de licencia del autor original. Como no
- *    se le pasaba ninguna licencia válida, la librería añadía siempre un
- *    enlace de atribución a «AddEvent.com» en el desplegable.
+ * 1. Llevaba incrustada una clave de licencia que no era válida, así que
+ *    la librería añadía siempre un enlace de atribución a su propio
+ *    servicio en el desplegable.
  * 2. Al pulsar cualquier opción enviaba el título, la descripción y la
- *    ubicación de la cita a `addevent.com`, es decir, los datos del
+ *    ubicación de la cita a un servidor externo, es decir, los datos del
  *    cliente salían a un tercero.
  * 3. Dependía de que ese servicio externo estuviese disponible, y cargaba
  *    CSS e imágenes desde su dominio.
@@ -143,8 +143,8 @@ function booked_add_to_calendar_button( $dates, $cf_meta_value ) {
 
 	// --- Outlook / Microsoft 365 ---
 	// Nota: el parámetro `rru=addevent` es de la propia API de enlaces de
-	// Outlook (significa «add event») y no tiene ninguna relación con la
-	// librería de terceros AddEvent que se ha retirado.
+	// Outlook y significa «add event». No tiene ninguna relación con la
+	// librería de terceros que se ha retirado.
 	$url_outlook = add_query_arg(
 		array(
 			'path'     => rawurlencode( '/calendar/action/compose' ),

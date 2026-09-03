@@ -59,11 +59,10 @@ function booked_get_users(){
 	return $users_array;
 }
 
-// La funcion `booked_get_kb_article()` se ha eliminado. Consultaba
-// api.ticksy.com con `file_get_contents()` y una clave de API del autor
-// original incrustada en el codigo: era una llamada a un tercero sin
-// verificacion de certificado ni tiempo de espera, y no se usaba en
-// ninguna parte del plugin.
+// La funcion `booked_get_kb_article()` se ha eliminado. Consultaba una API
+// de terceros con `file_get_contents()` y una clave incrustada en el
+// codigo: era una llamada externa sin verificacion de certificado ni
+// tiempo de espera, y no se usaba en ninguna parte del plugin.
 
 function booked_appointments_available( $year = false, $month = false, $day = false, $calendar_id = false, $return_array = false, $include_past = false ){
 

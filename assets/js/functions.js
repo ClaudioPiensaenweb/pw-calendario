@@ -1520,10 +1520,10 @@ function adjust_calendar_boxes(){
 /**
  * Pw Calendario: desplegable del boton "Anadir al calendario".
  *
- * Reemplaza a la libreria de terceros AddEvent, que se ha retirado porque
- * llevaba una clave de licencia ajena incrustada y enviaba los datos de la
- * cita a un servidor externo. Los enlaces se generan ya en el servidor;
- * aqui solo se abre y cierra el menu.
+ * Reemplaza a una libreria de terceros que se ha retirado porque llevaba
+ * una clave de licencia incrustada y enviaba los datos de la cita a un
+ * servidor externo. Los enlaces se generan ya en el servidor; aqui solo se
+ * abre y cierra el menu.
  */
 ;(function($) {
 
