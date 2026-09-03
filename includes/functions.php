@@ -200,7 +200,15 @@ function booked_appointments_available( $year = false, $month = false, $day = fa
 			$timeslot = get_post_meta($post->ID, '_appointment_timeslot',true);
 			$this_day = date_i18n('d',$timestamp);
 			$this_month = date_i18n('m',$timestamp);
-			$appointments_booked[$year.$this_month.$this_day.'_'.$timeslot] = (isset($appointments_booked[$year.$this_month.$this_day.'_'.$timeslot]) ? $appointments_booked[$year.$this_month.$this_day.'_'.$timeslot] + 1 : 1);
+			/*
+			El aforo se cuenta en PERSONAS, no en reservas. Este es el
+			recuento que alimenta la rejilla del mes (el "N disponibles"
+			del calendario), asi que sin esto una reserva de 6 personas
+			descontaba una sola plaza y el cliente veia hueco de sobra.
+			*/
+			$pwcal_personas = pwcal_personas_de_cita($post->ID);
+			$pwcal_clave = $year.$this_month.$this_day.'_'.$timeslot;
+			$appointments_booked[$pwcal_clave] = (isset($appointments_booked[$pwcal_clave]) ? $appointments_booked[$pwcal_clave] + $pwcal_personas : $pwcal_personas);
 		endwhile;
 	endif;
 
