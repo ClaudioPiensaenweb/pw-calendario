@@ -88,11 +88,31 @@ if (!empty($custom_fields)):
 
 	endforeach;
 
+	/*
+	 * Se escapa lo que ha escrito el cliente ANTES de pasar por el filtro.
+	 *
+	 * El complemento de WooCommerce reemplaza el valor por el titulo del
+	 * producto (que escapa el mismo) seguido de un marcador en forma de
+	 * comentario HTML: `<!-- product_id::2440 -->`. Ese marcador es como se
+	 * averigua despues que producto lleva la cita.
+	 *
+	 * Escapar el resultado del filtro convertia el marcador en
+	 * `&lt;!-- … --&gt;`, con lo que la cita se quedaba sin producto y no
+	 * llegaba nunca al carrito: se creaba como pendiente de pago y no habia
+	 * forma de pagarla. Tambien escapaba dos veces el titulo.
+	 */
+	foreach ( $custom_field_data as $pwcal_clave => $pwcal_campo ) {
+		$custom_field_data[ $pwcal_clave ]['value'] = esc_html(
+			isset( $pwcal_campo['value'] ) ? $pwcal_campo['value'] : ''
+		);
+	}
+
 	$custom_field_data = apply_filters('booked_custom_field_data', $custom_field_data);
 
 	if (!empty($custom_field_data)):
 		foreach($custom_field_data as $key => $data):
-			$cf_meta_value .= '<p class="cf-meta-value"><strong>' . esc_html( $data['label'] ) . '</strong><br>' . esc_html( $data['value'] ) . '</p>';
+			// El valor ya viene escapado: del bucle de arriba o del propio filtro.
+			$cf_meta_value .= '<p class="cf-meta-value"><strong>' . esc_html( $data['label'] ) . '</strong><br>' . $data['value'] . '</p>';
 		endforeach;
 	endif;
 

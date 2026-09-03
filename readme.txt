@@ -4,7 +4,7 @@ Tags: citas, reservas, calendario, visitas, bodega
 Requires at least: 6.0
 Tested up to: 6.8
 Requires PHP: 7.4
-Stable tag: 3.1.1
+Stable tag: 3.1.2
 License: GPLv2 or later
 License URI: https://www.gnu.org/licenses/gpl-2.0.html
 
@@ -73,6 +73,12 @@ en **Citas > Ajustes > Feeds de calendario**.
 No. WooCommerce solo hace falta si quieres cobrar las citas.
 
 == Changelog ==
+
+= 3.1.2 =
+* **CORREGIDO (importante):** Las citas con producto no llegaban al carrito, asi que se creaban como "pendiente de pago" y el cliente no tenia forma de pagarlas. El complemento de WooCommerce identifica el producto de una cita mediante un marcador en forma de comentario HTML dentro de los campos personalizados, y el escapado de la salida lo convertia en texto visible, con lo que dejaba de encontrarse. Afecta a cualquier cita de pago creada desde el calendario o desde el escritorio.
+* **CORREGIDO:** El titulo del producto se escapaba dos veces en la ficha de la cita y en los correos, asi que un titulo con "&" salia como "&amp;".
+* **CORREGIDO:** Reservar varias franjas horarias en la misma peticion abortaba con un error fatal. El valor recibido es un array y se estaba pasando por un saneador que solo admite texto, que devolvia una cadena vacia; el recuento posterior fallaba. Ahora se valida la estructura entera y lo que no encaja se descarta.
+
 
 = 3.1.1 =
 * **CORREGIDO:** El filtro por dias de la semana de los rangos de fechas no surtia efecto en la vista del dia. El plugin recorre el rango en dos sitios, y el segundo (el que anade los titulos de las franjas) se ejecuta despues y volvia a escribir las franjas de los dias excluidos. La rejilla del mes ocultaba bien los dias, pero al abrir uno excluido aparecian las franjas igualmente. Ahora los dos recorridos aplican el mismo filtro.

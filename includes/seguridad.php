@@ -353,6 +353,71 @@ function pwcal_post_array( $clave, $predeterminado = array() ) {
  * @param string $predeterminado  Valor por defecto si no coincide ninguno.
  * @return string
  */
+/**
+ * Devuelve la estructura de reservas que llega en `$_POST['calendars']`.
+ *
+ * Es un punto de extensión: permite a un complemento enviar varias franjas
+ * de varios calendarios en la misma petición. La forma esperada es
+ *
+ *     array( id_calendario => array(
+ *         array( 'date' => …, 'title' => …, 'timeslot' => …, 'calendar_id' => … ),
+ *     ) )
+ *
+ * No basta con `pwcal_post_texto()`: ese saneador rechaza los arrays y
+ * devuelve la cadena vacía, con lo que el `count()` posterior abortaba con
+ * un error fatal en PHP 8. Y si el valor llegaba como cadena, el `count()`
+ * fallaba igual. Aquí se valida elemento a elemento y lo que no encaja se
+ * descarta.
+ *
+ * @return array Estructura saneada. Vacía si no llega o no es válida.
+ */
+function pwcal_post_reservas() {
+
+	if ( ! isset( $_POST['calendars'] ) || ! is_array( $_POST['calendars'] ) ) {
+		return array();
+	}
+
+	$entrada  = pwcal_sanear_recursivo( wp_unslash( $_POST['calendars'] ) );
+	$reservas = array();
+
+	foreach ( $entrada as $id_calendario => $citas ) {
+
+		if ( ! is_array( $citas ) ) {
+			continue;
+		}
+
+		$id_calendario = (int) $id_calendario;
+
+		foreach ( $citas as $cita ) {
+
+			if ( ! is_array( $cita ) ) {
+				continue;
+			}
+
+			$fecha     = isset( $cita['date'] ) ? (string) $cita['date'] : '';
+			$intervalo = isset( $cita['timeslot'] ) ? (string) $cita['timeslot'] : '';
+
+			// Sin fecha ni franja la cita no significa nada.
+			if ( ! preg_match( '/^\d{4}-\d{2}-\d{2}$/', $fecha ) ) {
+				continue;
+			}
+
+			if ( ! preg_match( '/^\d{4}-\d{4}$/', $intervalo ) ) {
+				continue;
+			}
+
+			$reservas[ $id_calendario ][] = array(
+				'date'        => $fecha,
+				'title'       => isset( $cita['title'] ) ? sanitize_text_field( (string) $cita['title'] ) : '',
+				'timeslot'    => $intervalo,
+				'calendar_id' => $id_calendario,
+			);
+		}
+	}
+
+	return $reservas;
+}
+
 function pwcal_post_lista( $clave, array $permitidos, $predeterminado = '' ) {
 
 	$valor = pwcal_post_texto( $clave );

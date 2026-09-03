@@ -6,11 +6,9 @@ if ( ! defined( 'ABSPATH' ) ) {
 }
 
 
-$bookings = array();
+$bookings = pwcal_post_reservas();
 
-if ( ! empty( $_POST['calendars'] ) ) {
-	$bookings = pwcal_post_texto( 'calendars' );
-} else {
+if ( ! $bookings ) {
 	$calendar_id = isset( $_POST['calendar_id'] ) ? intval( $_POST['calendar_id'] ) : false;
 	$bookings[ $calendar_id ][] = array(
 		'date' => isset( $_POST['date'] ) ? pwcal_post_fecha( 'date' ) : '',
