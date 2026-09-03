@@ -4,7 +4,7 @@ Tags: citas, reservas, calendario, visitas, bodega
 Requires at least: 6.0
 Tested up to: 6.8
 Requires PHP: 7.4
-Stable tag: 3.1.4
+Stable tag: 3.1.5
 License: GPLv2 or later
 License URI: https://www.gnu.org/licenses/gpl-2.0.html
 
@@ -73,6 +73,10 @@ en **Citas > Ajustes > Feeds de calendario**.
 No. WooCommerce solo hace falta si quieres cobrar las citas.
 
 == Changelog ==
+
+= 3.1.5 =
+* **CORREGIDO:** Un numero de personas negativo se convertia en positivo, asi que enviar -5 creaba una reserva de 5 personas que nadie habia pedido. El saneador de enteros aplica valor absoluto, que es razonable para un identificador pero no para una cantidad.
+
 
 = 3.1.4 =
 * **CORREGIDO (importante):** El aforo de la rejilla del mes seguia contando reservas en lugar de personas. Era el quinto punto de calculo del plugin y el primero que ve el cliente: con una reserva de 3 personas sobre 20 plazas, el calendario anunciaba 19 libres en lugar de 17. La vista del dia y la validacion al reservar si contaban bien, asi que no se sobrevendia, pero el numero del calendario enganaba y las reservas se rechazaban antes de lo que el cliente esperaba.

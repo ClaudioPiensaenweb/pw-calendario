@@ -124,7 +124,17 @@ function pwcal_limite_por_reserva() {
  */
 function pwcal_personas_solicitadas() {
 
-	$personas = pwcal_post_entero( 'personas', 1 );
+	if ( ! isset( $_POST['personas'] ) || is_array( $_POST['personas'] ) ) {
+		return 1;
+	}
+
+	/*
+	 * No se usa `pwcal_post_entero()` a proposito: aplica `absint()`, que
+	 * convertiria un -5 en 5, o sea en una reserva de cinco personas que
+	 * nadie ha pedido. Para un identificador el valor absoluto es
+	 * razonable; para una cantidad, no.
+	 */
+	$personas = (int) wp_unslash( $_POST['personas'] );
 
 	if ( $personas < 1 ) {
 		$personas = 1;
