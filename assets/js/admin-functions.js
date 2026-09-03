@@ -2586,3 +2586,33 @@ function adjust_calendar_boxes(){
 	};
 
 })(jQuery);
+
+/**
+ * Pw Calendario: dias de la semana de las franjas personalizadas.
+ *
+ * Las casillas no se envian: su valor se volca en un campo oculto con una
+ * lista separada por comas. El formulario de ajustes se serializa en
+ * arrays paralelos por posicion, y una casilla sin marcar no viaja en el
+ * envio, lo que desplazaria los datos de todos los bloques siguientes. El
+ * campo oculto siempre se envia, asi que la alineacion se mantiene.
+ */
+;(function($) {
+
+	'use strict';
+
+	function volcarDias($contenedor) {
+
+		var dias = [];
+
+		$contenedor.find('.pwcal-dia-semana:checked').each(function() {
+			dias.push($(this).val());
+		});
+
+		$contenedor.find('.pwcal-dias-semana-valor').val(dias.join(','));
+	}
+
+	$(document).on('change', '.pwcal-dia-semana', function() {
+		volcarDias($(this).closest('.pwcal-dias-semana'));
+	});
+
+})(jQuery);

@@ -61,6 +61,14 @@ echo '<div class="booked-scrollable">';
 				echo '<i class="booked-icon booked-icon-calendar" style="font-size:1.2em; position:relative; top:-1px;"></i>&nbsp;&nbsp;<span class="booked_appt_date-formatted">' . date_i18n( $date_format, $timestamp ) . '</span>';
 				echo '<input type="hidden" placeholder="Date..." class="large textfield booked_appt_date" name="appt_date" value="' . date_i18n( 'Y-m-d', $timestamp ) . '">';
 			echo '</div>';
+			// Numero de personas de la reserva.
+			$pwcal_personas = pwcal_personas_de_cita( $appt_id );
+			echo '<div class="field">';
+				echo '<label>' . esc_html__( 'Personas', 'pw-calendario' ) . '</label>';
+				echo '<input type="number" min="1" class="large textfield" name="personas" value="'
+					. esc_attr( $pwcal_personas ) . '">';
+			echo '</div>';
+
 			echo '<div class="field timeslots-select-field">';
 				booked_timeslots_select( $appt_id, $year, $month, $day );
 			echo '</div>';

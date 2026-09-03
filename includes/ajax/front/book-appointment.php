@@ -36,6 +36,24 @@ else:
 
 endif;
 
+/*
+ * Numero de personas de la reserva.
+ *
+ * El aforo se cuenta en personas, asi que hay que comprobar en el servidor
+ * que caben todas antes de crear la cita. Fiarse solo del maximo del
+ * selector del formulario no basta: cualquiera puede enviar otro valor, y
+ * ademas otra persona puede haber reservado mientras rellenaba el
+ * formulario.
+ */
+$personas = pwcal_personas_solicitadas();
+
+$personas_validas = pwcal_validar_personas( $date, $timeslot, $personas, $calendar_id_for_cf );
+
+if ( is_wp_error( $personas_validas ) ) {
+	echo 'error###' . esc_html( $personas_validas->get_error_message() );
+	wp_die();
+}
+
 if ($appt_is_available):
 
 	$time_format = get_option('time_format');
@@ -139,6 +157,7 @@ if ($appt_is_available):
 				update_post_meta($post_id, '_appointment_guest_email', $email);
 				update_post_meta($post_id, '_appointment_timestamp', $timestamp);
 				update_post_meta($post_id, '_appointment_timeslot', $timeslot);
+				pwcal_guardar_personas( $post_id, $personas );
 
 				if ($appointment_default_status == 'publish'): wp_publish_post($post_id); endif;
 
@@ -222,6 +241,7 @@ if ($appt_is_available):
 		update_post_meta($post_id, '_appointment_title', $title);
 		update_post_meta($post_id, '_appointment_timestamp', $timestamp);
 		update_post_meta($post_id, '_appointment_timeslot', $timeslot);
+				pwcal_guardar_personas( $post_id, $personas );
 		update_post_meta($post_id, '_appointment_user', $user_id);
 
 		if ($appointment_default_status == 'publish'): wp_publish_post($post_id); endif;
@@ -336,6 +356,7 @@ if ($appt_is_available):
 				update_post_meta( $post_id, '_appointment_title', $title );
 				update_post_meta( $post_id, '_appointment_timestamp', $timestamp );
 				update_post_meta( $post_id, '_appointment_timeslot', $timeslot );
+				pwcal_guardar_personas( $post_id, $personas );
 				update_post_meta( $post_id, '_appointment_user', $user_id );
 
 				if ($appointment_default_status == 'publish'): wp_publish_post( $post_id ); endif;

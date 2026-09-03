@@ -419,14 +419,33 @@ function booked_apply_custom_timeslots_filter($booked_defaults = false,$calendar
 					} else {
 						// Multiple Dates
 						$tempDate = $formatted_date;
+
+						/*
+						 * Dias de la semana a los que se aplica el rango.
+						 *
+						 * Lista separada por comas, con la convencion de
+						 * date('w'): 0 domingo … 6 sabado. Vacio significa
+						 * todos los dias, que es como se comportaban las
+						 * entradas creadas antes de existir este campo.
+						 */
+						$dias_permitidos = pwcal_dias_permitidos(
+							isset( $value['booked_custom_dias'] ) ? $value['booked_custom_dias'] : ''
+						);
+
 						do {
-							if ($value['vacationDayCheckbox']){
-								// Time slots disabled
-								$booked_defaults[$tempDate] = array();
-							} else {
-								// Add time slots to this date
-								$booked_defaults[$tempDate] = $value['booked_this_custom_timelots'];
+							$dia_semana = (int) date_i18n( 'w', strtotime( $tempDate ) );
+
+							if ( pwcal_dia_incluido( $dia_semana, $dias_permitidos ) ) {
+
+								if ($value['vacationDayCheckbox']){
+									// Time slots disabled
+									$booked_defaults[$tempDate] = array();
+								} else {
+									// Add time slots to this date
+									$booked_defaults[$tempDate] = $value['booked_this_custom_timelots'];
+								}
 							}
+
 							$tempDate = date_i18n('Ymd',strtotime($tempDate . ' +1 day'));
 						} while ($tempDate <= $formatted_end_date);
 					}

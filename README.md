@@ -3,13 +3,17 @@
 Plugin de WordPress para la gestión de citas y reservas de visitas.
 Desarrollado por [Piensaenweb](https://piensaenweb.com).
 
-- **Versión:** 3.0.1
+- **Versión:** 3.1.0
 - **Requiere:** WordPress 6.0+ · PHP 7.4+
 - **Licencia:** GPL-2.0-or-later
 
 ## Qué hace
 
 - Calendario público con franjas horarias configurables por día de la semana.
+- **Aforo por personas**, no por reservas: el cliente elige cuántos son y el
+  cupo se descuenta de verdad.
+- **Rangos de fechas con días de la semana**: «de jueves a domingo, del 16 de
+  julio al 28 de agosto» es una sola entrada.
 - Reserva con registro de usuario o como invitado.
 - Aprobación manual de las solicitudes, o alta directa en el calendario.
 - Calendarios múltiples, cada uno con su responsable y sus avisos.
@@ -17,7 +21,8 @@ Desarrollado por [Piensaenweb](https://piensaenweb.com).
 - Correos de confirmación, aprobación, cancelación y recordatorio.
 - Exportación de las citas a CSV.
 - Feeds iCalendar protegidos con clave.
-- Cobro de las citas mediante WooCommerce (opcional).
+- Cobro de las citas mediante WooCommerce (opcional), con **un solo
+  producto por tipo de visita**: la cantidad es el número de personas.
 - Panel de gestión para agentes desde el front-end (opcional).
 
 Toda la interfaz está en castellano y el plugin no depende de ningún

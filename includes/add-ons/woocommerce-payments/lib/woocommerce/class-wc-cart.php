@@ -82,7 +82,17 @@ class Booked_WC_Cart {
 			}
 			// <---
 
-			$quantity = 1;
+			/*
+			 * La cantidad es el numero de personas de la cita.
+			 *
+			 * Antes estaba fija en 1, asi que para vender una visita de 6
+			 * personas hacia falta un producto distinto por cada tamano de
+			 * grupo: "Visita - 1 persona", "- 2 personas", y asi hasta 10.
+			 * Con la cantidad ligada al tamano del grupo basta UN producto
+			 * por tipo de visita, y el importe sale solo: precio unitario
+			 * por numero de personas, sin descuento por grupo.
+			 */
+			$quantity = pwcal_personas_de_cita( $app_id );
 			$variation_attributes = array();
 
 			// If WPML is installed, let's make sure it adds the correct Product ID to the cart.

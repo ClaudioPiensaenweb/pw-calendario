@@ -121,6 +121,17 @@ if ( $is_user_logged_in && $appointment_limit ) {
 		<input type="hidden" name="customer_type" value="<?php echo $customer_type; ?>" />
 		<input type="hidden" name="action" value="booked_add_appt" />
 
+		<?php
+		/*
+		 * Selector de número de personas.
+		 *
+		 * El máximo son las plazas que quedan libres de verdad. Si solo
+		 * queda una, se envía oculto y no se muestra nada, porque no hay
+		 * nada que elegir. El servidor vuelve a comprobarlo al reservar.
+		 */
+		pwcal_selector_personas( pwcal_plazas_libres_minimas( $bookings ) );
+		?>
+
 		<?php if ( $is_user_logged_in ): ?>
 			<input type="hidden" name="user_id" value="<?php echo $booked_current_user->ID; ?>" />
 		<?php endif ?>

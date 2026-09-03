@@ -30,6 +30,7 @@ function booked_mailer_tokens(){
 		'date' => esc_html__( "Muestra la fecha de la cita.",'pw-calendario' ),
 		'time' => esc_html__( "Muestra la hora de la cita.",'pw-calendario' ),
 		'customfields' => esc_html__( "Muestra los datos de los campos personalizados de la cita.",'pw-calendario' ),
+		'personas' => esc_html__( "Muestra para cuántas personas es la reserva.",'pw-calendario' ),
 		'id' => esc_html__( "Muestra el número identificador único de la cita.",'pw-calendario' ),
 	));
 }
@@ -130,6 +131,10 @@ function booked_get_appointment_tokens( $appt_id ){
 	// $title
 	$title = get_post_meta( $appt_id, '_appointment_title', true );
 
+	// Numero de personas de la reserva.
+	// $personas
+	$personas = pwcal_personas_de_cita( $appt_id );
+
 	return apply_filters( 'booked_appointment_tokens', array(
 		'name' => $customer_name,
 		'date' => $date_text,
@@ -138,6 +143,7 @@ function booked_get_appointment_tokens( $appt_id ){
 		'calendar' => $calendar_name,
 		'email' => $customer_email,
 		'title' => $title,
+		'personas' => $personas,
 		'id' => $appt_id
 	));
 

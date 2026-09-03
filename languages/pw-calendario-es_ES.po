@@ -10,35 +10,41 @@ msgstr ""
 "Content-Transfer-Encoding: 8bit\n"
 "X-Domain: pw-calendario\n"
 
-#: includes/export-csv.php:189
+#: includes/export-csv.php:190
 msgid "%1$s de %2$s a %3$s"
 msgstr "%1$s de %2$s a %3$s"
 
-#: includes/admin-functions.php:1157 includes/admin-functions.php:594 includes/admin-functions.php:899
+#: includes/admin-functions.php:1179 includes/admin-functions.php:594 includes/admin-functions.php:900
 msgid "%d cita"
 msgid_plural "%d citas"
 msgstr[0] "%d cita"
 msgstr[1] "%d citas"
 
-#: includes/class-pw-calendario-admin.php:240
+#: includes/class-pw-calendario-admin.php:243
 msgid "%d cita pendiente"
 msgid_plural "%d citas pendientes"
 msgstr[0] "%d cita pendiente"
 msgstr[1] "%d citas pendientes"
 
-#: includes/class-pw-calendario-admin.php:512
+#: includes/class-pw-calendario-admin.php:515
 msgid "%d cita próxima"
 msgid_plural "%d citas próximas"
 msgstr[0] "%d cita próxima"
 msgstr[1] "%d citas próximas"
 
-#: includes/functions.php:654
+#: includes/functions.php:653
 msgid "%d disponibles"
 msgid_plural "%d disponibles"
 msgstr[0] "%d disponibles"
 msgstr[1] "%d disponibles"
 
-#: includes/admin-functions.php:385 includes/admin-functions.php:61 includes/functions.php:1244 includes/functions.php:881
+#: includes/plazas.php:304 includes/plazas.php:334
+msgid "%d persona"
+msgid_plural "%d personas"
+msgstr[0] "%d persona"
+msgstr[1] "%d personas"
+
+#: includes/admin-functions.php:385 includes/admin-functions.php:61 includes/functions.php:1259 includes/functions.php:888
 msgid "%d plaza libre"
 msgid_plural "%d plazas libres"
 msgstr[0] "%d plaza libre"
@@ -94,15 +100,25 @@ msgstr "%s el %s"
 msgid "%s el ID indicado no es válido. %s"
 msgstr "%s el ID indicado no es válido. %s"
 
-#: includes/add-ons/frontend-agents/includes/shortcodes.php:188 includes/admin-functions.php:1026 includes/admin-functions.php:914 includes/admin-functions.php:972
+#: includes/add-ons/frontend-agents/includes/shortcodes.php:188 includes/admin-functions.php:1041 includes/admin-functions.php:915 includes/admin-functions.php:980
 msgid "(este usuario ya no existe)"
 msgstr "(este usuario ya no existe)"
 
-#: templates/settings.php:1450 templates/settings.php:1506
+#: includes/plazas.php:292
+msgid "(queda %d plaza)"
+msgid_plural "(quedan %d plazas)"
+msgstr[0] "(queda %d plaza)"
+msgstr[1] "(quedan %d plazas)"
+
+#: includes/plazas.php:438
+msgid "(si no marcas ninguno, se aplica todos los días del rango)"
+msgstr "(si no marcas ninguno, se aplica todos los días del rango)"
+
+#: templates/settings.php:1462 templates/settings.php:1520
 msgid "+ Franja individual"
 msgstr "+ Franja individual"
 
-#: templates/settings.php:1451 templates/settings.php:1507
+#: templates/settings.php:1463 templates/settings.php:1521
 msgid "+ Franjas en bloque"
 msgstr "+ Franjas en bloque"
 
@@ -382,7 +398,7 @@ msgstr "Acceder"
 msgid "Acceso no autorizado"
 msgstr "Acceso no autorizado"
 
-#: includes/add-ons/woocommerce-payments/lib/class-settings.php:158 includes/add-ons/woocommerce-payments/lib/class-settings.php:177 includes/admin-functions.php:945 includes/class-pw-calendario-admin.php:638
+#: includes/add-ons/woocommerce-payments/lib/class-settings.php:158 includes/add-ons/woocommerce-payments/lib/class-settings.php:177 includes/admin-functions.php:953 includes/class-pw-calendario-admin.php:641
 msgid "Activar"
 msgstr "Activar"
 
@@ -398,7 +414,7 @@ msgstr "Activar las miniaturas"
 msgid "Actualizando, espera un momento…"
 msgstr "Actualizando, espera un momento…"
 
-#: includes/functions.php:1937
+#: includes/functions.php:1953
 msgid "Actualizar"
 msgstr "Actualizar"
 
@@ -406,7 +422,7 @@ msgstr "Actualizar"
 msgid "Actualizar el calendario personalizado"
 msgstr "Actualizar el calendario personalizado"
 
-#: includes/ajax/admin/user-info.php:160 includes/class-pw-calendario-admin.php:635
+#: includes/ajax/admin/user-info.php:168 includes/class-pw-calendario-admin.php:638
 msgid "Actualizar la cita"
 msgstr "Actualizar la cita"
 
@@ -422,7 +438,7 @@ msgstr "Actívalo para mostrar las miniaturas de los productos de cita en el car
 msgid "Ajuste"
 msgstr "Ajuste"
 
-#: includes/class-pw-calendario-admin.php:202 includes/class-pw-calendario-admin.php:203 includes/class-pw-calendario-admin.php:71 includes/class-pw-calendario.php:697
+#: includes/class-pw-calendario-admin.php:205 includes/class-pw-calendario-admin.php:206 includes/class-pw-calendario-admin.php:71 includes/class-pw-calendario.php:697
 msgid "Ajustes"
 msgstr "Ajustes"
 
@@ -434,11 +450,11 @@ msgstr "Ajustes de Pw Calendario"
 msgid "Ajustes de WooCommerce"
 msgstr "Ajustes de WooCommerce"
 
-#: includes/ajax/front/appointment-form.php:37 includes/ajax/front/book-appointment.php:519
+#: includes/ajax/front/appointment-form.php:37 includes/ajax/front/book-appointment.php:540
 msgid "Alguien ha reservado esta cita justo antes que tú. Elige otra hora."
 msgstr "Alguien ha reservado esta cita justo antes que tú. Elige otra hora."
 
-#: includes/functions.php:1341
+#: includes/functions.php:1356
 msgid "Alguien ha solicitado restablecer la contraseña de esta cuenta:"
 msgstr "Alguien ha solicitado restablecer la contraseña de esta cuenta:"
 
@@ -446,11 +462,11 @@ msgstr "Alguien ha solicitado restablecer la contraseña de esta cuenta:"
 msgid "Algunos servidores SMTP rechazan el correo enviado «en nombre de» tus clientes. Google, por ejemplo, cambia el nombre del remitente para evitar el rechazo; otros no. Puedes marcar la opción de «Forzar el remitente», pero entonces no podrás responder directamente a los avisos que lleguen de los clientes."
 msgstr "Algunos servidores SMTP rechazan el correo enviado «en nombre de» tus clientes. Google, por ejemplo, cambia el nombre del remitente para evitar el rechazo; otros no. Puedes marcar la opción de «Forzar el remitente», pero entonces no podrás responder directamente a los avisos que lleguen de los clientes."
 
-#: includes/functions.php:1105
+#: includes/functions.php:1112
 msgid "Anterior"
 msgstr "Anterior"
 
-#: includes/ajax/admin/appointment-form.php:100 includes/ajax/admin/appointment-form.php:79 includes/ajax/admin/user-info.php:96 includes/ajax/front/appointment-form/form-fields-guest.php:25
+#: includes/ajax/admin/appointment-form.php:100 includes/ajax/admin/appointment-form.php:79 includes/ajax/admin/user-info.php:104 includes/ajax/front/appointment-form/form-fields-guest.php:25
 msgid "Apellidos"
 msgstr "Apellidos"
 
@@ -462,15 +478,15 @@ msgstr "Apple Calendario u Outlook (.ics)"
 msgid "Aprobación de la cita"
 msgstr "Aprobación de la cita"
 
-#: templates/settings.php:1732
+#: templates/settings.php:1746
 msgid "Aprobadas o pendientes"
 msgstr "Aprobadas o pendientes"
 
-#: templates/settings.php:1734
+#: templates/settings.php:1748
 msgid "Aprobadas y pendientes"
 msgstr "Aprobadas y pendientes"
 
-#: includes/add-ons/frontend-agents/includes/shortcodes.php:140 includes/add-ons/woocommerce-payments/lib/class-static-functions.php:486 includes/admin-functions.php:1046 includes/admin-functions.php:928
+#: includes/add-ons/frontend-agents/includes/shortcodes.php:140 includes/add-ons/woocommerce-payments/lib/class-static-functions.php:486 includes/admin-functions.php:1006 includes/admin-functions.php:1068
 msgid "Aprobar"
 msgstr "Aprobar"
 
@@ -490,15 +506,15 @@ msgstr "Aprobar todas"
 msgid "Aquí no hay ningún perfil."
 msgstr "Aquí no hay ningún perfil."
 
-#: templates/pending-list.php:226
+#: templates/pending-list.php:233
 msgid "Asignada a %s"
 msgstr "Asignada a %s"
 
-#: includes/class-pw-calendario-admin.php:394 includes/class-pw-calendario-admin.php:427
+#: includes/class-pw-calendario-admin.php:397 includes/class-pw-calendario-admin.php:430
 msgid "Asignar este calendario a"
 msgstr "Asignar este calendario a"
 
-#: templates/settings.php:1514 templates/settings.php:1519
+#: templates/settings.php:1528 templates/settings.php:1533
 msgid "Añadir"
 msgstr "Añadir"
 
@@ -506,11 +522,11 @@ msgstr "Añadir"
 msgid "Añadir al calendario"
 msgstr "Añadir al calendario"
 
-#: templates/settings.php:1464
+#: templates/settings.php:1476
 msgid "Añadir fecha(s)"
 msgstr "Añadir fecha(s)"
 
-#: includes/admin-functions.php:272 includes/class-pw-calendario-admin.php:628
+#: includes/admin-functions.php:272 includes/class-pw-calendario-admin.php:631
 msgid "Añadir franjas horarias"
 msgstr "Añadir franjas horarias"
 
@@ -538,13 +554,17 @@ msgstr "Año"
 msgid "Año actual"
 msgstr "Año actual"
 
-#: includes/admin-functions.php:1295 includes/admin-functions.php:1382 templates/settings.php:1591
+#: includes/admin-functions.php:1317 includes/admin-functions.php:1404 templates/settings.php:1605
 msgid "Botones de opción"
 msgstr "Botones de opción"
 
-#: includes/admin-functions.php:1360
+#: includes/admin-functions.php:1382
 msgid "Botón de opción"
 msgstr "Botón de opción"
+
+#: includes/class-pw-calendario-actualizador.php:417
+msgid "Buscar actualizaciones"
+msgstr "Buscar actualizaciones"
 
 #: post-types/tipo-contenido-citas.php:68
 msgid "Buscar calendarios personalizados"
@@ -594,7 +614,7 @@ msgstr "Cada hora"
 msgid "Cada hora y media"
 msgstr "Cada hora y media"
 
-#: includes/add-ons/woocommerce-payments/lib/woocommerce/class-wc-cart.php:235 includes/add-ons/woocommerce-payments/lib/woocommerce/class-wc-order-item.php:19 includes/export-csv.php:222 includes/shortcodes.php:327
+#: includes/add-ons/woocommerce-payments/lib/woocommerce/class-wc-cart.php:253 includes/add-ons/woocommerce-payments/lib/woocommerce/class-wc-order-item.php:19 includes/export-csv.php:224 includes/shortcodes.php:327
 msgid "Calendario"
 msgstr "Calendario"
 
@@ -614,7 +634,7 @@ msgstr "Calendario predeterminado"
 msgid "Calendario que se muestra"
 msgstr "Calendario que se muestra"
 
-#: includes/class-pw-calendario-admin.php:194 includes/class-pw-calendario-admin.php:195 includes/class-pw-calendario.php:687
+#: includes/class-pw-calendario-admin.php:197 includes/class-pw-calendario-admin.php:198 includes/class-pw-calendario.php:687
 msgid "Calendarios"
 msgstr "Calendarios"
 
@@ -626,23 +646,23 @@ msgstr "Calendarios personalizados"
 msgid "Calendarios personalizados más usados"
 msgstr "Calendarios personalizados más usados"
 
-#: includes/functions.php:1904
+#: includes/functions.php:1920
 msgid "Cambiar el avatar"
 msgstr "Cambiar el avatar"
 
-#: includes/functions.php:1923
+#: includes/functions.php:1939
 msgid "Cambiar la contraseña"
 msgstr "Cambiar la contraseña"
 
-#: includes/add-ons/woocommerce-payments/fragments/appointment-buttons.php:48 includes/class-pw-calendario-admin.php:640
+#: includes/add-ons/woocommerce-payments/fragments/appointment-buttons.php:48 includes/class-pw-calendario-admin.php:643
 msgid "Cambiar la fecha"
 msgstr "Cambiar la fecha"
 
-#: includes/class-pw-calendario-admin.php:351
+#: includes/class-pw-calendario-admin.php:354
 msgid "Cambiar los ajustes"
 msgstr "Cambiar los ajustes"
 
-#: includes/admin-functions.php:1379
+#: includes/admin-functions.php:1401
 msgid "Campo de texto"
 msgstr "Campo de texto"
 
@@ -650,11 +670,11 @@ msgstr "Campo de texto"
 msgid "Campo del formulario"
 msgstr "Campo del formulario"
 
-#: includes/add-ons/woocommerce-payments/fragments/campos-administracion/templates-main.php:17 includes/add-ons/woocommerce-payments/fragments/campos-administracion/templates.php:12 includes/admin-functions.php:1262 includes/admin-functions.php:1273
+#: includes/add-ons/woocommerce-payments/fragments/campos-administracion/templates-main.php:17 includes/add-ons/woocommerce-payments/fragments/campos-administracion/templates.php:12 includes/admin-functions.php:1284 includes/admin-functions.php:1295
 msgid "Campo obligatorio"
 msgstr "Campo obligatorio"
 
-#: includes/export-csv.php:227 templates/settings.php:74
+#: includes/export-csv.php:229 templates/settings.php:74
 msgid "Campos personalizados"
 msgstr "Campos personalizados"
 
@@ -662,7 +682,7 @@ msgstr "Campos personalizados"
 msgid "Cancelación de la cita"
 msgstr "Cancelación de la cita"
 
-#: includes/add-ons/woocommerce-payments/fragments/ajax-loaded/appointment-change-date.php:97 includes/ajax/admin/appointment-form.php:129 includes/ajax/front/appointment-form/form.php:197 includes/ajax/front/appointment-form/form.php:88
+#: includes/add-ons/woocommerce-payments/fragments/ajax-loaded/appointment-change-date.php:97 includes/ajax/admin/appointment-form.php:129 includes/ajax/front/appointment-form/form.php:208 includes/ajax/front/appointment-form/form.php:88
 msgid "Cancelar"
 msgstr "Cancelar"
 
@@ -670,15 +690,15 @@ msgstr "Cancelar"
 msgid "Cancelar la cita"
 msgstr "Cancelar la cita"
 
-#: includes/admin-functions.php:1214 includes/admin-functions.php:1353 templates/settings.php:1587
+#: includes/admin-functions.php:1236 includes/admin-functions.php:1375 templates/settings.php:1601
 msgid "Casilla de verificación"
 msgstr "Casilla de verificación"
 
-#: includes/admin-functions.php:1283 includes/admin-functions.php:1381 templates/settings.php:1583
+#: includes/admin-functions.php:1305 includes/admin-functions.php:1403 templates/settings.php:1597
 msgid "Casillas de verificación"
 msgstr "Casillas de verificación"
 
-#: templates/settings.php:1292 templates/settings.php:1515 templates/settings.php:1520
+#: templates/settings.php:1292 templates/settings.php:1529 templates/settings.php:1534
 msgid "Cerrar"
 msgstr "Cerrar"
 
@@ -690,13 +710,13 @@ msgstr "Cita"
 msgid "Cita con %s"
 msgstr "Cita con %s"
 
-#: includes/functions.php:1286 includes/functions.php:936
+#: includes/functions.php:1301 includes/functions.php:943
 msgid "Cita disponible el %s"
 msgid_plural "Citas disponibles el %s"
 msgstr[0] "Cita disponible el %s"
 msgstr[1] "Citas disponibles el %s"
 
-#: includes/admin-functions.php:944 includes/ajax/admin/appointment-form.php:35 post-types/tipo-contenido-citas.php:42
+#: includes/admin-functions.php:952 includes/ajax/admin/appointment-form.php:35 post-types/tipo-contenido-citas.php:42
 msgid "Cita nueva"
 msgstr "Cita nueva"
 
@@ -712,7 +732,7 @@ msgid_plural "Citas próximas"
 msgstr[0] "Cita próxima"
 msgstr[1] "Citas próximas"
 
-#: includes/class-pw-calendario-admin.php:174 includes/class-pw-calendario-admin.php:175 includes/class-pw-calendario-admin.php:457 includes/class-pw-calendario.php:659
+#: includes/class-pw-calendario-admin.php:177 includes/class-pw-calendario-admin.php:178 includes/class-pw-calendario-admin.php:460 includes/class-pw-calendario.php:659
 msgid "Citas"
 msgstr "Citas"
 
@@ -720,11 +740,11 @@ msgstr "Citas"
 msgid "Citas del"
 msgstr "Citas del"
 
-#: includes/functions.php:936
+#: includes/functions.php:943
 msgid "Citas disponibles el %s"
 msgstr "Citas disponibles el %s"
 
-#: includes/functions.php:1246 includes/functions.php:886
+#: includes/functions.php:1261 includes/functions.php:893
 msgid "Citas en esta franja horaria:"
 msgid_plural "Citas en esta franja horaria:"
 msgstr[0] "Citas en esta franja horaria:"
@@ -766,7 +786,7 @@ msgstr "Completo"
 msgid "Confirma que quieres cambiar la fecha de la cita de %s a la siguiente:"
 msgstr "Confirma que quieres cambiar la fecha de la cita de %s a la siguiente:"
 
-#: includes/ajax/front/appointment-form/form.php:154
+#: includes/ajax/front/appointment-form/form.php:165
 msgid "Confirma que quieres solicitar esta cita:"
 msgid_plural "Confirma que quieres solicitar estas citas:"
 msgstr[0] "Confirma que quieres solicitar esta cita:"
@@ -780,7 +800,7 @@ msgstr "Confirmación de la cita"
 msgid "Contenido de la pestaña de acceso"
 msgstr "Contenido de la pestaña de acceso"
 
-#: includes/admin-functions.php:1319 includes/admin-functions.php:1384 templates/settings.php:1607
+#: includes/admin-functions.php:1341 includes/admin-functions.php:1406 templates/settings.php:1621
 msgid "Contenido de texto"
 msgstr "Contenido de texto"
 
@@ -832,7 +852,7 @@ msgstr "Corregido"
 msgid "Correo electrónico"
 msgstr "Correo electrónico"
 
-#: includes/functions.php:1917
+#: includes/functions.php:1933
 msgid "Correo electrónico *"
 msgstr "Correo electrónico *"
 
@@ -860,27 +880,31 @@ msgstr "Crea otra página con el shortcode %s para que los clientes consulten y 
 msgid "Crea una página y añade el shortcode %s para mostrar el calendario de reservas."
 msgstr "Crea una página y añade el shortcode %s para mostrar el calendario de reservas."
 
-#: includes/ajax/admin/appointment-form.php:128 includes/class-pw-calendario-admin.php:636
+#: includes/ajax/admin/appointment-form.php:128 includes/class-pw-calendario-admin.php:639
 msgid "Crear la cita"
 msgstr "Crear la cita"
 
-#: includes/class-pw-calendario-admin.php:350
+#: includes/class-pw-calendario-admin.php:353
 msgid "Crear una página"
 msgstr "Crear una página"
+
+#: includes/plazas.php:360
+msgid "D"
+msgstr "D"
 
 #: includes/add-ons/frontend-agents/includes/ajax.php:203
 msgid "Datos de contacto"
 msgstr "Datos de contacto"
 
-#: includes/add-ons/frontend-agents/includes/ajax.php:201 includes/add-ons/frontend-agents/includes/ajax.php:272 includes/ajax/admin/user-info.php:144
+#: includes/add-ons/frontend-agents/includes/ajax.php:201 includes/add-ons/frontend-agents/includes/ajax.php:272 includes/ajax/admin/user-info.php:152
 msgid "Datos de la cita"
 msgstr "Datos de la cita"
 
-#: includes/ajax/admin/user-info.php:70
+#: includes/ajax/admin/user-info.php:78
 msgid "Datos del cliente"
 msgstr "Datos del cliente"
 
-#: includes/add-ons/woocommerce-payments/fragments/ajax-loaded/appointment-change-date.php:99 includes/ajax/front/appointment-form/form.php:194
+#: includes/add-ons/woocommerce-payments/fragments/ajax-loaded/appointment-change-date.php:99 includes/ajax/front/appointment-form/form.php:205
 msgid "De acuerdo"
 msgstr "De acuerdo"
 
@@ -888,7 +912,11 @@ msgstr "De acuerdo"
 msgid "Define las franjas horarias predeterminadas de cada día de la semana en los ajustes."
 msgstr "Define las franjas horarias predeterminadas de cada día de la semana en los ajustes."
 
-#: includes/add-ons/woocommerce-payments/lib/class-settings.php:159 includes/add-ons/woocommerce-payments/lib/class-settings.php:178 includes/admin-functions.php:945 includes/class-pw-calendario-admin.php:639
+#: pw-calendario.php:61
+msgid "Desactiva el plugin anterior en la pantalla de Plugins. Pw Calendario arrancará solo, sin perder ninguna cita ni la configuración."
+msgstr "Desactiva el plugin anterior en la pantalla de Plugins. Pw Calendario arrancará solo, sin perder ninguna cita ni la configuración."
+
+#: includes/add-ons/woocommerce-payments/lib/class-settings.php:159 includes/add-ons/woocommerce-payments/lib/class-settings.php:178 includes/admin-functions.php:953 includes/class-pw-calendario-admin.php:642
 msgid "Desactivar"
 msgstr "Desactivar"
 
@@ -896,7 +924,7 @@ msgstr "Desactivar"
 msgid "Desactivar el envío propio del plugin y dejar que lo gestione WordPress."
 msgstr "Desactivar el envío propio del plugin y dejar que lo gestione WordPress."
 
-#: templates/settings.php:1391 templates/settings.php:1500
+#: templates/settings.php:1403 templates/settings.php:1514
 msgid "Desactivar las citas"
 msgstr "Desactivar las citas"
 
@@ -904,7 +932,7 @@ msgstr "Desactivar las citas"
 msgid "Desconocido"
 msgstr "Desconocido"
 
-#: includes/admin-functions.php:1307 includes/admin-functions.php:1383 templates/settings.php:1599
+#: includes/admin-functions.php:1329 includes/admin-functions.php:1405 templates/settings.php:1613
 msgid "Desplegable"
 msgstr "Desplegable"
 
@@ -932,7 +960,7 @@ msgstr "Editando las franjas horarias del:"
 msgid "Editar el calendario personalizado"
 msgstr "Editar el calendario personalizado"
 
-#: includes/add-ons/frontend-agents/agentes-frontend.php:126 includes/functions.php:1896 templates/profile.php:67
+#: includes/add-ons/frontend-agents/agentes-frontend.php:126 includes/functions.php:1912 templates/profile.php:67
 msgid "Editar el perfil"
 msgstr "Editar el perfil"
 
@@ -940,35 +968,41 @@ msgstr "Editar el perfil"
 msgid "Editar la cita"
 msgstr "Editar la cita"
 
-#: includes/functions.php:1799
+#: includes/functions.php:1815
 msgid "El correo electrónico que has escrito no es válido. Inténtalo de nuevo."
 msgstr "El correo electrónico que has escrito no es válido. Inténtalo de nuevo."
 
-#: includes/ajax/front/book-appointment.php:187
+#: includes/ajax/front/book-appointment.php:206
 msgid "El correo electrónico que has escrito no parece válido."
 msgstr "El correo electrónico que has escrito no parece válido."
 
-#: includes/class-pw-calendario-admin.php:648
+#: includes/plazas.php:176
+msgid "El máximo por reserva es de %d persona. Para grupos mayores, ponte en contacto con nosotros."
+msgid_plural "El máximo por reserva es de %d personas. Para grupos mayores, ponte en contacto con nosotros."
+msgstr[0] "El máximo por reserva es de %d persona. Para grupos mayores, ponte en contacto con nosotros."
+msgstr[1] "El máximo por reserva es de %d personas. Para grupos mayores, ponte en contacto con nosotros."
+
+#: includes/class-pw-calendario-admin.php:651
 msgid "El nombre es obligatorio."
 msgstr "El nombre es obligatorio."
 
-#: includes/class-pw-calendario-admin.php:651
+#: includes/class-pw-calendario-admin.php:654
 msgid "El nombre y el correo electrónico son obligatorios."
 msgstr "El nombre y el correo electrónico son obligatorios."
 
-#: includes/class-pw-calendario-admin.php:649
+#: includes/class-pw-calendario-admin.php:652
 msgid "El nombre y los apellidos son obligatorios."
 msgstr "El nombre y los apellidos son obligatorios."
 
-#: includes/class-pw-calendario-admin.php:647
+#: includes/class-pw-calendario-admin.php:650
 msgid "El nombre, el correo electrónico y la contraseña son obligatorios."
 msgstr "El nombre, el correo electrónico y la contraseña son obligatorios."
 
-#: includes/class-pw-calendario-admin.php:650
+#: includes/class-pw-calendario-admin.php:653
 msgid "El nombre, los apellidos y el correo electrónico son obligatorios."
 msgstr "El nombre, los apellidos y el correo electrónico son obligatorios."
 
-#: includes/ajax/front/book-appointment.php:505
+#: includes/ajax/front/book-appointment.php:526
 msgid "El registro se ha completado correctamente."
 msgstr "El registro se ha completado correctamente."
 
@@ -984,7 +1018,7 @@ msgstr "El usuario o la contraseña no son correctos."
 msgid "Elegir entre los calendarios más usados"
 msgstr "Elegir entre los calendarios más usados"
 
-#: includes/functions.php:1905
+#: includes/functions.php:1921
 msgid "Elegir imagen…"
 msgstr "Elegir imagen…"
 
@@ -996,7 +1030,7 @@ msgstr "Elegir una fecha nueva"
 msgid "Elegir una página concreta"
 msgstr "Elegir una página concreta"
 
-#: includes/functions.php:1583
+#: includes/functions.php:1599
 msgid "Elegir…"
 msgstr "Elegir…"
 
@@ -1012,7 +1046,7 @@ msgstr "Elige los intervalos que necesitas para las franjas horarias. Solo afect
 msgid "Elige un cliente"
 msgstr "Elige un cliente"
 
-#: includes/class-pw-calendario-admin.php:641
+#: includes/class-pw-calendario-admin.php:644
 msgid "Elige un cliente."
 msgstr "Elige un cliente."
 
@@ -1056,7 +1090,7 @@ msgstr "Eliminar todas"
 msgid "En bloque"
 msgstr "En bloque"
 
-#: includes/admin-functions.php:1321
+#: includes/admin-functions.php:1343
 msgid "En este campo se admite HTML."
 msgstr "En este campo se admite HTML."
 
@@ -1068,35 +1102,35 @@ msgstr "Enviar los correos de confirmación SOLO cuando el pago se marque como �
 msgid "Enviar los correos de confirmación al instante."
 msgstr "Enviar los correos de confirmación al instante."
 
-#: includes/ajax/front/appointment-form/form.php:176 includes/general-functions.php:365
+#: includes/ajax/front/appointment-form/form.php:187 includes/general-functions.php:365
 msgid "Escribe el siguiente texto:"
 msgstr "Escribe el siguiente texto:"
 
-#: includes/admin-functions.php:1187 templates/settings.php:1615
+#: includes/admin-functions.php:1209 templates/settings.php:1629
 msgid "Escribe una etiqueta para esta casilla…"
 msgstr "Escribe una etiqueta para esta casilla…"
 
-#: includes/admin-functions.php:1201 templates/settings.php:1624
+#: includes/admin-functions.php:1223 templates/settings.php:1638
 msgid "Escribe una etiqueta para esta opción…"
 msgstr "Escribe una etiqueta para esta opción…"
 
-#: includes/admin-functions.php:1194 templates/settings.php:1620
+#: includes/admin-functions.php:1216 templates/settings.php:1634
 msgid "Escribe una etiqueta para este botón de opción…"
 msgstr "Escribe una etiqueta para este botón de opción…"
 
-#: includes/admin-functions.php:1263 includes/admin-functions.php:1274 templates/settings.php:1573 templates/settings.php:1579
+#: includes/admin-functions.php:1285 includes/admin-functions.php:1296 templates/settings.php:1587 templates/settings.php:1593
 msgid "Escribe una etiqueta para este campo…"
 msgstr "Escribe una etiqueta para este campo…"
 
-#: includes/admin-functions.php:1297 templates/settings.php:1593
+#: includes/admin-functions.php:1319 templates/settings.php:1607
 msgid "Escribe una etiqueta para este grupo de botones de opción…"
 msgstr "Escribe una etiqueta para este grupo de botones de opción…"
 
-#: includes/admin-functions.php:1285 templates/settings.php:1585
+#: includes/admin-functions.php:1307 templates/settings.php:1599
 msgid "Escribe una etiqueta para este grupo de casillas…"
 msgstr "Escribe una etiqueta para este grupo de casillas…"
 
-#: includes/add-ons/woocommerce-payments/fragments/campos-administracion/templates-main.php:20 includes/admin-functions.php:1309 templates/settings.php:1601
+#: includes/add-ons/woocommerce-payments/fragments/campos-administracion/templates-main.php:20 includes/admin-functions.php:1331 templates/settings.php:1615
 msgid "Escribe una etiqueta para este grupo desplegable…"
 msgstr "Escribe una etiqueta para este grupo desplegable…"
 
@@ -1104,7 +1138,7 @@ msgstr "Escribe una etiqueta para este grupo desplegable…"
 msgid "Ese correo electrónico no es válido."
 msgstr "Ese correo electrónico no es válido."
 
-#: includes/ajax/admin/add-appointment.php:150 includes/ajax/admin/edit-appointment.php:27
+#: includes/ajax/admin/add-appointment.php:159 includes/ajax/admin/edit-appointment.php:27
 msgid "Ese correo electrónico no parece válido."
 msgstr "Ese correo electrónico no parece válido."
 
@@ -1112,7 +1146,7 @@ msgstr "Ese correo electrónico no parece válido."
 msgid "Ese correo electrónico ya está en uso."
 msgstr "Ese correo electrónico ya está en uso."
 
-#: includes/functions.php:1801
+#: includes/functions.php:1817
 msgid "Ese correo electrónico ya lo usa otro usuario. Prueba con otro."
 msgstr "Ese correo electrónico ya lo usa otro usuario. Prueba con otro."
 
@@ -1128,7 +1162,7 @@ msgstr "Ese nombre no es válido."
 msgid "Ese usuario o correo electrónico no está registrado."
 msgstr "Ese usuario o correo electrónico no está registrado."
 
-#: includes/class-pw-calendario-admin.php:634 includes/class-pw-calendario.php:531
+#: includes/class-pw-calendario-admin.php:637 includes/class-pw-calendario.php:531
 msgid "Espera un momento…"
 msgstr "Espera un momento…"
 
@@ -1140,9 +1174,13 @@ msgstr "Esta cita no pertenece a ninguno de tus calendarios."
 msgid "Esta cita no tiene ningún servicio asociado."
 msgstr "Esta cita no tiene ningún servicio asociado."
 
-#: includes/add-ons/frontend-agents/includes/shortcodes.php:197 includes/dashboard-widget.php:194 templates/pending-list.php:225
+#: includes/add-ons/frontend-agents/includes/shortcodes.php:197 includes/dashboard-widget.php:194 templates/pending-list.php:232
 msgid "Esta cita ya ha pasado."
 msgstr "Esta cita ya ha pasado."
+
+#: includes/plazas.php:192
+msgid "Esta franja horaria ya está completa. Elige otra hora."
+msgstr "Esta franja horaria ya está completa. Elige otra hora."
 
 #: templates/settings.php:504
 msgid "Estado inicial de las citas nuevas"
@@ -1160,7 +1198,7 @@ msgstr "Este feed de calendario requiere una clave de acceso válida. Consulta l
 msgid "Este perfil de usuario no existe."
 msgstr "Este perfil de usuario no existe."
 
-#: includes/ajax/front/appointment-form/form.php:138
+#: includes/ajax/front/appointment-form/form.php:149
 msgid "Estás intentando reservar más citas de las permitidas a la vez. Cada usuario puede tener como máximo %d citas simultáneas."
 msgstr "Estás intentando reservar más citas de las permitidas a la vez. Cada usuario puede tener como máximo %d citas simultáneas."
 
@@ -1192,27 +1230,27 @@ msgstr "Exigir solo el nombre"
 msgid "Exportar"
 msgstr "Exportar"
 
-#: templates/settings.php:1718
+#: templates/settings.php:1732
 msgid "Exportar las citas"
 msgstr "Exportar las citas"
 
-#: templates/settings.php:1762
+#: templates/settings.php:1776
 msgid "Exportar las citas a CSV"
 msgstr "Exportar las citas a CSV"
 
-#: includes/add-ons/frontend-agents/includes/ajax.php:276 includes/add-ons/woocommerce-payments/lib/woocommerce/class-wc-cart.php:231 includes/export-csv.php:223
+#: includes/add-ons/frontend-agents/includes/ajax.php:276 includes/add-ons/woocommerce-payments/lib/woocommerce/class-wc-cart.php:249 includes/export-csv.php:225
 msgid "Fecha"
 msgstr "Fecha"
 
-#: templates/settings.php:1376 templates/settings.php:1495
+#: templates/settings.php:1376 templates/settings.php:1507
 msgid "Fecha de fin (opcional)"
 msgstr "Fecha de fin (opcional)"
 
-#: templates/settings.php:1375 templates/settings.php:1494
+#: templates/settings.php:1375 templates/settings.php:1506
 msgid "Fecha de inicio"
 msgstr "Fecha de inicio"
 
-#: includes/export-csv.php:226
+#: includes/export-csv.php:228
 msgid "Fecha y hora"
 msgstr "Fecha y hora"
 
@@ -1220,7 +1258,7 @@ msgstr "Fecha y hora"
 msgid "Fecha y hora de la cita"
 msgstr "Fecha y hora de la cita"
 
-#: templates/settings.php:1722
+#: templates/settings.php:1736
 msgid "Fechas de la cita"
 msgstr "Fechas de la cita"
 
@@ -1232,7 +1270,7 @@ msgstr "Feeds de calendario"
 msgid "Forzar el remitente"
 msgstr "Forzar el remitente"
 
-#: includes/ajax/init_admin.php:999 templates/settings.php:1413
+#: includes/ajax/init_admin.php:999 templates/settings.php:1425
 msgid "Franja horaria"
 msgstr "Franja horaria"
 
@@ -1248,7 +1286,7 @@ msgstr "Franjas horarias personalizadas"
 msgid "General"
 msgstr "General"
 
-#: includes/add-ons/woocommerce-payments/lib/class-static-functions.php:254 includes/add-ons/woocommerce-payments/lib/woocommerce/class-wc-cart.php:241 includes/add-ons/woocommerce-payments/lib/woocommerce/class-wc-order-item.php:21 includes/class-pw-calendario.php:165
+#: includes/add-ons/woocommerce-payments/lib/class-static-functions.php:254 includes/add-ons/woocommerce-payments/lib/woocommerce/class-wc-cart.php:259 includes/add-ons/woocommerce-payments/lib/woocommerce/class-wc-order-item.php:21 includes/class-pw-calendario.php:165
 msgid "Gestor de citas"
 msgstr "Gestor de citas"
 
@@ -1260,33 +1298,37 @@ msgstr "Google Calendar"
 msgid "Gracias por elegir %s."
 msgstr "Gracias por elegir %s."
 
-#: templates/settings.php:1466 templates/settings.php:1638
+#: templates/settings.php:1478 templates/settings.php:1652
 msgid "Guardando"
 msgstr "Guardando"
 
-#: templates/settings.php:1465
+#: templates/settings.php:1477
 msgid "Guardar las franjas horarias personalizadas"
 msgstr "Guardar las franjas horarias personalizadas"
 
-#: templates/settings.php:1637
+#: templates/settings.php:1651
 msgid "Guardar los campos personalizados"
 msgstr "Guardar los campos personalizados"
 
-#: includes/ajax/front/appointment-form/form.php:133
+#: includes/ajax/front/appointment-form/form.php:144
 msgid "Has alcanzado el límite de citas. Cada usuario puede tener como máximo %d cita a la vez."
 msgid_plural "Has alcanzado el límite de citas. Cada usuario puede tener como máximo %d citas a la vez."
 msgstr[0] "Has alcanzado el límite de citas. Cada usuario puede tener como máximo %d cita a la vez."
 msgstr[1] "Has alcanzado el límite de citas. Cada usuario puede tener como máximo %d citas a la vez."
 
-#: includes/class-pw-calendario-admin.php:376
+#: includes/class-pw-calendario-admin.php:379
 msgid "Hay %d cita pendiente."
 msgid_plural "Hay %d citas pendientes."
 msgstr[0] "Hay %d cita pendiente."
 msgstr[1] "Hay %d citas pendientes."
 
-#: includes/admin-functions.php:958
+#: includes/admin-functions.php:966
 msgid "Hay más citas reservadas en franjas que antes estaban disponibles:"
 msgstr "Hay más citas reservadas en franjas que antes estaban disponibles:"
+
+#: includes/class-pw-calendario-actualizador.php:472
+msgid "Hay una versión nueva de Pw Calendario disponible. La verás en el listado de plugins."
+msgstr "Hay una versión nueva de Pw Calendario disponible. La verás en el listado de plugins."
 
 #: includes/shortcodes.php:395
 msgid "He olvidado la contraseña"
@@ -1296,11 +1338,11 @@ msgstr "He olvidado la contraseña"
 msgid "He olvidado mi contraseña."
 msgstr "He olvidado mi contraseña."
 
-#: includes/functions.php:1865
+#: includes/functions.php:1881
 msgid "Hemos recibido tu solicitud de cita y te hemos creado una cuenta. Te enviamos los datos de acceso por correo electrónico. Cuando accedas verás aquí abajo tus citas próximas. Te recomendamos cambiar la contraseña por una que recuerdes mejor desde la pestaña \\\"Editar el perfil\\\"."
 msgstr "Hemos recibido tu solicitud de cita y te hemos creado una cuenta. Te enviamos los datos de acceso por correo electrónico. Cuando accedas verás aquí abajo tus citas próximas. Te recomendamos cambiar la contraseña por una que recuerdes mejor desde la pestaña \\\"Editar el perfil\\\"."
 
-#: includes/functions.php:1874
+#: includes/functions.php:1890
 msgid "Hemos recibido tu solicitud de cita. Si se aprueba, la verás actualizada aquí abajo."
 msgstr "Hemos recibido tu solicitud de cita. Si se aprueba, la verás actualizada aquí abajo."
 
@@ -1320,7 +1362,7 @@ msgstr "Hola de nuevo. Accede con tus datos:"
 msgid "Hora"
 msgstr "Hora"
 
-#: includes/export-csv.php:225
+#: includes/export-csv.php:227
 msgid "Hora de fin"
 msgstr "Hora de fin"
 
@@ -1328,7 +1370,7 @@ msgstr "Hora de fin"
 msgid "Hora de fin…"
 msgstr "Hora de fin…"
 
-#: includes/export-csv.php:224
+#: includes/export-csv.php:226
 msgid "Hora de inicio"
 msgstr "Hora de inicio"
 
@@ -1355,6 +1397,10 @@ msgstr "Impedir citas después de una fecha"
 #: templates/settings.php:227
 msgid "Importante:"
 msgstr "Importante:"
+
+#: includes/plazas.php:165
+msgid "Indica para cuántas personas es la reserva."
+msgstr "Indica para cuántas personas es la reserva."
 
 #: includes/ajax/front/appointment-form/form-fields-forgot.php:3
 msgid "Indica tu correo electrónico para restablecer la contraseña:"
@@ -1408,6 +1454,14 @@ msgstr "Invitado"
 msgid "Ir a los ajustes"
 msgstr "Ir a los ajustes"
 
+#: includes/plazas.php:357
+msgid "J"
+msgstr "J"
+
+#: includes/plazas.php:354
+msgid "L"
+msgstr "L"
+
 #: includes/add-ons/woocommerce-payments/lib/woocommerce/class-wc-cart.php:19
 msgid "La cita con ID %1$d no tiene ningún producto asignado."
 msgstr "La cita con ID %1$d no tiene ningún producto asignado."
@@ -1424,23 +1478,23 @@ msgstr "La cita se ha añadido al carrito."
 msgid "La cita «%s» y los productos del carrito no coinciden. Comprueba que todos los productos de la cita están en el carrito."
 msgstr "La cita «%s» y los productos del carrito no coinciden. Comprueba que todos los productos de la cita están en el carrito."
 
-#: includes/functions.php:1830
+#: includes/functions.php:1846
 msgid "La comprobación de seguridad de la subida del avatar ha fallado."
 msgstr "La comprobación de seguridad de la subida del avatar ha fallado."
 
-#: includes/functions.php:1755 includes/seguridad.php:48
+#: includes/functions.php:1771 includes/seguridad.php:48
 msgid "La comprobación de seguridad ha fallado. Recarga la página e inténtalo de nuevo."
 msgstr "La comprobación de seguridad ha fallado. Recarga la página e inténtalo de nuevo."
 
-#: includes/functions.php:1773
+#: includes/functions.php:1789
 msgid "La contraseña debe tener al menos 8 caracteres."
 msgstr "La contraseña debe tener al menos 8 caracteres."
 
-#: includes/class-pw-calendario-admin.php:629
+#: includes/class-pw-calendario-admin.php:632
 msgid "La hora de fin tiene que ser posterior a la hora de inicio."
 msgstr "La hora de fin tiene que ser posterior a la hora de inicio."
 
-#: includes/functions.php:1769
+#: includes/functions.php:1785
 msgid "Las contraseñas no coinciden. No se ha cambiado la contraseña."
 msgstr "Las contraseñas no coinciden. No se ha cambiado la contraseña."
 
@@ -1459,6 +1513,10 @@ msgstr "Los productos de cita se usan para los pagos del calendario."
 #: templates/settings.php:467
 msgid "Límite de citas"
 msgstr "Límite de citas"
+
+#: includes/plazas.php:355
+msgid "M"
+msgstr "M"
 
 #: includes/add-ons/woocommerce-payments/fragments/admin-calendar-app-buttons.php:31 includes/add-ons/woocommerce-payments/fragments/admin-calendar-app-buttons.php:40
 msgid "Marcar como pagada"
@@ -1488,27 +1546,27 @@ msgstr "Mes"
 msgid "Mes actual"
 msgstr "Mes actual"
 
-#: templates/settings.php:1652
+#: templates/settings.php:1666
 msgid "Mostrar el calendario predeterminado"
 msgstr "Mostrar el calendario predeterminado"
 
-#: templates/settings.php:1681
+#: templates/settings.php:1695
 msgid "Mostrar el formulario de acceso y registro"
 msgstr "Mostrar el formulario de acceso y registro"
 
-#: templates/settings.php:1689
+#: templates/settings.php:1703
 msgid "Mostrar el perfil del usuario"
 msgstr "Mostrar el perfil del usuario"
 
-#: templates/settings.php:1697
+#: templates/settings.php:1711
 msgid "Mostrar las citas del usuario"
 msgstr "Mostrar las citas del usuario"
 
-#: templates/settings.php:1663
+#: templates/settings.php:1677
 msgid "Mostrar un calendario personalizado"
 msgstr "Mostrar un calendario personalizado"
 
-#: includes/mailer_functions.php:27 includes/mailer_functions.php:42
+#: includes/mailer_functions.php:27 includes/mailer_functions.php:43
 msgid "Muestra el correo electrónico del cliente."
 msgstr "Muestra el correo electrónico del cliente."
 
@@ -1520,11 +1578,11 @@ msgstr "Muestra el nombre completo del cliente."
 msgid "Muestra el nombre del calendario de la cita, si tiene uno."
 msgstr "Muestra el nombre del calendario de la cita, si tiene uno."
 
-#: includes/mailer_functions.php:39
+#: includes/mailer_functions.php:40
 msgid "Muestra el nombre del cliente."
 msgstr "Muestra el nombre del cliente."
 
-#: includes/mailer_functions.php:33
+#: includes/mailer_functions.php:34
 msgid "Muestra el número identificador único de la cita."
 msgstr "Muestra el número identificador único de la cita."
 
@@ -1532,11 +1590,11 @@ msgstr "Muestra el número identificador único de la cita."
 msgid "Muestra el título de la franja horaria de la cita."
 msgstr "Muestra el título de la franja horaria de la cita."
 
-#: includes/mailer_functions.php:40
+#: includes/mailer_functions.php:41
 msgid "Muestra el usuario del cliente."
 msgstr "Muestra el usuario del cliente."
 
-#: includes/mailer_functions.php:41
+#: includes/mailer_functions.php:42
 msgid "Muestra la contraseña del cliente."
 msgstr "Muestra la contraseña del cliente."
 
@@ -1552,23 +1610,27 @@ msgstr "Muestra la hora de la cita."
 msgid "Muestra los datos de los campos personalizados de la cita."
 msgstr "Muestra los datos de los campos personalizados de la cita."
 
+#: includes/mailer_functions.php:33
+msgid "Muestra para cuántas personas es la reserva."
+msgstr "Muestra para cuántas personas es la reserva."
+
 #: includes/admin-functions.php:196
 msgid "N.º de cada una…"
 msgstr "N.º de cada una…"
 
-#: includes/ajax/front/book-appointment.php:120 includes/ajax/front/book-appointment.php:288 includes/ajax/front/book-appointment.php:440
+#: includes/ajax/front/book-appointment.php:138 includes/ajax/front/book-appointment.php:308 includes/ajax/front/book-appointment.php:461
 msgid "Necesitamos tu nombre completo para reservar la cita."
 msgstr "Necesitamos tu nombre completo para reservar la cita."
 
-#: includes/ajax/front/book-appointment.php:191
+#: includes/ajax/front/book-appointment.php:210
 msgid "Necesitamos tu nombre para reservar la cita."
 msgstr "Necesitamos tu nombre para reservar la cita."
 
-#: includes/ajax/front/book-appointment.php:189
+#: includes/ajax/front/book-appointment.php:208
 msgid "Necesitamos tu nombre y un correo electrónico válido para reservar la cita."
 msgstr "Necesitamos tu nombre y un correo electrónico válido para reservar la cita."
 
-#: includes/class-pw-calendario-admin.php:347
+#: includes/class-pw-calendario-admin.php:350
 msgid "Necesitas crear una página con el shortcode %s. Es obligatorio con la configuración actual."
 msgstr "Necesitas crear una página con el shortcode %s. Es obligatorio con la configuración actual."
 
@@ -1576,11 +1638,11 @@ msgstr "Necesitas crear una página con el shortcode %s. Es obligatorio con la c
 msgid "Necesitas indicar un correo electrónico para restablecer la contraseña."
 msgstr "Necesitas indicar un correo electrónico para restablecer la contraseña."
 
-#: includes/functions.php:654
+#: includes/functions.php:653
 msgid "Ninguna disponible"
 msgstr "Ninguna disponible"
 
-#: includes/functions.php:1233 includes/functions.php:866
+#: includes/functions.php:1248 includes/functions.php:873
 msgid "No disponible"
 msgstr "No disponible"
 
@@ -1592,7 +1654,7 @@ msgstr "No hay citas en la papelera."
 msgid "No hay citas pasadas."
 msgstr "No hay citas pasadas."
 
-#: includes/add-ons/frontend-agents/includes/shortcodes.php:64 templates/pending-list.php:240
+#: includes/add-ons/frontend-agents/includes/shortcodes.php:64 templates/pending-list.php:247
 msgid "No hay citas pendientes."
 msgstr "No hay citas pendientes."
 
@@ -1600,17 +1662,21 @@ msgstr "No hay citas pendientes."
 msgid "No hay citas próximas."
 msgstr "No hay citas próximas."
 
-#: includes/admin-functions.php:1012
+#: includes/admin-functions.php:1027
 msgid "No hay franjas disponibles este día, pero sí hay citas reservadas en franjas que antes lo estaban:"
 msgstr "No hay franjas disponibles este día, pero sí hay citas reservadas en franjas que antes lo estaban:"
 
-#: includes/admin-functions.php:1064 includes/functions.php:1272 includes/functions.php:1281 includes/functions.php:922
+#: includes/admin-functions.php:1086 includes/functions.php:1287 includes/functions.php:1296 includes/functions.php:929
 msgid "No hay franjas horarias disponibles este día."
 msgstr "No hay franjas horarias disponibles este día."
 
 #: includes/admin-functions.php:289 includes/ajax/init_admin.php:972
 msgid "No hay franjas horarias."
 msgstr "No hay franjas horarias."
+
+#: includes/class-pw-calendario-actualizador.php:322
+msgid "No hay notas para esta versión."
+msgstr "No hay notas para esta versión."
 
 #: includes/ajax/front/appointment-form/bookings.php:33
 msgid "No hay reservas disponibles"
@@ -1628,6 +1694,14 @@ msgstr "No se ha indicado la fecha de inicio de estas:"
 msgid "No se ha indicado una cita válida."
 msgstr "No se ha indicado una cita válida."
 
+#: includes/class-pw-calendario-actualizador.php:480
+msgid "No se ha podido consultar GitHub para comprobar si hay actualizaciones. Vuelve a intentarlo en unos minutos."
+msgstr "No se ha podido consultar GitHub para comprobar si hay actualizaciones. Vuelve a intentarlo en unos minutos."
+
+#: includes/class-pw-calendario-actualizador.php:393
+msgid "No se ha podido preparar la carpeta del plugin para la actualización."
+msgstr "No se ha podido preparar la carpeta del plugin para la actualización."
+
 #: post-types/tipo-contenido-citas.php:80
 msgid "No se han encontrado calendarios personalizados."
 msgstr "No se han encontrado calendarios personalizados."
@@ -1644,7 +1718,7 @@ msgstr "No tienes ningún calendario asignado."
 msgid "No tienes permisos para gestionar citas."
 msgstr "No tienes permisos para gestionar citas."
 
-#: includes/class-pw-calendario-admin.php:255 includes/class-pw-calendario-admin.php:269 includes/class-pw-calendario-admin.php:283 includes/class-pw-calendario-admin.php:297
+#: includes/class-pw-calendario-admin.php:258 includes/class-pw-calendario-admin.php:272 includes/class-pw-calendario-admin.php:286 includes/class-pw-calendario-admin.php:300
 msgid "No tienes permisos suficientes para acceder a esta página."
 msgstr "No tienes permisos suficientes para acceder a esta página."
 
@@ -1664,17 +1738,21 @@ msgstr "Nombre"
 msgid "Nombre del calendario personalizado"
 msgstr "Nombre del calendario personalizado"
 
-#: includes/functions.php:1913
+#: includes/functions.php:1929
 msgid "Nombre visible"
 msgstr "Nombre visible"
 
-#: includes/class-pw-calendario-admin.php:211 includes/class-pw-calendario-admin.php:212 includes/class-pw-calendario-admin.php:72
+#: includes/class-pw-calendario-admin.php:214 includes/class-pw-calendario-admin.php:215 includes/class-pw-calendario-admin.php:72
 msgid "Novedades"
 msgstr "Novedades"
 
 #: includes/admin-functions.php:116 includes/admin-functions.php:119
 msgid "Nuevo"
 msgstr "Nuevo"
+
+#: includes/plazas.php:287
+msgid "Número de personas"
+msgstr "Número de personas"
 
 #: templates/settings.php:549
 msgid "Ocultar el botón «Añadir al calendario» en el listado de citas del perfil"
@@ -1720,7 +1798,7 @@ msgstr "Opciones de reserva como invitado"
 msgid "Opciones de visualización"
 msgstr "Opciones de visualización"
 
-#: includes/admin-functions.php:1221 includes/admin-functions.php:1228 includes/admin-functions.php:1367 templates/settings.php:1595
+#: includes/admin-functions.php:1243 includes/admin-functions.php:1250 includes/admin-functions.php:1389 templates/settings.php:1609
 msgid "Opción"
 msgstr "Opción"
 
@@ -1780,7 +1858,7 @@ msgstr "Para registrarte tienes que indicar el nombre y los apellidos."
 msgid "Para registrarte tienes que indicar tu nombre."
 msgstr "Para registrarte tienes que indicar tu nombre."
 
-#: includes/functions.php:1345
+#: includes/functions.php:1360
 msgid "Para restablecer la contraseña, visita esta dirección:"
 msgstr "Para restablecer la contraseña, visita esta dirección:"
 
@@ -1796,13 +1874,17 @@ msgstr "Pedido pagado"
 msgid "Pendiente de pago"
 msgstr "Pendiente de pago"
 
-#: includes/class-pw-calendario-admin.php:185 includes/class-pw-calendario-admin.php:186 includes/class-pw-calendario.php:677
+#: includes/class-pw-calendario-admin.php:188 includes/class-pw-calendario-admin.php:189 includes/class-pw-calendario.php:677
 msgid "Pendientes"
 msgstr "Pendientes"
 
 #: includes/add-ons/woocommerce-payments/lib/class-settings.php:111
 msgid "Periodicidad de la limpieza"
 msgstr "Periodicidad de la limpieza"
+
+#: includes/ajax/admin/user-info.php:67 includes/export-csv.php:223
+msgid "Personas"
+msgstr "Personas"
 
 #: templates/admin-calendar.php:67 templates/pending-list.php:34 templates/settings.php:40
 msgid "Ponte en contacto con la administración del sitio para que te asignen un calendario."
@@ -1812,11 +1894,11 @@ msgstr "Ponte en contacto con la administración del sitio para que te asignen u
 msgid "Por defecto se usa la dirección de «Ajustes > Generales > Dirección de correo electrónico». Además, cada calendario personalizado puede tener su propio destinatario; esto es solo el valor por defecto."
 msgstr "Por defecto se usa la dirección de «Ajustes > Generales > Dirección de correo electrónico». Además, cada calendario personalizado puede tener su propio destinatario; esto es solo el valor por defecto."
 
-#: includes/class-pw-calendario-admin.php:405 includes/class-pw-calendario-admin.php:443
+#: includes/class-pw-calendario-admin.php:408 includes/class-pw-calendario-admin.php:446
 msgid "Por defecto se usará el ajuste del panel de Pw Calendario."
 msgstr "Por defecto se usará el ajuste del panel de Pw Calendario."
 
-#: includes/ajax/front/appointment-form/bookings.php:76 includes/class-pw-calendario-admin.php:396 includes/class-pw-calendario-admin.php:431
+#: includes/ajax/front/appointment-form/bookings.php:76 includes/class-pw-calendario-admin.php:399 includes/class-pw-calendario-admin.php:434
 msgid "Predeterminado"
 msgstr "Predeterminado"
 
@@ -1832,7 +1914,7 @@ msgstr "Producto"
 msgid "Prueba con un plugin de SMTP como %s o %s"
 msgstr "Prueba con un plugin de SMTP como %s o %s"
 
-#: templates/settings.php:1724
+#: templates/settings.php:1738
 msgid "Próximas y pasadas"
 msgstr "Próximas y pasadas"
 
@@ -1848,13 +1930,17 @@ msgstr "Puedes elegir entre reserva «con registro» o «como invitado». Con re
 msgid "Puedes elegir que se redirija a la página de pago (predeterminado) o a la del carrito."
 msgstr "Puedes elegir que se redirija a la página de pago (predeterminado) o a la del carrito."
 
-#: templates/settings.php:1719
+#: templates/settings.php:1733
 msgid "Puedes exportar todas las citas o filtrar lo que necesites con las opciones de abajo."
 msgstr "Puedes exportar todas las citas o filtrar lo que necesites con las opciones de abajo."
 
 #: includes/widgets.php:22 templates/welcome.php:23
 msgid "Pw Calendario"
 msgstr "Pw Calendario"
+
+#: includes/class-pw-calendario-actualizador.php:476
+msgid "Pw Calendario está actualizado a la última versión."
+msgstr "Pw Calendario está actualizado a la última versión."
 
 #: includes/add-ons/woocommerce-payments/lib/class-settings.php:196
 msgid "Página de pago (predeterminada)"
@@ -1920,11 +2006,11 @@ msgstr "Registro:"
 msgid "Rellena todos los campos de información."
 msgstr "Rellena todos los campos de información."
 
-#: includes/class-pw-calendario-admin.php:642 includes/class-pw-calendario.php:533
+#: includes/class-pw-calendario-admin.php:645 includes/class-pw-calendario.php:533
 msgid "Rellena todos los campos obligatorios."
 msgstr "Rellena todos los campos obligatorios."
 
-#: includes/functions.php:1927
+#: includes/functions.php:1943
 msgid "Repite la contraseña"
 msgstr "Repite la contraseña"
 
@@ -1936,7 +2022,7 @@ msgstr "Reserva como invitado"
 msgid "Reserva con registro"
 msgstr "Reserva con registro"
 
-#: includes/ajax/front/appointment-form/form.php:196 includes/functions.php:1233 includes/functions.php:866
+#: includes/ajax/front/appointment-form/form.php:207 includes/functions.php:1248 includes/functions.php:873
 msgid "Reservar cita"
 msgid_plural "Reservar citas"
 msgstr[0] "Reservar cita"
@@ -1966,17 +2052,21 @@ msgstr "Revisa tu correo electrónico para restablecer la contraseña."
 msgid "Revisa tu correo electrónico: te hemos enviado las instrucciones para restablecer la contraseña."
 msgstr "Revisa tu correo electrónico: te hemos enviado las instrucciones para restablecer la contraseña."
 
-#: includes/ajax/front/appointment-form/form.php:148
+#: includes/ajax/front/appointment-form/form.php:159
 msgid "Revisa y confirma que quieres solicitar esta cita:"
 msgid_plural "Revisa y confirma que quieres solicitar estas citas:"
 msgstr[0] "Revisa y confirma que quieres solicitar esta cita:"
 msgstr[1] "Revisa y confirma que quieres solicitar estas citas:"
 
+#: includes/plazas.php:359
+msgid "S"
+msgstr "S"
+
 #: templates/profile.php:44
 msgid "Salir"
 msgstr "Salir"
 
-#: templates/settings.php:1609
+#: templates/settings.php:1623
 msgid "Se admite HTML"
 msgstr "Se admite HTML"
 
@@ -1992,11 +2082,11 @@ msgstr "Se ha producido un error al cargar las variaciones."
 msgid "Se ha producido un error al recuperar los datos del producto con ID %1$d."
 msgstr "Se ha producido un error al recuperar los datos del producto con ID %1$d."
 
-#: includes/functions.php:1823
+#: includes/functions.php:1839
 msgid "Se ha producido un error al subir el avatar."
 msgstr "Se ha producido un error al subir el avatar."
 
-#: includes/ajax/front/book-appointment.php:193
+#: includes/ajax/front/book-appointment.php:212
 msgid "Se ha producido un error desconocido."
 msgstr "Se ha producido un error desconocido."
 
@@ -2032,11 +2122,11 @@ msgstr "Si atiendes en varios espacios o con varias personas, crea un calendario
 msgid "Si es la primera vez que usas %s, abajo tienes los primeros pasos para dejarlo configurado. Si acabas de actualizarlo, a la derecha verás qué ha cambiado."
 msgstr "Si es la primera vez que usas %s, abajo tienes los primeros pasos para dejarlo configurado. Si acabas de actualizarlo, a la derecha verás qué ha cambiado."
 
-#: includes/functions.php:1344
+#: includes/functions.php:1359
 msgid "Si ha sido un error, ignora este correo y no pasará nada."
 msgstr "Si ha sido un error, ignora este correo y no pasará nada."
 
-#: templates/settings.php:1682
+#: templates/settings.php:1696
 msgid "Si no aparece la pestaña de registro, comprueba que has permitido los registros en Ajustes > Generales."
 msgstr "Si no aparece la pestaña de registro, comprueba que has permitido los registros en Ajustes > Generales."
 
@@ -2052,7 +2142,7 @@ msgstr "Si quieres que el formulario de acceso muestre un mensaje personalizado 
 msgid "Si sigues teniendo problemas, marca la casilla de abajo para desactivar el envío propio del plugin y que WordPress gestione todo el correo."
 msgstr "Si sigues teniendo problemas, marca la casilla de abajo para desactivar el envío propio del plugin y que WordPress gestione todo el correo."
 
-#: includes/functions.php:1108
+#: includes/functions.php:1115
 msgid "Siguiente"
 msgstr "Siguiente"
 
@@ -2068,7 +2158,7 @@ msgstr "Sin margen"
 msgid "Sin redirección"
 msgstr "Sin redirección"
 
-#: includes/ajax/front/appointment-form/form.php:196
+#: includes/ajax/front/appointment-form/form.php:207
 msgid "Solicitar cita"
 msgid_plural "Solicitar citas"
 msgstr[0] "Solicitar cita"
@@ -2082,31 +2172,41 @@ msgstr "Solicitar una cita"
 msgid "Solicitud de cita"
 msgstr "Solicitud de cita"
 
-#: templates/settings.php:1735
+#: includes/plazas.php:437
+msgid "Solo estos días"
+msgstr "Solo estos días"
+
+#: templates/settings.php:1749
 msgid "Solo las aprobadas"
 msgstr "Solo las aprobadas"
 
-#: templates/settings.php:1726
+#: templates/settings.php:1740
 msgid "Solo las pasadas"
 msgstr "Solo las pasadas"
 
-#: templates/settings.php:1736
+#: templates/settings.php:1750
 msgid "Solo las pendientes"
 msgstr "Solo las pendientes"
 
-#: templates/settings.php:1725
+#: templates/settings.php:1739
 msgid "Solo las próximas"
 msgstr "Solo las próximas"
+
+#: includes/plazas.php:201
+msgid "Solo queda %d plaza libre en esta franja horaria."
+msgid_plural "Solo quedan %d plazas libres en esta franja horaria."
+msgstr[0] "Solo queda %d plaza libre en esta franja horaria."
+msgstr[1] "Solo quedan %d plazas libres en esta franja horaria."
 
 #: templates/settings.php:701
 msgid "Subir el logotipo"
 msgstr "Subir el logotipo"
 
-#: includes/functions.php:1907
+#: includes/functions.php:1923
 msgid "Tamaño recomendado: 100 x 100 px o mayor"
 msgstr "Tamaño recomendado: 100 x 100 px o mayor"
 
-#: includes/add-ons/frontend-agents/includes/ajax.php:238 includes/ajax/admin/user-info.php:132 includes/class-pw-calendario.php:754
+#: includes/add-ons/frontend-agents/includes/ajax.php:238 includes/ajax/admin/user-info.php:140 includes/class-pw-calendario.php:754
 msgid "Teléfono"
 msgstr "Teléfono"
 
@@ -2114,11 +2214,11 @@ msgstr "Teléfono"
 msgid "Ten en cuenta:"
 msgstr "Ten en cuenta:"
 
-#: includes/admin-functions.php:1272 includes/admin-functions.php:1380 templates/settings.php:1577
+#: includes/admin-functions.php:1294 includes/admin-functions.php:1402 templates/settings.php:1591
 msgid "Texto de párrafo"
 msgstr "Texto de párrafo"
 
-#: includes/admin-functions.php:1261 templates/settings.php:1571
+#: includes/admin-functions.php:1283 templates/settings.php:1585
 msgid "Texto de una línea"
 msgstr "Texto de una línea"
 
@@ -2138,7 +2238,7 @@ msgstr "Todas las citas"
 msgid "Todo el día"
 msgstr "Todo el día"
 
-#: templates/admin-calendar.php:37 templates/settings.php:1746
+#: templates/admin-calendar.php:37 templates/settings.php:1760
 msgid "Todos los calendarios"
 msgstr "Todos los calendarios"
 
@@ -2150,11 +2250,11 @@ msgstr "Todos los calendarios personalizados"
 msgid "Todos los campos son obligatorios para registrarte."
 msgstr "Todos los campos son obligatorios para registrarte."
 
-#: includes/class-pw-calendario-admin.php:631
+#: includes/class-pw-calendario-admin.php:634
 msgid "Todos los campos son obligatorios."
 msgstr "Todos los campos son obligatorios."
 
-#: includes/functions.php:1876
+#: includes/functions.php:1892
 msgid "Tu cita ya está en nuestro calendario."
 msgstr "Tu cita ya está en nuestro calendario."
 
@@ -2182,31 +2282,35 @@ msgstr "Título del widget"
 msgid "Usa estas URL para descargar un feed estático (que no se actualiza) o pégalas en tu aplicación de calendario (Google Calendar, Calendario de Apple, etc.) como suscripción, para tener un feed de citas de solo lectura que se actualiza solo."
 msgstr "Usa estas URL para descargar un feed estático (que no se actualiza) o pégalas en tu aplicación de calendario (Google Calendar, Calendario de Apple, etc.) como suscripción, para tener un feed de citas de solo lectura que se actualiza solo."
 
-#: templates/settings.php:1653
+#: templates/settings.php:1667
 msgid "Usa este shortcode para mostrar el calendario de reservas en el front-end. Con el atributo «calendar» muestras un calendario concreto; con «year» y «month», un año o un mes concretos. Con la variable «switcher» añades encima un desplegable para que los usuarios cambien entre los calendarios que hayas creado."
 msgstr "Usa este shortcode para mostrar el calendario de reservas en el front-end. Con el atributo «calendar» muestras un calendario concreto; con «year» y «month», un año o un mes concretos. Con la variable «switcher» añades encima un desplegable para que los usuarios cambien entre los calendarios que hayas creado."
 
-#: templates/settings.php:1690
+#: templates/settings.php:1704
 msgid "Usa este shortcode para mostrar el contenido del perfil en cualquier página. Si el usuario no ha accedido, verá el formulario de acceso."
 msgstr "Usa este shortcode para mostrar el contenido del perfil en cualquier página. Si el usuario no ha accedido, verá el formulario de acceso."
 
-#: templates/settings.php:1698
+#: templates/settings.php:1712
 msgid "Usa este shortcode para mostrar solo las citas próximas del usuario que ha accedido."
 msgstr "Usa este shortcode para mostrar solo las citas próximas del usuario que ha accedido."
 
-#: includes/functions.php:1343
+#: includes/functions.php:1358
 msgid "Usuario: %s"
 msgstr "Usuario: %s"
+
+#: includes/plazas.php:358
+msgid "V"
+msgstr "V"
 
 #: includes/admin-functions.php:271
 msgid "Vaciar"
 msgstr "Vaciar"
 
-#: includes/class-pw-calendario-admin.php:632
+#: includes/class-pw-calendario-admin.php:635
 msgid "Vas a añadir las siguientes franjas horarias"
 msgstr "Vas a añadir las siguientes franjas horarias"
 
-#: includes/ajax/front/appointment-form/form.php:148
+#: includes/ajax/front/appointment-form/form.php:159
 msgid "Vas a solicitar una cita para %s."
 msgid_plural "Vas a solicitar citas para %s."
 msgstr[0] "Vas a solicitar una cita para %s."
@@ -2220,7 +2324,7 @@ msgstr "Ver el calendario"
 msgid "Ver la cita"
 msgstr "Ver la cita"
 
-#: includes/class-pw-calendario-admin.php:380
+#: includes/class-pw-calendario-admin.php:383
 msgid "Ver la cita pendiente"
 msgid_plural "Ver las citas pendientes"
 msgstr[0] "Ver la cita pendiente"
@@ -2230,7 +2334,7 @@ msgstr[1] "Ver las citas pendientes"
 msgid "Volver"
 msgstr "Volver"
 
-#: includes/admin-functions.php:472 includes/functions.php:462
+#: includes/admin-functions.php:472 includes/functions.php:461
 msgid "Volver a"
 msgstr "Volver a"
 
@@ -2238,7 +2342,11 @@ msgstr "Volver a"
 msgid "WooCommerce"
 msgstr "WooCommerce"
 
-#: includes/functions.php:1354
+#: includes/plazas.php:356
+msgid "X"
+msgstr "X"
+
+#: includes/functions.php:1369
 msgid "[%s] Restablecer la contraseña"
 msgstr "[%s] Restablecer la contraseña"
 
@@ -2286,9 +2394,13 @@ msgstr "de %1$s a %2$s del %3$s"
 msgid "de %s a %s"
 msgstr "de %s a %s"
 
-#: includes/admin-functions.php:889
+#: includes/admin-functions.php:890
 msgid "disponibles"
 msgstr "disponibles"
+
+#: pw-calendario.php:59
+msgid "no se ha cargado porque el calendario de citas anterior sigue activo. Los dos plugins comparten los mismos nombres de función y no pueden convivir."
+msgstr "no se ha cargado porque el calendario de citas anterior sigue activo. Los dos plugins comparten los mismos nombres de función y no pueden convivir."
 
 #: includes/admin-functions.php:221
 msgid "noche"
@@ -2298,19 +2410,19 @@ msgstr "noche"
 msgid "pendiente"
 msgstr "pendiente"
 
-#: includes/admin-functions.php:889
+#: includes/admin-functions.php:890
 msgid "plaza"
 msgid_plural "plazas"
 msgstr[0] "plaza"
 msgstr[1] "plazas"
 
-#: includes/admin-functions.php:322 includes/ajax/init_admin.php:1007 includes/class-pw-calendario-admin.php:626 templates/settings.php:1421
+#: includes/admin-functions.php:322 includes/ajax/init_admin.php:1007 includes/class-pw-calendario-admin.php:629 templates/settings.php:1433
 msgid "plaza libre"
 msgid_plural "plazas libres"
 msgstr[0] "plaza libre"
 msgstr[1] "plazas libres"
 
-#: includes/ajax/init_admin.php:999 includes/class-pw-calendario-admin.php:627 templates/settings.php:1413
+#: includes/ajax/init_admin.php:999 includes/class-pw-calendario-admin.php:630 templates/settings.php:1425
 msgid "plazas libres"
 msgstr "plazas libres"
 
@@ -2342,7 +2454,7 @@ msgstr "¿Prefieres que las solicitudes de cita queden pendientes de aprobación
 msgid "¿Problemas con los correos?"
 msgstr "¿Problemas con los correos?"
 
-#: includes/admin-functions.php:1064
+#: includes/admin-functions.php:1086
 msgid "¿Quieres añadir alguna?"
 msgstr "¿Quieres añadir alguna?"
 
@@ -2354,15 +2466,15 @@ msgstr "¿Qué administrador o gestor de citas debe recibir los avisos por corre
 msgid "¿Qué hay de nuevo?"
 msgstr "¿Qué hay de nuevo?"
 
-#: includes/class-pw-calendario-admin.php:653
+#: includes/class-pw-calendario-admin.php:656
 msgid "¿Seguro que quieres aprobar TODAS las citas pendientes?"
 msgstr "¿Seguro que quieres aprobar TODAS las citas pendientes?"
 
-#: includes/add-ons/frontend-agents/agentes-frontend.php:89 includes/class-pw-calendario-admin.php:652
+#: includes/add-ons/frontend-agents/agentes-frontend.php:89 includes/class-pw-calendario-admin.php:655
 msgid "¿Seguro que quieres aprobar esta cita?"
 msgstr "¿Seguro que quieres aprobar esta cita?"
 
-#: includes/class-pw-calendario-admin.php:630
+#: includes/class-pw-calendario-admin.php:633
 msgid "¿Seguro que quieres añadir esas franjas horarias en bloque?"
 msgstr "¿Seguro que quieres añadir esas franjas horarias en bloque?"
 
@@ -2374,27 +2486,27 @@ msgstr "¿Seguro que quieres añadir la cita al carrito e ir a la página de pag
 msgid "¿Seguro que quieres cambiar la fecha de la cita? Si lo haces, habrá que aprobarla de nuevo."
 msgstr "¿Seguro que quieres cambiar la fecha de la cita? Si lo haces, habrá que aprobarla de nuevo."
 
-#: includes/add-ons/frontend-agents/agentes-frontend.php:85 includes/class-pw-calendario-admin.php:645 includes/class-pw-calendario.php:530
+#: includes/add-ons/frontend-agents/agentes-frontend.php:85 includes/class-pw-calendario-admin.php:648 includes/class-pw-calendario.php:530
 msgid "¿Seguro que quieres cancelar esta cita?"
 msgstr "¿Seguro que quieres cancelar esta cita?"
 
-#: includes/class-pw-calendario-admin.php:654
+#: includes/class-pw-calendario-admin.php:657
 msgid "¿Seguro que quieres eliminar TODAS las citas pendientes?"
 msgstr "¿Seguro que quieres eliminar TODAS las citas pendientes?"
 
-#: includes/class-pw-calendario-admin.php:644
+#: includes/class-pw-calendario-admin.php:647
 msgid "¿Seguro que quieres eliminar esta franja horaria personalizada?"
 msgstr "¿Seguro que quieres eliminar esta franja horaria personalizada?"
 
-#: includes/class-pw-calendario-admin.php:643
+#: includes/class-pw-calendario-admin.php:646
 msgid "¿Seguro que quieres eliminar esta franja horaria?"
 msgstr "¿Seguro que quieres eliminar esta franja horaria?"
 
-#: includes/class-pw-calendario-admin.php:655
+#: includes/class-pw-calendario-admin.php:658
 msgid "¿Seguro que quieres eliminar todas las citas pendientes que ya han pasado?"
 msgstr "¿Seguro que quieres eliminar todas las citas pendientes que ya han pasado?"
 
-#: includes/class-pw-calendario-admin.php:646
+#: includes/class-pw-calendario-admin.php:649
 msgid "¿Seguro que quieres eliminar todas las franjas horarias de este día?"
 msgstr "¿Seguro que quieres eliminar todas las franjas horarias de este día?"
 
@@ -2406,7 +2518,7 @@ msgstr "¿Seguro que quieres marcar esta cita como pagada?"
 msgid "¿Sigue sin funcionar?"
 msgstr "¿Sigue sin funcionar?"
 
-#: includes/class-pw-calendario-admin.php:535
+#: includes/class-pw-calendario-admin.php:538
 msgid "…y %d más"
 msgid_plural "…y %d más"
 msgstr[0] "…y %d más"

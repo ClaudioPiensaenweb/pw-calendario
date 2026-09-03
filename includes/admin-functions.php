@@ -845,7 +845,8 @@ function booked_admin_calendar_date_loop($date,$time_format,$date_format,$calend
 			Calculate the number of spots available based on total minus the appointments booked
 			*/
 
-			$spots_available = $count - count($appts_in_this_timeslot);
+			// El aforo se cuenta en personas. Ver includes/plazas.php
+			$spots_available = $count - pwcal_plazas_ocupadas($appts_in_this_timeslot);
 			$spots_available = ($spots_available < 0 ? $spots_available = 0 : $spots_available = $spots_available);
 
 			/*
@@ -922,6 +923,13 @@ function booked_admin_calendar_date_loop($date,$time_format,$date_format,$calend
 
 								echo $user_display;
 
+						// Tamano del grupo, si es de mas de una persona.
+						$pwcal_etiqueta = pwcal_etiqueta_personas( $appt_id );
+						if ( $pwcal_etiqueta ) {
+							echo ' <span class="pwcal-personas-etiqueta">'
+								. esc_html( $pwcal_etiqueta ) . '</span>';
+						}
+
 								do_action('booked_admin_calendar_buttons_before', $calendar_id, $appt_id, $status);
 
 								if ( apply_filters('booked_admin_show_calendar_buttons', true) ) {
@@ -985,6 +993,13 @@ function booked_admin_calendar_date_loop($date,$time_format,$date_format,$calend
 
 							echo $user_display;
 
+						// Tamano del grupo, si es de mas de una persona.
+						$pwcal_etiqueta = pwcal_etiqueta_personas( $appt_id );
+						if ( $pwcal_etiqueta ) {
+							echo ' <span class="pwcal-personas-etiqueta">'
+								. esc_html( $pwcal_etiqueta ) . '</span>';
+						}
+
 							do_action('booked_admin_calendar_buttons_before', $calendar_id, $appt_id, $status);
 
 							if ( apply_filters('booked_admin_show_calendar_buttons', true) ) {
@@ -1039,6 +1054,13 @@ function booked_admin_calendar_date_loop($date,$time_format,$date_format,$calend
 					echo '<span class="appt-block appt-no-padding" data-appt-id="'.esc_attr($appointment['post_id']).'">';
 
 						echo $user_display;
+
+						// Tamano del grupo, si es de mas de una persona.
+						$pwcal_etiqueta = pwcal_etiqueta_personas( $appt_id );
+						if ( $pwcal_etiqueta ) {
+							echo ' <span class="pwcal-personas-etiqueta">'
+								. esc_html( $pwcal_etiqueta ) . '</span>';
+						}
 
 						do_action('booked_admin_calendar_buttons_before', $calendar_id, $appt_id, $status);
 

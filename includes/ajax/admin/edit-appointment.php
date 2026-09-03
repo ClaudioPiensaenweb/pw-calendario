@@ -51,6 +51,10 @@ if ( $appt_id ):
 		update_post_meta( $appt_id, '_appointment_guest_email', $email );
 		update_post_meta( $appt_id, '_appointment_timestamp', $timestamp );
 		update_post_meta( $appt_id, '_appointment_timeslot', $timeslot );
+		// Se conserva el tamano de grupo al editar la cita.
+		if ( isset( $_POST['personas'] ) ):
+			pwcal_guardar_personas( $appt_id, pwcal_personas_solicitadas() );
+		endif;
 
 	else:
 
@@ -58,6 +62,10 @@ if ( $appt_id ):
 		update_post_meta( $appt_id, '_appointment_phone', $phone );
 		update_post_meta( $appt_id, '_appointment_timestamp', $timestamp );
 		update_post_meta( $appt_id, '_appointment_timeslot', $timeslot );
+		// Se conserva el tamano de grupo al editar la cita.
+		if ( isset( $_POST['personas'] ) ):
+			pwcal_guardar_personas( $appt_id, pwcal_personas_solicitadas() );
+		endif;
 
 		if ( !user_can( $user_id, 'manage_options' ) ):
 			update_user_meta( $user_id, 'booked_phone', $phone );

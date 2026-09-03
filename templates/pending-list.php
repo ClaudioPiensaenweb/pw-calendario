@@ -221,6 +221,13 @@
 
 							echo $user_display;
 
+							// Tamano del grupo, si es de mas de una persona.
+							$pwcal_etiqueta = pwcal_etiqueta_personas( $appt['post_id'] );
+							if ( $pwcal_etiqueta ) {
+								echo ' <span class="pwcal-personas-etiqueta">'
+									. esc_html( $pwcal_etiqueta ) . '</span>';
+							}
+
 							echo '<br>';
 							if ($late_date > $date_to_compare): echo '<span class="late-appt">' . esc_html__('Esta cita ya ha pasado.','pw-calendario') . '</span><br>'; endif;
 							if ($calendar_owner_name): echo '<i class="booked-icon booked-icon-user"></i>&nbsp;&nbsp;'.sprintf(esc_html__('Asignada a %s','pw-calendario'),esc_html($calendar_owner_name)).'<br>'; endif;

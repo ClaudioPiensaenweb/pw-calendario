@@ -805,7 +805,15 @@ function booked_fe_calendar_date_content($date,$calendar_id = false){
 				Calculate the number of spots available based on total minus the appointments booked
 				*/
 
-				$spots_available = $count - count($appts_in_this_timeslot);
+				/*
+				El aforo se cuenta en PERSONAS, no en reservas. Antes esto
+				era un count() del numero de citas, asi que una franja de
+				20 plazas admitia 20 reservas aunque cada una fuera de 6
+				personas: 120 asistentes en una visita de 20. Las citas
+				anteriores a esta version no llevan el dato y cuentan como
+				una persona.
+				*/
+				$spots_available = $count - pwcal_plazas_ocupadas($appts_in_this_timeslot);
 				$spots_available = ($spots_available < 0 ? 0 : $spots_available);
 
 				/*
@@ -1169,7 +1177,15 @@ function booked_fe_appointment_list_content($date,$calendar_id = false,$force_da
 				Calculate the number of spots available based on total minus the appointments booked
 				*/
 
-				$spots_available = $count - count($appts_in_this_timeslot);
+				/*
+				El aforo se cuenta en PERSONAS, no en reservas. Antes esto
+				era un count() del numero de citas, asi que una franja de
+				20 plazas admitia 20 reservas aunque cada una fuera de 6
+				personas: 120 asistentes en una visita de 20. Las citas
+				anteriores a esta version no llevan el dato y cuentan como
+				una persona.
+				*/
+				$spots_available = $count - pwcal_plazas_ocupadas($appts_in_this_timeslot);
 				$spots_available = ($spots_available < 0 ? 0 : $spots_available);
 
 				/*
@@ -1445,9 +1461,10 @@ function booked_appt_is_available($date,$timeslot,$calendar_id = false){
 
 	$total_available = isset($todays_defaults[$timeslot]) ? $todays_defaults[$timeslot] : 0;
 
+	// Cada cita descuenta tantas plazas como personas la componen.
 	foreach($appointments_array as $appt):
 		if ($timeslot == $appt['timeslot'] && isset($todays_defaults[$appt['timeslot']])):
-			$total_available--;
+			$total_available -= pwcal_personas_de_cita( $appt['post_id'] );
 		endif;
 	endforeach;
 

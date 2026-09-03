@@ -4,7 +4,7 @@ Tags: citas, reservas, calendario, visitas, bodega
 Requires at least: 6.0
 Tested up to: 6.8
 Requires PHP: 7.4
-Stable tag: 3.0.1
+Stable tag: 3.1.0
 License: GPLv2 or later
 License URI: https://www.gnu.org/licenses/gpl-2.0.html
 
@@ -73,6 +73,14 @@ en **Citas > Ajustes > Feeds de calendario**.
 No. WooCommerce solo hace falta si quieres cobrar las citas.
 
 == Changelog ==
+
+= 3.1.0 =
+* **IMPORTANTE:** El aforo se cuenta ahora en PERSONAS, no en reservas. Antes cada cita descontaba una sola plaza sin importar cuanta gente viniera: en una franja de 20 plazas entraban 20 reservas, y si cada una era de 6 personas se presentaban 120. El numero de personas solo existia en el titulo del producto de WooCommerce, que el plugin no leia nunca. Revisa el aforo configurado en tus franjas: ahora significa lo que parece.
+* **NUEVO:** El cliente elige cuantas personas son al reservar, con el maximo puesto en las plazas que quedan libres de verdad. Se valida tambien en el servidor, para que no se pueda saltar ni haya sobreventa si dos personas reservan a la vez.
+* **NUEVO:** Un solo producto de WooCommerce por tipo de visita. La cantidad del carrito es el numero de personas, asi que el importe sale solo (precio por persona, sin descuento por grupo) y desaparecen los productos duplicados del tipo "Visita - 1 persona", "- 2 personas", "- 6 personas".
+* **NUEVO:** Las franjas personalizadas con rango de fechas admiten dias de la semana. Para "de jueves a domingo, del 16 de julio al 28 de agosto" hacian falta 26 entradas de fecha unica, o el rango completo mas 18 cierres, y repetirlo cada temporada. Ahora es una entrada con dos fechas y cuatro casillas.
+* **NUEVO:** Etiqueta `%personas%` para los correos, y el tamano del grupo se ve en el calendario del escritorio, en el listado de pendientes, en la ficha de la cita y en la exportacion a CSV.
+
 
 = 3.0.1 =
 * **CORREGIDO:** Error critico que dejaba el sitio inaccesible cuando WooCommerce estaba activo. El complemento de pagos llamaba a `method_exists()` sobre el carrito de WooCommerce, que es `null` fuera del front-end. En PHP 7 eso era un aviso; desde PHP 8 es un error fatal. El gancho colgaba de `wp_loaded`, asi que se disparaba en todas las peticiones, incluida la pantalla de plugins.

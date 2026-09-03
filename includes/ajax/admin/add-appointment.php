@@ -5,6 +5,14 @@ if ( ! defined( 'ABSPATH' ) ) {
 	exit;
 }
 
+/*
+ * Numero de personas de la cita. Al darla de alta desde el
+ * escritorio se confia en el gestor: no se valida contra el aforo,
+ * porque a veces hay que encajar un grupo por encima del limite.
+ * Pero si se guarda, para que el aforo publico lo tenga en cuenta.
+ */
+$personas = pwcal_personas_solicitadas();
+
 
 do_action('booked_before_creating_appointment');
 
@@ -117,6 +125,7 @@ if ($customer_type == 'guest'):
 		update_post_meta($post_id, '_appointment_guest_email', $email);
 		update_post_meta($post_id, '_appointment_timestamp', $timestamp);
 		update_post_meta($post_id, '_appointment_timeslot', $timeslot);
+		pwcal_guardar_personas( $post_id, $personas );
 		wp_publish_post($post_id);
 
 		if (apply_filters('booked_update_cf_meta_value', true)) {
@@ -170,6 +179,7 @@ elseif ($customer_type == 'current'):
 	update_post_meta($post_id, '_appointment_title', $title);
 	update_post_meta($post_id, '_appointment_timestamp', $timestamp);
 	update_post_meta($post_id, '_appointment_timeslot', $timeslot);
+		pwcal_guardar_personas( $post_id, $personas );
 	update_post_meta($post_id, '_appointment_user', $user_id);
 	wp_publish_post($post_id);
 
@@ -259,6 +269,7 @@ else:
 		update_post_meta($post_id, '_appointment_title', $title);
 		update_post_meta($post_id, '_appointment_timestamp', $timestamp);
 		update_post_meta($post_id, '_appointment_timeslot', $timeslot);
+		pwcal_guardar_personas( $post_id, $personas );
 		update_post_meta($post_id, '_appointment_user', $user_id);
 		wp_publish_post($post_id);
 

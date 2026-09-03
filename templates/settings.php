@@ -1330,7 +1330,7 @@ Time: %time%
 													ksort($custom_timeslots_array);
 													$current_timeslot_month_year = false;
 
-													foreach($custom_timeslots_array as $this_timeslot):
+													foreach($custom_timeslots_array as $pwcal_clave_franja => $this_timeslot):
 
 														$this_timeslot['booked_custom_calendar_id'] = isset($this_timeslot['booked_custom_calendar_id']) ? $this_timeslot['booked_custom_calendar_id'] : false;
 														$this_timeslot_month_year = ( $this_timeslot['booked_custom_start_date'] ? date_i18n('F, Y',strtotime($this_timeslot['booked_custom_start_date'])) : '<span style="color:#dd0000;">'.esc_html__('No se ha indicado la fecha de inicio de estas:', 'pw-calendario').'</span>' );
@@ -1374,6 +1374,18 @@ Time: %time%
 
 															<input type="text" placeholder="<?php esc_html_e("Fecha de inicio",'pw-calendario'); ?>..." class="booked_custom_start_date" name="booked_custom_start_date" value="<?php echo ( $this_timeslot['booked_custom_start_date'] ? date_i18n( 'Y-m-d', strtotime( $this_timeslot['booked_custom_start_date'] ) ) : '' ); ?>">
 															<input type="text" placeholder="<?php esc_html_e("Fecha de fin (opcional)",'pw-calendario'); ?>..." class="booked_custom_end_date" name="booked_custom_end_date" value="<?php echo ( $this_timeslot['booked_custom_end_date'] ? date_i18n( 'Y-m-d', strtotime( $this_timeslot['booked_custom_end_date'] ) ) : '' ); ?>">
+
+															<?php
+															/*
+															 * Dias de la semana del rango. Solo tiene
+															 * sentido cuando hay fecha de fin: en una
+															 * fecha unica el dia ya esta determinado.
+															 */
+															pwcal_casillas_dias_semana(
+																isset( $this_timeslot['booked_custom_dias'] ) ? $this_timeslot['booked_custom_dias'] : '',
+																(string) $pwcal_clave_franja
+															);
+															?>
 
 															<?php if (isset($this_timeslot['booked_this_custom_timelots']) && is_array($this_timeslot['booked_this_custom_timelots'])): ?>
 																<input type="hidden" name="booked_this_custom_timelots" value="<?php echo esc_attr(json_encode($this_timeslot['booked_this_custom_timelots'])); ?>">
@@ -1493,6 +1505,8 @@ Time: %time%
 
 										<input type="text" placeholder="<?php esc_html_e("Fecha de inicio",'pw-calendario'); ?>..." class="booked_custom_start_date" name="booked_custom_start_date" value="">
 										<input type="text" placeholder="<?php esc_html_e("Fecha de fin (opcional)",'pw-calendario'); ?>..." class="booked_custom_end_date" name="booked_custom_end_date" value="">
+										<?php pwcal_casillas_dias_semana( '', 'plantilla' ); ?>
+
 										<input type="hidden" name="booked_this_custom_timelots" value="">
 										<input type="hidden" name="booked_this_custom_timelots_details" value="">
 
