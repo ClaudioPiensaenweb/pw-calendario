@@ -1,8 +1,8 @@
 /**
  * Botón «Añadir al calendario» de Pw Calendario.
  *
- * Sustituye a los estilos que la librería de terceros AddEvent inyectaba
- * desde su propio dominio.
+ * Sustituye a los estilos que la librería de calendario de terceros
+ * inyectaba desde su propio dominio.
  */
 
 .pwcal-atc {

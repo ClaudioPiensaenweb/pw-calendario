@@ -46,8 +46,9 @@ servicio externo.
 4. Crea otra pagina con el shortcode `[booked-profile]`.
 5. Configura las franjas horarias en **Citas > Ajustes**.
 
-Consulta INSTALACION.md si vienes del plugin Booked: se conservan todas las
-citas y la configuracion, pero hay que renovar las URL de los feeds.
+Consulta INSTALACION.md si vienes de la version anterior del calendario: se
+conservan todas las citas y la configuracion, pero hay que renovar las URL
+de los feeds.
 
 == Frequently Asked Questions ==
 

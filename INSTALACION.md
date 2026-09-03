@@ -152,7 +152,7 @@ que venían de la versión anterior:
 | Complemento de agentes | `booked-frontend-agents.php` | `agentes-frontend.php` |
 | Complemento de pagos | `booked-woocommerce-payments.php` | `pagos-woocommerce.php` |
 | Fragmentos de WooCommerce | `booked-administration-fields/`, `booked-frontend-fields/` | `campos-administracion/`, `campos-frontend/` |
-| CSS muerto | Reglas `.addeventatc_*` de la librería retirada | Eliminadas |
+| CSS muerto | Reglas de la librería de calendario retirada | Eliminadas |
 
 Si algún archivo del tema incluye directamente alguno de esos archivos por su
 ruta antigua, hay que actualizarlo.
