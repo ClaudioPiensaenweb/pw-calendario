@@ -20,8 +20,9 @@ class Booked_WC_Cart {
 			throw new Exception($message);
 		}
 
-		$cart = WC()->cart;
-		if ( !method_exists($cart, 'add_to_cart') ) {
+		$cart = Booked_WC_Helper::get_cart();
+
+		if ( ! $cart || ! method_exists( $cart, 'add_to_cart' ) ) {
 			return;
 		}
 
@@ -106,18 +107,18 @@ class Booked_WC_Cart {
 
 	public static function empty_cart( $clear_persistent_cart=true ) {
 		// empty current cart session
-		$cart = WC()->cart;
+		$cart = Booked_WC_Helper::get_cart();
 
-		if ( method_exists($cart, 'empty_cart') ) {
-			$cart->empty_cart($clear_persistent_cart);
+		if ( $cart && method_exists( $cart, 'empty_cart' ) ) {
+			$cart->empty_cart( $clear_persistent_cart );
 		}
 	}
 
 	public static function get_cart_appointments() {
 
-		$cart = WC()->cart;
+		$cart = Booked_WC_Helper::get_cart();
 
-		if ( method_exists($cart, 'get_cart') ):
+		if ( $cart && method_exists( $cart, 'get_cart' ) ):
 
 			$cart_items = $cart->get_cart();
 			$cart_apps = array(
@@ -154,10 +155,17 @@ class Booked_WC_Cart {
 class Booked_WC_Cart_Hooks {
 
 	public static function woocommerce_checkout_fields( $fields ) {
-	    global $woocommerce;
-	    $booked_first_name = $woocommerce->session->get( 'booked_first_name' );
-	    $booked_last_name = $woocommerce->session->get( 'booked_last_name' );
-	    $booked_email = $woocommerce->session->get( 'booked_email' );
+
+		$session = Booked_WC_Helper::get_session();
+
+		// Sin sesion no hay nada que precargar en el formulario de pago.
+		if ( ! $session ) {
+			return $fields;
+		}
+
+	    $booked_first_name = $session->get( 'booked_first_name' );
+	    $booked_last_name = $session->get( 'booked_last_name' );
+	    $booked_email = $session->get( 'booked_email' );
 
 	    if(!is_null($booked_first_name)):
 	    	$fields['billing']['billing_first_name']['default'] = $booked_first_name;
@@ -286,8 +294,17 @@ class Booked_WC_Cart_Hooks {
 	// removed the missing appointments from the cart
 	public static function woocommerce_remove_missing_appointment_products() {
 
-		$cart = WC()->cart;
-		if ( !method_exists($cart, 'remove_cart_item') || !method_exists($cart, 'get_cart') ) {
+		/*
+		 * Este gancho cuelga de `wp_loaded`, asi que se dispara en TODAS
+		 * las peticiones, incluidas las del escritorio. Alli el carrito de
+		 * WooCommerce no existe, y antes eso provocaba un error fatal.
+		 * Ver `Booked_WC_Helper::get_cart()`.
+		 */
+		$cart = Booked_WC_Helper::get_cart();
+
+		if ( ! $cart
+			|| ! method_exists( $cart, 'remove_cart_item' )
+			|| ! method_exists( $cart, 'get_cart' ) ) {
 			return;
 		}
 

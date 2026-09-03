@@ -535,10 +535,15 @@ class Booked_WC_Functions {
 			$email = $_this_user->user_email;
 		endif;
 
-		if ( isset( $email ) ):
-			$woocommerce->session->set( 'booked_first_name', $first_name );
-			$woocommerce->session->set( 'booked_last_name', $last_name );
-			$woocommerce->session->set( 'booked_email', $email );
+		// La sesion de WooCommerce no existe fuera del front-end. Sin esta
+		// comprobacion, llamar a `->set()` sobre null aborta con un error
+		// fatal en PHP 8.
+		$booked_wc_session = Booked_WC_Helper::get_session();
+
+		if ( isset( $email ) && $booked_wc_session ):
+			$booked_wc_session->set( 'booked_first_name', $first_name );
+			$booked_wc_session->set( 'booked_last_name', $last_name );
+			$booked_wc_session->set( 'booked_email', $email );
 		endif;
 
 		if ( is_admin() && isset($_POST['booked_form_type']) && $_POST['booked_form_type'] == 'admin' ):

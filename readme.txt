@@ -4,7 +4,7 @@ Tags: citas, reservas, calendario, visitas, bodega
 Requires at least: 6.0
 Tested up to: 6.8
 Requires PHP: 7.4
-Stable tag: 3.0.0
+Stable tag: 3.0.1
 License: GPLv2 or later
 License URI: https://www.gnu.org/licenses/gpl-2.0.html
 
@@ -73,6 +73,12 @@ en **Citas > Ajustes > Feeds de calendario**.
 No. WooCommerce solo hace falta si quieres cobrar las citas.
 
 == Changelog ==
+
+= 3.0.1 =
+* **CORREGIDO:** Error critico que dejaba el sitio inaccesible cuando WooCommerce estaba activo. El complemento de pagos llamaba a `method_exists()` sobre el carrito de WooCommerce, que es `null` fuera del front-end. En PHP 7 eso era un aviso; desde PHP 8 es un error fatal. El gancho colgaba de `wp_loaded`, asi que se disparaba en todas las peticiones, incluida la pantalla de plugins.
+* **CORREGIDO:** El mismo fallo en otros tres accesos al carrito y en los tres accesos a la sesion de WooCommerce. Ahora todos pasan por `Booked_WC_Helper::get_cart()` y `::get_session()`, que comprueban que el objeto existe.
+* **NUEVO:** Si el calendario de citas anterior sigue activo, el plugin ya no carga y muestra un aviso, en lugar de abortar con "Cannot redeclare". Los dos comparten 79 nombres de funcion y no pueden convivir.
+
 
 = 3.0.0 =
 * **SEGURIDAD:** Todas las peticiones AJAX del escritorio (31 puntos de entrada) exigen ahora nonce y comprobación de permisos. Antes no verificaban ninguno de los dos.
