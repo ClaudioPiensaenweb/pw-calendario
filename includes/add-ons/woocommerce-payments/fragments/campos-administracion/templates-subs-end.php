@@ -1,0 +1,12 @@
+<?php
+
+// Salir si se accede directamente.
+if ( ! defined( 'ABSPATH' ) ) {
+	exit;
+}
+ if ( $look_for_subs==='paid-service' ): ?>
+		</ul>
+		<button class="cfButton button" data-type="single-paid-service">+ <?php _e('Producto', 'pw-calendario'); ?></button>
+		<span class="cf-delete"><i class="booked-icon booked-icon-close"></i></span>
+	</li>
+<?php endif ?>

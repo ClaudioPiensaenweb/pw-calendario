@@ -1,0 +1,112 @@
+name: Publicar release
+
+# Se dispara al empujar una etiqueta de version, por ejemplo `v3.0.1`.
+on:
+  push:
+    tags:
+      - 'v*'
+
+permissions:
+  contents: write
+
+jobs:
+  publicar:
+    name: Construir el ZIP y publicar la release
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Descargar el codigo
+        uses: actions/checkout@v4
+
+      - name: Comprobar que la etiqueta coincide con la version del plugin
+        run: |
+          ETIQUETA="${GITHUB_REF_NAME#v}"
+
+          CABECERA=$(grep -m1 -oP '^\s*\*\s*Version:\s*\K[0-9][0-9A-Za-z.\-]*' pw-calendario.php)
+          CONSTANTE=$(grep -m1 -oP "define\(\s*'PWCAL_VERSION',\s*'\K[^']+" pw-calendario.php)
+          ESTABLE=$(grep -m1 -oP '^Stable tag:\s*\K[0-9][0-9A-Za-z.\-]*' readme.txt)
+
+          echo "Etiqueta        : $ETIQUETA"
+          echo "Cabecera Version: $CABECERA"
+          echo "PWCAL_VERSION   : $CONSTANTE"
+          echo "Stable tag      : $ESTABLE"
+
+          # Si la version del plugin no coincide con la etiqueta, el
+          # actualizador ofreceria una version que no es la que se instala.
+          # Mejor parar aqui que publicar algo incoherente.
+          if [ "$ETIQUETA" != "$CABECERA" ] || [ "$ETIQUETA" != "$CONSTANTE" ] || [ "$ETIQUETA" != "$ESTABLE" ]; then
+            echo "::error::La etiqueta y la version del plugin no coinciden. Actualiza la cabecera Version, la constante PWCAL_VERSION y el Stable tag del readme antes de etiquetar."
+            exit 1
+          fi
+
+      - name: Comprobar la sintaxis PHP
+        run: |
+          ERRORES=0
+          while IFS= read -r ARCHIVO; do
+            SALIDA=$(php -l "$ARCHIVO" 2>&1) || true
+            if ! echo "$SALIDA" | grep -q "No syntax errors"; then
+              echo "::error file=$ARCHIVO::$SALIDA"
+              ERRORES=$((ERRORES + 1))
+            fi
+          done < <(find . -name '*.php' -not -path './.git/*')
+
+          echo "Archivos con errores: $ERRORES"
+          [ "$ERRORES" -eq 0 ]
+
+      - name: Construir el ZIP
+        run: |
+          # El ZIP debe contener una unica carpeta `pw-calendario/` en la
+          # raiz: es lo que WordPress espera al instalar o actualizar.
+          mkdir -p build/pw-calendario
+
+          rsync -a \
+            --exclude-from=.distignore \
+            --exclude='build' \
+            ./ build/pw-calendario/
+
+          cd build
+          zip -rq ../pw-calendario.zip pw-calendario
+          cd ..
+
+          echo "Contenido de la raiz del ZIP:"
+          unzip -Z1 pw-calendario.zip | cut -d/ -f1 | sort -u
+
+          echo "Archivos incluidos: $(unzip -Z1 pw-calendario.zip | wc -l)"
+
+      - name: Comprobar que el ZIP esta bien formado
+        run: |
+          RAIZ=$(unzip -Z1 pw-calendario.zip | cut -d/ -f1 | sort -u)
+
+          if [ "$RAIZ" != "pw-calendario" ]; then
+            echo "::error::El ZIP debe tener una sola carpeta raiz llamada pw-calendario. Encontrado: $RAIZ"
+            exit 1
+          fi
+
+          # El archivo principal tiene que estar donde WordPress lo busca.
+          if ! unzip -Z1 pw-calendario.zip | grep -qx 'pw-calendario/pw-calendario.php'; then
+            echo "::error::Falta pw-calendario/pw-calendario.php dentro del ZIP."
+            exit 1
+          fi
+
+          # Nada de material de desarrollo en el paquete.
+          if unzip -Z1 pw-calendario.zip | grep -qE '/\.git|/\.github/|\.distignore|/\.gitignore'; then
+            echo "::error::El ZIP contiene archivos de desarrollo."
+            unzip -Z1 pw-calendario.zip | grep -E '/\.git|/\.github/|\.distignore|/\.gitignore'
+            exit 1
+          fi
+
+      - name: Publicar la release con el ZIP adjunto
+        env:
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        run: |
+          # Las notas se toman de la seccion correspondiente del readme si
+          # existe; si no, las genera GitHub a partir de los commits.
+          VERSION="${GITHUB_REF_NAME#v}"
+
+          if gh release view "$GITHUB_REF_NAME" >/dev/null 2>&1; then
+            gh release upload "$GITHUB_REF_NAME" pw-calendario.zip --clobber
+          else
+            gh release create "$GITHUB_REF_NAME" pw-calendario.zip \
+              --title "Pw Calendario $VERSION" \
+              --generate-notes
+          fi

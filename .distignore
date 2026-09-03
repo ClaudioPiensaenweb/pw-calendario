@@ -1,0 +1,31 @@
+# Archivos que NO deben acabar en el ZIP de distribucion.
+# Los usa el workflow de release (rsync --exclude-from).
+
+.git
+.git/
+.github
+.github/
+.gitignore
+.distignore
+.editorconfig
+
+# Documentacion de desarrollo (el readme.txt si va incluido).
+README.md
+
+# Sistemas operativos y editores
+.DS_Store
+Thumbs.db
+.vscode
+.idea
+
+# Dependencias y artefactos
+node_modules
+vendor
+build
+*.zip
+*.log
+*.po~
+.planning
+.planning/
+.claude
+.claude/

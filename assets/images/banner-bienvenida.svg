@@ -1,0 +1,47 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1200 260" role="img"
+     aria-label="Pw Calendario">
+	<title>Pw Calendario</title>
+
+	<defs>
+		<linearGradient id="pwcal-fondo" x1="0" y1="0" x2="1" y2="1">
+			<stop offset="0" stop-color="#0b2740"/>
+			<stop offset="1" stop-color="#0d5b86"/>
+		</linearGradient>
+	</defs>
+
+	<rect width="1200" height="260" fill="url(#pwcal-fondo)"/>
+
+	<!-- Retícula sutil que evoca un calendario -->
+	<g stroke="#ffffff" stroke-opacity="0.05" stroke-width="1">
+		<path d="M0 65h1200M0 130h1200M0 195h1200"/>
+		<path d="M780 0v260M865 0v260M950 0v260M1035 0v260M1120 0v260"/>
+	</g>
+
+	<!-- Icono de calendario -->
+	<g transform="translate(72 74)">
+		<rect x="0" y="10" width="104" height="96" rx="12"
+		      fill="none" stroke="#ffffff" stroke-width="8"/>
+		<path d="M0 40h104" stroke="#ffffff" stroke-width="8"/>
+		<path d="M28 0v20M76 0v20" stroke="#ffffff" stroke-width="8"
+		      stroke-linecap="round"/>
+		<path d="M28 74l18 18 34-38" fill="none" stroke="#26c281"
+		      stroke-width="10" stroke-linecap="round" stroke-linejoin="round"/>
+	</g>
+
+	<!-- Nombre -->
+	<text x="228" y="128"
+	      font-family="'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif"
+	      font-size="62" font-weight="600" fill="#ffffff">Pw Calendario</text>
+
+	<text x="230" y="172"
+	      font-family="'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif"
+	      font-size="24" font-weight="400" fill="#ffffff" fill-opacity="0.72">
+		Gestión de citas y reservas de visitas
+	</text>
+
+	<text x="230" y="208"
+	      font-family="'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif"
+	      font-size="17" font-weight="400" fill="#26c281" letter-spacing="1.5">
+		PIENSAENWEB
+	</text>
+</svg>

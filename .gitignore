@@ -1,0 +1,27 @@
+# Sistemas operativos
+.DS_Store
+Thumbs.db
+desktop.ini
+
+# Editores
+.vscode/
+.idea/
+*.sublime-*
+
+# Dependencias
+node_modules/
+vendor/
+
+# Artefactos de compilacion
+build/
+*.zip
+
+# Copias y temporales
+*.log
+*.bak
+*.po~
+*~
+
+# Registros internos de las herramientas de desarrollo
+.planning/
+.claude/

@@ -1,0 +1,2 @@
+<?php if ( ! defined( 'ABSPATH' ) ) { exit; } // Salir si se accede directamente. ?>
+&nbsp;<button class="cfButton button" data-type="paid-service-label">+ <?php _e('Selector de producto', 'pw-calendario'); ?></button>
