@@ -4,7 +4,7 @@ Tags: citas, reservas, calendario, visitas, bodega
 Requires at least: 6.0
 Tested up to: 6.8
 Requires PHP: 7.4
-Stable tag: 3.1.2
+Stable tag: 3.1.3
 License: GPLv2 or later
 License URI: https://www.gnu.org/licenses/gpl-2.0.html
 
@@ -73,6 +73,10 @@ en **Citas > Ajustes > Feeds de calendario**.
 No. WooCommerce solo hace falta si quieres cobrar las citas.
 
 == Changelog ==
+
+= 3.1.3 =
+* **CORREGIDO:** Dos propiedades sin declarar provocaban un aviso de obsolescencia en PHP 8.2 y superiores. Con los errores visibles, el aviso se imprimia dentro de las respuestas del carrito, de la pantalla de pago y de la API de la tienda, con riesgo de romper el JSON que consume el proceso de compra.
+
 
 = 3.1.2 =
 * **CORREGIDO (importante):** Las citas con producto no llegaban al carrito, asi que se creaban como "pendiente de pago" y el cliente no tenia forma de pagarlas. El complemento de WooCommerce identifica el producto de una cita mediante un marcador en forma de comentario HTML dentro de los campos personalizados, y el escapado de la salida lo convertia en texto visible, con lo que dejaba de encontrarse. Afecta a cualquier cita de pago creada desde el calendario o desde el escritorio.

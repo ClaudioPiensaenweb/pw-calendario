@@ -12,6 +12,9 @@ class Booked_WC_Fragments {
 
 	protected $name;
 
+	// La compone _set_path().
+	protected $template_path;
+
 	private function __construct($slug, $name) {
 		$this->slug = $slug;
 		$this->name = (string) $name;

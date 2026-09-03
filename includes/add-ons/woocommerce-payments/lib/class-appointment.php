@@ -17,6 +17,10 @@ class Booked_WC_Appointment {
 	public $timestamp;
 	public $timeslot;
 	public $timeslot_text;
+
+	// Se asigna en get_metas(). Sin declararla, PHP 8.2 avisa de
+	// propiedad dinamica y el aviso se cuela en las respuestas JSON.
+	public $title;
 	public $custom_fields = array();
 
 	public $is_paid = false;
