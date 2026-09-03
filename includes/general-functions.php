@@ -390,6 +390,16 @@ function booked_registration_form($name, $surname, $email, $password){
 /* Custom Time Slot Functions */
 function booked_apply_custom_timeslots_filter($booked_defaults = false,$calendar_id = false){
 
+	/*
+	 * Si el calendario no tiene franjas semanales guardadas, get_option()
+	 * devuelve false. Escribir un indice sobre false funcionaba por la
+	 * conversion automatica a array, pero PHP 8.1 la marca como obsoleta y
+	 * PHP 9 la convierte en error. El comportamiento es el mismo.
+	 */
+	if ( ! is_array( $booked_defaults ) ) {
+		$booked_defaults = array();
+	}
+
 	$custom_timeslots_array = array();
 	$booked_custom_timeslots_encoded = get_option('booked_custom_timeslots_encoded');
 	$booked_custom_timeslots_decoded = json_decode($booked_custom_timeslots_encoded,true);
@@ -463,6 +473,16 @@ function booked_apply_custom_timeslots_filter($booked_defaults = false,$calendar
 
 /* Custom Time Slot Functions */
 function booked_apply_custom_timeslots_details_filter($booked_defaults = false,$calendar_id = false){
+
+	/*
+	 * Si el calendario no tiene franjas semanales guardadas, get_option()
+	 * devuelve false. Escribir un indice sobre false funcionaba por la
+	 * conversion automatica a array, pero PHP 8.1 la marca como obsoleta y
+	 * PHP 9 la convierte en error. El comportamiento es el mismo.
+	 */
+	if ( ! is_array( $booked_defaults ) ) {
+		$booked_defaults = array();
+	}
 	$custom_timeslots_array = array();
 	$booked_custom_timeslots_encoded = get_option('booked_custom_timeslots_encoded');
 	$booked_custom_timeslots_decoded = json_decode($booked_custom_timeslots_encoded,true);
@@ -495,16 +515,37 @@ function booked_apply_custom_timeslots_details_filter($booked_defaults = false,$
 					} else {
 						// Multiple Dates
 						$tempDate = $formatted_date;
+
+						/*
+						 * El mismo filtro por dia de la semana que aplica
+						 * booked_apply_custom_timeslots_filter().
+						 *
+						 * Tiene que estar en los dos sitios: esta funcion se
+						 * ejecuta despues y vuelve a escribir
+						 * $booked_defaults[$tempDate], asi que sin el filtro
+						 * repondria las franjas de los dias excluidos y la
+						 * vista del dia las ofreceria igualmente.
+						 */
+						$dias_permitidos = pwcal_dias_permitidos(
+							isset( $value['booked_custom_dias'] ) ? $value['booked_custom_dias'] : ''
+						);
+
 						do {
-							if ($value['vacationDayCheckbox']){
-								// Time slots disabled
-								$booked_defaults[$tempDate] = array();
-								$booked_defaults[$tempDate.'-details'] = array();
-							} else {
-								// Add time slots to this date
-								$booked_defaults[$tempDate] = $value['booked_this_custom_timelots'];
-								$booked_defaults[$tempDate.'-details'] = !empty($value['booked_this_custom_timelots_details']) ? $value['booked_this_custom_timelots_details'] : array();
+							$dia_semana = (int) date_i18n( 'w', strtotime( $tempDate ) );
+
+							if ( pwcal_dia_incluido( $dia_semana, $dias_permitidos ) ) {
+
+								if ($value['vacationDayCheckbox']){
+									// Time slots disabled
+									$booked_defaults[$tempDate] = array();
+									$booked_defaults[$tempDate.'-details'] = array();
+								} else {
+									// Add time slots to this date
+									$booked_defaults[$tempDate] = $value['booked_this_custom_timelots'];
+									$booked_defaults[$tempDate.'-details'] = !empty($value['booked_this_custom_timelots_details']) ? $value['booked_this_custom_timelots_details'] : array();
+								}
 							}
+
 							$tempDate = date_i18n('Ymd',strtotime($tempDate . ' +1 day'));
 						} while ($tempDate <= $formatted_end_date);
 					}

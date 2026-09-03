@@ -4,7 +4,7 @@ Tags: citas, reservas, calendario, visitas, bodega
 Requires at least: 6.0
 Tested up to: 6.8
 Requires PHP: 7.4
-Stable tag: 3.1.0
+Stable tag: 3.1.1
 License: GPLv2 or later
 License URI: https://www.gnu.org/licenses/gpl-2.0.html
 
@@ -73,6 +73,11 @@ en **Citas > Ajustes > Feeds de calendario**.
 No. WooCommerce solo hace falta si quieres cobrar las citas.
 
 == Changelog ==
+
+= 3.1.1 =
+* **CORREGIDO:** El filtro por dias de la semana de los rangos de fechas no surtia efecto en la vista del dia. El plugin recorre el rango en dos sitios, y el segundo (el que anade los titulos de las franjas) se ejecuta despues y volvia a escribir las franjas de los dias excluidos. La rejilla del mes ocultaba bien los dias, pero al abrir uno excluido aparecian las franjas igualmente. Ahora los dos recorridos aplican el mismo filtro.
+* **CORREGIDO:** Un calendario sin franjas semanales guardadas provocaba un aviso de obsolescencia en PHP 8.1 y superiores (conversion automatica de false a array) al aplicar los rangos de fechas personalizados. En PHP 9 habria sido un error.
+
 
 = 3.1.0 =
 * **IMPORTANTE:** El aforo se cuenta ahora en PERSONAS, no en reservas. Antes cada cita descontaba una sola plaza sin importar cuanta gente viniera: en una franja de 20 plazas entraban 20 reservas, y si cada una era de 6 personas se presentaban 120. El numero de personas solo existia en el titulo del producto de WooCommerce, que el plugin no leia nunca. Revisa el aforo configurado en tus franjas: ahora significa lo que parece.
