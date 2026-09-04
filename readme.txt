@@ -4,7 +4,7 @@ Tags: citas, reservas, calendario, visitas, bodega
 Requires at least: 6.0
 Tested up to: 6.8
 Requires PHP: 7.4
-Stable tag: 3.3.0
+Stable tag: 3.3.1
 License: GPLv2 or later
 License URI: https://www.gnu.org/licenses/gpl-2.0.html
 
@@ -73,6 +73,10 @@ en **Citas > Ajustes > Feeds de calendario**.
 No. WooCommerce solo hace falta si quieres cobrar las citas.
 
 == Changelog ==
+
+= 3.3.1 =
+* **CORREGIDO:** Si una importacion se interrumpia a medias (una peticion que se corta, el tiempo de ejecucion agotado), podia quedar una cita sin su metadato de procedencia: no se reconocia al relanzar, la pasada siguiente la duplicaba, y deshacer la importacion no se la llevaba. Ahora la procedencia se escribe lo primero y una marca de "terminada" lo ultimo, asi que una cita a medias se reconoce y se sustituye entera.
+
 
 = 3.3.0 =
 * **NUEVO:** La importacion trae tambien las plantillas de correo del sitio de origen: confirmacion, aprobacion, cancelacion, registro y los dos recordatorios, con su margen de aviso, el remitente y el logo. Solo entra esa lista, y solo si en el destino esta vacia: nunca se pisa lo que ya haya configurado. Lo que describe la estructura del sitio (franjas, campos personalizados, rangos de fechas) queda fuera a proposito, porque importarlo se llevaria por delante la configuracion del destino.

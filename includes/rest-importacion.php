@@ -46,6 +46,16 @@ function pwcal_registrar_rest_importacion() {
 
 	register_rest_route(
 		'pwcal/v1',
+		'/marcar-completas',
+		array(
+			'methods'             => 'POST',
+			'callback'            => 'pwcal_rest_marcar_completas',
+			'permission_callback' => 'pwcal_rest_permiso',
+		)
+	);
+
+	register_rest_route(
+		'pwcal/v1',
 		'/registro',
 		array(
 			'methods'             => 'GET',
@@ -242,4 +252,18 @@ function pwcal_rest_registro( $peticion ) {
 			'ultimas' => array_slice( $contenido, -$lineas ),
 		)
 	);
+}
+
+/**
+ * Marca como completas las citas importadas antes de que existiera la marca.
+ *
+ * @param WP_REST_Request $peticion Petición.
+ * @return WP_REST_Response
+ */
+function pwcal_rest_marcar_completas( $peticion ) {
+
+	$cuerpo  = $peticion->get_json_params();
+	$en_seco = ! is_array( $cuerpo ) || ! isset( $cuerpo['en_seco'] ) || ! empty( $cuerpo['en_seco'] );
+
+	return rest_ensure_response( pwcal_marcar_importadas_completas( $en_seco ) );
 }

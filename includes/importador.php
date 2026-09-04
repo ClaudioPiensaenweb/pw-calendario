@@ -46,6 +46,16 @@ if ( ! defined( 'ABSPATH' ) ) {
 const PWCAL_META_ORIGEN = '_pwcal_origen_id';
 
 /**
+ * Marca de que la cita se termino de importar.
+ *
+ * Se escribe en ultimo lugar. Si una importacion se interrumpe a medias
+ * (una peticion que se corta, un tiempo de ejecucion agotado), la cita
+ * queda con procedencia pero sin esta marca, y al relanzar se sustituye en
+ * lugar de darla por buena.
+ */
+const PWCAL_META_COMPLETA = '_pwcal_importada_ok';
+
+/**
  * Metadatos que no se copian.
  *
  * Los prefijos cubren la basura que dejan los maquetadores y los plugins
@@ -70,6 +80,7 @@ function pwcal_meta_gestionados() {
 		'_appointment_user_reminder_sent',
 		'_appointment_admin_reminder_sent',
 		PWCAL_META_ORIGEN,
+		PWCAL_META_COMPLETA,
 		PWCAL_META_PERSONAS,
 	);
 }
@@ -174,6 +185,17 @@ function pwcal_cita_ya_importada( $id_origen ) {
 	);
 
 	return ! empty( $encontradas ) ? (int) $encontradas[0] : 0;
+}
+
+/**
+ * Indica si una cita importada se termino de importar.
+ *
+ * @param int $id_cita ID de la cita en este sitio.
+ * @return bool
+ */
+function pwcal_importacion_completa( $id_cita ) {
+
+	return (bool) get_post_meta( (int) $id_cita, PWCAL_META_COMPLETA, true );
 }
 
 /**
@@ -536,7 +558,7 @@ function pwcal_importar_una_cita( $cita, $resueltos, $en_seco ) {
 	// Ya importada: no se toca.
 	$existente = pwcal_cita_ya_importada( $id_origen );
 
-	if ( $existente ) {
+	if ( $existente && pwcal_importacion_completa( $existente ) ) {
 		return array(
 			'estado'       => 'omitida',
 			'origen'       => $id_origen,
@@ -545,6 +567,16 @@ function pwcal_importar_una_cita( $cita, $resueltos, $en_seco ) {
 			'con_pedido'   => false,
 			'meta_omitida' => array(),
 		);
+	}
+
+	/*
+	 * Existe pero sin la marca de completa: viene de una importacion que
+	 * se corto a medias. Se retira y se vuelve a crear entera, para no
+	 * dejar una cita con la mitad de los datos.
+	 */
+	if ( $existente && ! $en_seco ) {
+		wp_delete_post( $existente, true );
+		$existente = 0;
 	}
 
 	$marca = isset( $meta['_appointment_timestamp'] ) ? (int) $meta['_appointment_timestamp'] : 0;
@@ -619,6 +651,15 @@ function pwcal_importar_una_cita( $cita, $resueltos, $en_seco ) {
 
 	$id_nuevo = (int) $id_nuevo;
 
+	/*
+	 * La procedencia, lo primero. Si la peticion se corta a partir de
+	 * aqui, la cita queda identificada: al relanzar se reconoce y se
+	 * sustituye, y deshacer la importacion se la lleva. Escribirla al
+	 * final dejaba citas huerfanas que ni se reconocian ni se podian
+	 * deshacer, y que la siguiente pasada duplicaba.
+	 */
+	update_post_meta( $id_nuevo, PWCAL_META_ORIGEN, (string) $id_origen );
+
 	// Metadatos copiados.
 	foreach ( $meta as $clave => $valor ) {
 
@@ -636,9 +677,6 @@ function pwcal_importar_una_cita( $cita, $resueltos, $en_seco ) {
 
 	// Aforo.
 	pwcal_guardar_personas( $id_nuevo, $personas );
-
-	// Procedencia.
-	update_post_meta( $id_nuevo, PWCAL_META_ORIGEN, (string) $id_origen );
 
 	if ( ! empty( $limpiados['productos'] ) ) {
 		update_post_meta( $id_nuevo, '_pwcal_origen_productos', $limpiados['productos'] );
@@ -677,6 +715,9 @@ function pwcal_importar_una_cita( $cita, $resueltos, $en_seco ) {
 		wp_set_object_terms( $id_nuevo, $calendarios, 'booked_custom_calendars', false );
 	}
 
+	// Y por ultimo, la marca de que no ha quedado nada a medias.
+	update_post_meta( $id_nuevo, PWCAL_META_COMPLETA, '1' );
+
 	return array(
 		'estado'       => 'creada',
 		'origen'       => $id_origen,
@@ -688,6 +729,65 @@ function pwcal_importar_una_cita( $cita, $resueltos, $en_seco ) {
 		'con_pedido'   => ( '' !== $pedido_origen ),
 		'meta_omitida' => $omitida,
 	);
+}
+
+/**
+ * Marca como completas las citas importadas que no llevan la marca.
+ *
+ * Solo hace falta una vez, para las citas que se importaron antes de que
+ * existiera `PWCAL_META_COMPLETA`. Sin esto, la primera reejecucion las
+ * consideraria a medias y las borraria para recrearlas: el resultado seria
+ * el mismo, pero es trabajo y riesgo para nada.
+ *
+ * @param bool $en_seco No escribir, solo contar.
+ * @return array
+ */
+function pwcal_marcar_importadas_completas( $en_seco = true ) {
+
+	$informe = array(
+		'en_seco'    => (bool) $en_seco,
+		'candidatas' => 0,
+		'marcadas'   => 0,
+	);
+
+	$ids = get_posts(
+		array(
+			'post_type'        => 'booked_appointments',
+			'post_status'      => 'any',
+			'numberposts'      => -1,
+			'fields'           => 'ids',
+			'suppress_filters' => true,
+			'no_found_rows'    => true,
+			'meta_query'       => array(
+				'relation' => 'AND',
+				array(
+					'key'     => PWCAL_META_ORIGEN,
+					'compare' => 'EXISTS',
+				),
+				array(
+					'key'     => PWCAL_META_COMPLETA,
+					'compare' => 'NOT EXISTS',
+				),
+			),
+		)
+	);
+
+	if ( ! is_array( $ids ) ) {
+		return $informe;
+	}
+
+	$informe['candidatas'] = count( $ids );
+
+	if ( $en_seco ) {
+		return $informe;
+	}
+
+	foreach ( $ids as $id ) {
+		update_post_meta( (int) $id, PWCAL_META_COMPLETA, '1' );
+		$informe['marcadas']++;
+	}
+
+	return $informe;
 }
 
 /**
