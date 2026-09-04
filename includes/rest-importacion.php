@@ -105,6 +105,7 @@ function pwcal_rest_importar( $peticion ) {
 		'crear_calendarios' => ! isset( $cuerpo['crear_calendarios'] ) || ! empty( $cuerpo['crear_calendarios'] ),
 		'desde'             => isset( $cuerpo['desde'] ) ? (int) $cuerpo['desde'] : 0,
 		'cuantas'           => isset( $cuerpo['cuantas'] ) ? (int) $cuerpo['cuantas'] : 0,
+		'importar_opciones' => ! empty( $cuerpo['importar_opciones'] ),
 	);
 
 	$informe = pwcal_importar( $datos, $opciones );

@@ -4,7 +4,7 @@ Tags: citas, reservas, calendario, visitas, bodega
 Requires at least: 6.0
 Tested up to: 6.8
 Requires PHP: 7.4
-Stable tag: 3.2.3
+Stable tag: 3.3.0
 License: GPLv2 or later
 License URI: https://www.gnu.org/licenses/gpl-2.0.html
 
@@ -73,6 +73,10 @@ en **Citas > Ajustes > Feeds de calendario**.
 No. WooCommerce solo hace falta si quieres cobrar las citas.
 
 == Changelog ==
+
+= 3.3.0 =
+* **NUEVO:** La importacion trae tambien las plantillas de correo del sitio de origen: confirmacion, aprobacion, cancelacion, registro y los dos recordatorios, con su margen de aviso, el remitente y el logo. Solo entra esa lista, y solo si en el destino esta vacia: nunca se pisa lo que ya haya configurado. Lo que describe la estructura del sitio (franjas, campos personalizados, rangos de fechas) queda fuera a proposito, porque importarlo se llevaria por delante la configuracion del destino.
+
 
 = 3.2.3 =
 * **CORREGIDO:** El «he olvidado la contrasena» del calendario abortaba con un error critico. El plugin aplicaba los filtros `retrieve_password_title` y `retrieve_password_message` con menos argumentos de los que pasa WordPress (1 de 3 y 2 de 4), asi que cualquier tema o plugin enganchado a ellos con la firma completa recibia menos de los que exige. Con el tema Bricks activo fallaba siempre.

@@ -229,6 +229,116 @@ function pwcal_resolver_calendario( $calendario, $mapa, $crear ) {
 }
 
 /**
+ * Opciones que SÍ se importan.
+ *
+ * Deliberadamente cortas: solo el contenido que escribió el cliente
+ * (plantillas de correo, margen de los recordatorios, remitente, logo).
+ *
+ * Lo que queda fuera es tan importante como lo que entra. `booked_defaults`,
+ * `booked_custom_fields_*`, `booked_custom_timeslots_encoded`,
+ * `booked_disabled_timeslots` y `taxonomy_*` describen la estructura de
+ * horarios y campos del sitio de DESTINO, que normalmente ya está
+ * configurada y suele ser distinta de la de origen. Importarlas en bloque
+ * se llevaría por delante esa configuración.
+ *
+ * @return array
+ */
+function pwcal_opciones_importables() {
+
+	return apply_filters(
+		'pwcal_opciones_importables',
+		array(
+			// Correos al cliente.
+			'booked_appt_confirmation_email_subject',
+			'booked_appt_confirmation_email_content',
+			'booked_approval_email_subject',
+			'booked_approval_email_content',
+			'booked_cancellation_email_subject',
+			'booked_cancellation_email_content',
+			'booked_registration_email_subject',
+			'booked_registration_email_content',
+			'booked_reminder_email_subject',
+			'booked_reminder_email',
+
+			// Correos al gestor.
+			'booked_admin_appointment_email_subject',
+			'booked_admin_appointment_email_content',
+			'booked_admin_cancellation_email_subject',
+			'booked_admin_cancellation_email_content',
+			'booked_admin_reminder_email_subject',
+			'booked_admin_reminder_email',
+
+			// Cuándo se avisa.
+			'booked_reminder_buffer',
+			'booked_admin_reminder_buffer',
+
+			// Remitente y aspecto.
+			'booked_default_email_user',
+			'booked_email_logo',
+		)
+	);
+}
+
+/**
+ * Importa las opciones permitidas de una exportación.
+ *
+ * @param array $datos   Contenido del archivo.
+ * @param bool  $en_seco No escribir.
+ * @return array Informe.
+ */
+function pwcal_importar_opciones( $datos, $en_seco = true ) {
+
+	$informe = array(
+		'importadas' => array(),
+		'omitidas'   => array(),
+		'ya_puestas' => array(),
+		'avisos'     => array(),
+	);
+
+	if ( empty( $datos['opciones'] ) || ! is_array( $datos['opciones'] ) ) {
+		return $informe;
+	}
+
+	$permitidas = pwcal_opciones_importables();
+
+	foreach ( $datos['opciones'] as $nombre => $valor ) {
+
+		if ( ! in_array( $nombre, $permitidas, true ) ) {
+			$informe['omitidas'][] = $nombre;
+			continue;
+		}
+
+		if ( '' === $valor || null === $valor ) {
+			continue;
+		}
+
+		// No se pisa nada que ya tenga contenido en el destino.
+		$actual = get_option( $nombre, '' );
+
+		if ( '' !== $actual && null !== $actual && false !== $actual ) {
+			$informe['ya_puestas'][] = $nombre;
+			continue;
+		}
+
+		$informe['importadas'][] = $nombre;
+
+		if ( ! $en_seco ) {
+			update_option( $nombre, $valor );
+		}
+	}
+
+	/*
+	 * El logo apunta al dominio de origen. Se importa igual, porque tener
+	 * la plantilla completa vale más que el detalle, pero conviene decirlo.
+	 */
+	if ( in_array( 'booked_email_logo', $informe['importadas'], true ) ) {
+		$informe['avisos'][] = __( 'El logo de los correos apunta al dominio de origen: conviene volver a subirlo.', 'pw-calendario' );
+	}
+
+	return $informe;
+}
+
+/**
  * Comprueba que el archivo tiene la forma esperada.
  *
  * @param mixed $datos Contenido decodificado del archivo.
@@ -289,6 +399,7 @@ function pwcal_importar( $datos, $opciones = array() ) {
 			'crear_calendarios' => true,
 			'desde'             => 0,
 			'cuantas'           => 0,
+			'importar_opciones' => false,
 		)
 	);
 
@@ -341,6 +452,14 @@ function pwcal_importar( $datos, $opciones = array() ) {
 				'se_creara'      => ( 0 === $destino && ! isset( $mapa[ $id_origen ] ) ),
 			);
 		}
+	}
+
+	/*
+	 * Opciones. Solo las de la lista, y solo si en el destino están
+	 * vacías: nunca se pisa lo que ya haya configurado aquí.
+	 */
+	if ( ! empty( $opciones['importar_opciones'] ) ) {
+		$informe['opciones'] = pwcal_importar_opciones( $datos, $en_seco );
 	}
 
 	// Recorte del lote.

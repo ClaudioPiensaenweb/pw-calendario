@@ -3,7 +3,7 @@
 Plugin de WordPress para la gestión de citas y reservas de visitas.
 Desarrollado por [Piensaenweb](https://piensaenweb.com).
 
-- **Versión:** 3.2.3
+- **Versión:** 3.3.0
 - **Requiere:** WordPress 6.0+ · PHP 7.4+
 - **Licencia:** GPL-2.0-or-later
 
