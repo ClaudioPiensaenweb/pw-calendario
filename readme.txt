@@ -4,7 +4,7 @@ Tags: citas, reservas, calendario, visitas, bodega
 Requires at least: 6.0
 Tested up to: 6.8
 Requires PHP: 7.4
-Stable tag: 3.4.0
+Stable tag: 3.4.1
 License: GPLv2 or later
 License URI: https://www.gnu.org/licenses/gpl-2.0.html
 
@@ -73,6 +73,10 @@ en **Citas > Ajustes > Feeds de calendario**.
 No. WooCommerce solo hace falta si quieres cobrar las citas.
 
 == Changelog ==
+
+= 3.4.1 =
+* **CORREGIDO:** En el calendario publico se podia avanzar de mes pero no volver atras: la flecha izquierda no aparecia nunca. Al endurecer la entrada se convirtio en un si/no el campo que el JavaScript usa para enviar el mes desde el que se ha navegado, y sin ese dato el calendario no sabe que se ha movido de sitio.
+
 
 = 3.4.0 =
 * **NUEVO:** La importacion puede traer tambien los horarios del sitio de origen: las franjas semanales de cada calendario, los rangos de fechas con sus cierres y las franjas apagadas dia a dia, traduciendo los identificadores de calendario. Va aparte y solo si se pide, porque SUSTITUYE el calendario del sitio de destino.

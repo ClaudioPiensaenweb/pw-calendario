@@ -78,7 +78,31 @@ if ( ! class_exists( 'Booked_AJAX' ) ) {
 			}
 
 			$id_calendario = pwcal_post_calendario();
-			$por_defecto   = ! empty( $_POST['force_default'] ) && 'false' !== $_POST['force_default'];
+
+			/*
+			 * `force_default` no es un si/no: el JS envia aqui el mes
+			 * «de casa» (`Y-m-01`), el que se estaba viendo al cargar la
+			 * pagina. `booked_fe_calendar()` lo necesita como cadena para
+			 * dos cosas: no volver a saltar al primer mes con hueco, y
+			 * saber que se ha navegado, que es lo que hace aparecer la
+			 * flecha de volver atras.
+			 *
+			 * Convertirlo a booleano dejaba $currentMonth valiendo `true`,
+			 * y como cualquier cadena no vacia es igual a `true` en una
+			 * comparacion flexible, la flecha no se pintaba nunca: se
+			 * podia avanzar de mes pero no volver.
+			 */
+			$mes_de_casa = pwcal_post_texto( 'force_default' );
+			$por_defecto = false;
+
+			if ( $mes_de_casa && 'false' !== $mes_de_casa ) {
+
+				$marca_casa = strtotime( $mes_de_casa );
+
+				if ( false !== $marca_casa ) {
+					$por_defecto = date_i18n( 'Y-m-01', $marca_casa );
+				}
+			}
 
 			$mes_solicitado = pwcal_post_texto( 'gotoMonth' );
 			$marca_tiempo   = ( $mes_solicitado && 'false' !== $mes_solicitado )
@@ -134,6 +158,12 @@ if ( ! class_exists( 'Booked_AJAX' ) ) {
 				wp_die();
 			}
 
+			/*
+			 * Aqui si es un si/no: booked_fe_appointment_list_content()
+			 * solo comprueba `if (!$force_day)` y la fecha la toma de su
+			 * primer argumento. No confundir con el navegador de meses,
+			 * donde este mismo campo lleva el mes y hace falta la cadena.
+			 */
 			$por_defecto = ! empty( $_POST['force_default'] ) && 'false' !== $_POST['force_default'];
 
 			booked_fe_appointment_list_content(
