@@ -297,8 +297,252 @@ function pwcal_opciones_importables() {
 			// Remitente y aspecto.
 			'booked_default_email_user',
 			'booked_email_logo',
+
+			/*
+			 * Ajustes de comportamiento. Son decisiones del cliente, no
+			 * estructura: cuantas plazas, si se reserva como invitado, si
+			 * las citas se aprueban solas, los margenes, los colores. Se
+			 * traen con el resto porque perderlos obliga a reconfigurar el
+			 * sitio a mano y a adivinar lo que habia.
+			 */
+			'booked_booking_type',
+			'booked_new_appointment_default',
+			'booked_require_guest_email_address',
+			'booked_registration_name_requirements',
+			'booked_appointment_buffer',
+			'booked_appointment_limit',
+			'booked_cancellation_buffer',
+			'booked_dont_allow_user_cancellations',
+			'booked_timeslot_intervals',
+			'booked_hide_default_calendar',
+			'booked_hide_end_times',
+			'booked_hide_weekends',
+			'booked_hide_available_timeslots',
+			'booked_hide_unavailable_timeslots',
+			'booked_hide_google_link',
+			'booked_show_only_titles',
+			'booked_public_appointments',
+			'booked_prevent_appointments_before',
+			'booked_prevent_appointments_after',
+			'booked_light_color',
+			'booked_dark_color',
+			'booked_button_color',
+			'booked_custom_login_message',
 		)
 	);
+}
+
+/**
+ * Opciones de horario, que solo se traen si se piden expresamente.
+ *
+ * Sustituyen el calendario del sitio de destino: las franjas semanales,
+ * los rangos de fechas con sus cierres y las franjas apagadas día a día.
+ * Si el destino ya tiene horarios configurados, esto los reemplaza, y de
+ * ahí que no entre en la importación normal.
+ *
+ * Los identificadores de calendario van dentro de estos valores, así que
+ * hay que traducirlos: en el origen eran 307 y 309, y aquí son otros.
+ *
+ * @return array
+ */
+function pwcal_opciones_horarios() {
+
+	return apply_filters(
+		'pwcal_opciones_horarios',
+		array(
+			'booked_custom_timeslots_encoded',
+			'booked_disabled_timeslots',
+		)
+	);
+}
+
+/**
+ * Traduce los identificadores de calendario de la estructura de rangos.
+ *
+ * @param string $codificado JSON de `booked_custom_timeslots_encoded`.
+ * @param array  $mapa       id_origen => id_aquí.
+ * @return string JSON con los identificadores traducidos.
+ */
+function pwcal_traducir_rangos( $codificado, $mapa ) {
+
+	if ( ! is_string( $codificado ) || '' === $codificado ) {
+		return $codificado;
+	}
+
+	$datos = json_decode( $codificado, true );
+
+	if ( ! is_array( $datos ) || empty( $datos['booked_custom_calendar_id'] ) ) {
+		return $codificado;
+	}
+
+	if ( ! is_array( $datos['booked_custom_calendar_id'] ) ) {
+		return $codificado;
+	}
+
+	foreach ( $datos['booked_custom_calendar_id'] as $indice => $origen ) {
+
+		$origen = (string) $origen;
+
+		// Vacío es el calendario por defecto: se queda como está.
+		if ( '' === $origen || '0' === $origen ) {
+			continue;
+		}
+
+		if ( isset( $mapa[ $origen ] ) ) {
+			$datos['booked_custom_calendar_id'][ $indice ] = (string) $mapa[ $origen ];
+		} elseif ( isset( $mapa[ (int) $origen ] ) ) {
+			$datos['booked_custom_calendar_id'][ $indice ] = (string) $mapa[ (int) $origen ];
+		}
+	}
+
+	return wp_json_encode( $datos );
+}
+
+/**
+ * Traduce los identificadores de calendario de las franjas apagadas.
+ *
+ * La estructura es `array( id_calendario => array( fecha => franjas ) )`.
+ *
+ * @param mixed $valor Valor de `booked_disabled_timeslots`.
+ * @param array $mapa  id_origen => id_aquí.
+ * @return mixed
+ */
+function pwcal_traducir_apagadas( $valor, $mapa ) {
+
+	if ( ! is_array( $valor ) ) {
+		return $valor;
+	}
+
+	$salida = array();
+
+	foreach ( $valor as $origen => $fechas ) {
+
+		$destino = (string) $origen;
+
+		if ( '0' !== $destino && '' !== $destino ) {
+			if ( isset( $mapa[ $destino ] ) ) {
+				$destino = (string) $mapa[ $destino ];
+			} elseif ( isset( $mapa[ (int) $destino ] ) ) {
+				$destino = (string) $mapa[ (int) $destino ];
+			}
+		}
+
+		// Un calendario sin correspondencia se descarta: apagar franjas de
+		// un calendario que aquí no existe no sirve para nada.
+		if ( '0' !== $destino && '' !== $destino && ! isset( $mapa[ $origen ] ) && ! isset( $mapa[ (int) $origen ] ) ) {
+			continue;
+		}
+
+		$salida[ $destino ] = $fechas;
+	}
+
+	return $salida;
+}
+
+/**
+ * Importa los horarios del sitio de origen.
+ *
+ * @param array $datos   Contenido del archivo.
+ * @param array $mapa    Correspondencia de calendarios.
+ * @param bool  $en_seco No escribir.
+ * @return array Informe.
+ */
+function pwcal_importar_horarios( $datos, $mapa, $en_seco = true ) {
+
+	$informe = array(
+		'semanales'  => array(),
+		'rangos'     => 0,
+		'apagadas'   => 0,
+		'avisos'     => array(),
+	);
+
+	if ( empty( $datos['opciones'] ) || ! is_array( $datos['opciones'] ) ) {
+		return $informe;
+	}
+
+	$ops = $datos['opciones'];
+
+	// --- Franjas semanales, una opción por calendario -----------------
+	foreach ( $ops as $nombre => $valor ) {
+
+		if ( 'booked_defaults' === $nombre ) {
+
+			$informe['semanales']['booked_defaults'] = is_array( $valor ) ? count( $valor ) : 0;
+
+			if ( ! $en_seco ) {
+				update_option( 'booked_defaults', $valor );
+			}
+
+			continue;
+		}
+
+		if ( 0 !== strpos( $nombre, 'booked_defaults_' ) ) {
+			continue;
+		}
+
+		$origen = substr( $nombre, strlen( 'booked_defaults_' ) );
+
+		if ( ! isset( $mapa[ $origen ] ) && ! isset( $mapa[ (int) $origen ] ) ) {
+			$informe['avisos'][] = sprintf(
+				/* translators: %s: identificador del calendario de origen. */
+				__( 'Las franjas del calendario %s no se traen: ese calendario no tiene equivalente aquí.', 'pw-calendario' ),
+				$origen
+			);
+			continue;
+		}
+
+		$destino = isset( $mapa[ $origen ] ) ? $mapa[ $origen ] : $mapa[ (int) $origen ];
+
+		if ( ! $destino ) {
+			continue;
+		}
+
+		$clave_destino = 'booked_defaults_' . (int) $destino;
+
+		$informe['semanales'][ $clave_destino ] = is_array( $valor ) ? count( $valor ) : 0;
+
+		if ( ! $en_seco ) {
+			update_option( $clave_destino, $valor );
+		}
+	}
+
+	// --- Rangos de fechas ---------------------------------------------
+	if ( ! empty( $ops['booked_custom_timeslots_encoded'] ) ) {
+
+		$traducido = pwcal_traducir_rangos( $ops['booked_custom_timeslots_encoded'], $mapa );
+		$decodificado = json_decode( $traducido, true );
+
+		$informe['rangos'] = ( is_array( $decodificado ) && ! empty( $decodificado['booked_custom_start_date'] ) )
+			? count( $decodificado['booked_custom_start_date'] )
+			: 0;
+
+		if ( ! $en_seco ) {
+			update_option( 'booked_custom_timeslots_encoded', $traducido );
+		}
+	}
+
+	// --- Franjas apagadas día a día -----------------------------------
+	if ( ! empty( $ops['booked_disabled_timeslots'] ) ) {
+
+		$traducidas = pwcal_traducir_apagadas( $ops['booked_disabled_timeslots'], $mapa );
+
+		$total = 0;
+		if ( is_array( $traducidas ) ) {
+			foreach ( $traducidas as $fechas ) {
+				if ( is_array( $fechas ) ) {
+					$total += count( $fechas );
+				}
+			}
+		}
+
+		$informe['apagadas'] = $total;
+
+		if ( ! $en_seco ) {
+			update_option( 'booked_disabled_timeslots', $traducidas );
+		}
+	}
+
+	return $informe;
 }
 
 /**
@@ -422,6 +666,7 @@ function pwcal_importar( $datos, $opciones = array() ) {
 			'desde'             => 0,
 			'cuantas'           => 0,
 			'importar_opciones' => false,
+			'importar_horarios' => false,
 		)
 	);
 
@@ -482,6 +727,15 @@ function pwcal_importar( $datos, $opciones = array() ) {
 	 */
 	if ( ! empty( $opciones['importar_opciones'] ) ) {
 		$informe['opciones'] = pwcal_importar_opciones( $datos, $en_seco );
+	}
+
+	/*
+	 * Horarios. Aparte y solo si se piden, porque SUSTITUYEN el calendario
+	 * de este sitio: franjas semanales, rangos con sus cierres y franjas
+	 * apagadas día a día.
+	 */
+	if ( ! empty( $opciones['importar_horarios'] ) ) {
+		$informe['horarios'] = pwcal_importar_horarios( $datos, $resueltos, $en_seco );
 	}
 
 	// Recorte del lote.

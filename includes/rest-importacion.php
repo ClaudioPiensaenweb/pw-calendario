@@ -116,6 +116,7 @@ function pwcal_rest_importar( $peticion ) {
 		'desde'             => isset( $cuerpo['desde'] ) ? (int) $cuerpo['desde'] : 0,
 		'cuantas'           => isset( $cuerpo['cuantas'] ) ? (int) $cuerpo['cuantas'] : 0,
 		'importar_opciones' => ! empty( $cuerpo['importar_opciones'] ),
+		'importar_horarios' => ! empty( $cuerpo['importar_horarios'] ),
 	);
 
 	$informe = pwcal_importar( $datos, $opciones );
