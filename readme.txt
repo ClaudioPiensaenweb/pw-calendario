@@ -4,7 +4,7 @@ Tags: citas, reservas, calendario, visitas, bodega
 Requires at least: 6.0
 Tested up to: 6.8
 Requires PHP: 7.4
-Stable tag: 3.2.0
+Stable tag: 3.2.1
 License: GPLv2 or later
 License URI: https://www.gnu.org/licenses/gpl-2.0.html
 
@@ -73,6 +73,11 @@ en **Citas > Ajustes > Feeds de calendario**.
 No. WooCommerce solo hace falta si quieres cobrar las citas.
 
 == Changelog ==
+
+= 3.2.1 =
+* **CORREGIDO:** El «he olvidado la contraseña» del calendario abortaba con un error critico en las versiones recientes de WordPress. La funcion se fabricaba la clave de restablecimiento a mano con `class-phpass.php`, que el nucleo ya no incluye.
+* **CORREGIDO (llevaba anos):** Ademas, la clave se guardaba sin el prefijo de tiempo que WordPress necesita (`time():hash`) para comprobar la caducidad, asi que TODOS los enlaces de restablecimiento que generaba el plugin se rechazaban como invalidos. Ahora la clave la genera WordPress con `get_password_reset_key()`, que se ocupa del hash y del formato.
+
 
 = 3.2.0 =
 * **NUEVO:** Control de en que dominio se envian los correos. Una copia del sitio en un dominio de pruebas manda confirmaciones y recordatorios de verdad a clientes de verdad. En Citas > Ajustes > Correos se indica el dominio definitivo y el plugin solo envia cuando el sitio responde en el: en cualquier otro se calla, y vuelve a enviar por si solo el dia que se publica la web. Si se deja vacio, se envia con normalidad, asi que una instalacion nueva se comporta igual que antes.
