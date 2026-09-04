@@ -1379,6 +1379,11 @@ function booked_reset_password($user_login){
     $title = apply_filters('retrieve_password_title', $title);
     $message = apply_filters('retrieve_password_message', $message, $key);
 
+    // Misma puerta que el resto del correo del plugin.
+    if ( ! pwcal_puede_enviar( $user_email, $title ) ) {
+    	return false;
+    }
+
     if ( $message && !wp_mail($user_email, $title, $message) ):
     	return false;
     endif;

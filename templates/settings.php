@@ -767,6 +767,102 @@
 												</div>
 											</div>
 
+											<?php
+											$pwcal_dominio_envios = (string) get_option( 'pwcal_dominio_envios', '' );
+											$pwcal_envios_pausados = get_option( 'pwcal_envios_pausados', false );
+											$pwcal_estado_envios  = pwcal_estado_envios();
+											$pwcal_registro       = get_option( 'pwcal_envios_bloqueados', array() );
+											$pwcal_bloqueados     = ( is_array( $pwcal_registro ) && isset( $pwcal_registro['total'] ) ) ? (int) $pwcal_registro['total'] : 0;
+											?>
+
+											<div class="section-row">
+												<div class="section-head">
+
+													<h3><?php esc_html_e( '¿En qué dominio se envían los correos?', 'pw-calendario' ); ?></h3>
+
+													<p><?php esc_html_e( 'Una copia del sitio en un dominio de pruebas manda correos de verdad a clientes de verdad: confirmaciones, cancelaciones y recordatorios de citas que en la copia pueden estar duplicados o desfasados.', 'pw-calendario' ); ?></p>
+
+													<p><?php esc_html_e( 'Escribe aquí el dominio definitivo y el plugin solo enviará cuando el sitio responda en él. En cualquier otro se callará, y volverá a enviar por sí solo el día que publiques la web. No hay que acordarse de nada.', 'pw-calendario' ); ?></p>
+
+													<p><?php esc_html_e( 'Si lo dejas vacío, se envía con normalidad.', 'pw-calendario' ); ?></p>
+
+													<p style="margin:1.2em 0 0;">
+														<input style="margin:0" name="pwcal_dominio_envios" value="<?php echo esc_attr( $pwcal_dominio_envios ); ?>" type="text" class="field" placeholder="<?php echo esc_attr( pwcal_dominio() ); ?>">
+													</p>
+
+													<p class="description" style="margin-top:.6em;">
+														<?php
+														printf(
+															/* translators: %s: dominio en el que responde el sitio. */
+															esc_html__( 'Ahora mismo este sitio responde en %s', 'pw-calendario' ),
+															'<code>' . esc_html( pwcal_dominio() ) . '</code>'
+														);
+														?>
+													</p>
+
+													<p style="margin:1.6em 0 0;">
+														<input style="margin:-4px 5px 0 0;" id="pwcal_envios_pausados" name="pwcal_envios_pausados" value="true"<?php if ( $pwcal_envios_pausados ) : echo ' checked="checked"'; endif; ?> type="checkbox">
+														<label class="checkbox-radio-label" for="pwcal_envios_pausados"><strong><?php esc_html_e( 'Pausar todos los correos ahora mismo', 'pw-calendario' ); ?></strong></label>
+													</p>
+
+													<div style="margin-top:1.6em;padding:12px 15px;border-left:4px solid <?php echo empty( $pwcal_estado_envios['permitido'] ) ? '#d63638' : '#00a32a'; ?>;background:#f6f7f7;">
+														<p style="margin:0;">
+															<strong><?php echo empty( $pwcal_estado_envios['permitido'] ) ? esc_html__( 'Estado: detenidos', 'pw-calendario' ) : esc_html__( 'Estado: enviando', 'pw-calendario' ); ?></strong><br>
+															<?php echo esc_html( $pwcal_estado_envios['texto'] ); ?>
+														</p>
+														<?php if ( $pwcal_bloqueados > 0 ) : ?>
+															<p style="margin:.8em 0 0;">
+																<?php
+																printf(
+																	esc_html(
+																		/* translators: %d: correos no enviados. */
+																		_n(
+																			'Se ha dejado de enviar %d correo. Ninguno se ha perdido en silencio: quedan anotados con destinatario, asunto y motivo.',
+																			'Se han dejado de enviar %d correos. Ninguno se ha perdido en silencio: quedan anotados con destinatario, asunto y motivo.',
+																			$pwcal_bloqueados,
+																			'pw-calendario'
+																		)
+																	),
+																	(int) $pwcal_bloqueados
+																);
+																?>
+															</p>
+														<?php endif; ?>
+													</div>
+
+													<?php
+													$pwcal_ultimos = ( is_array( $pwcal_registro ) && ! empty( $pwcal_registro['ultimos'] ) )
+														? array_slice( (array) $pwcal_registro['ultimos'], 0, 10 )
+														: array();
+													?>
+
+													<?php if ( $pwcal_ultimos ) : ?>
+														<h4 style="margin-top:1.6em;"><?php esc_html_e( 'Últimos correos no enviados', 'pw-calendario' ); ?></h4>
+														<table class="widefat striped" style="max-width:780px;">
+															<thead>
+																<tr>
+																	<th><?php esc_html_e( 'Fecha (UTC)', 'pw-calendario' ); ?></th>
+																	<th><?php esc_html_e( 'Destinatario', 'pw-calendario' ); ?></th>
+																	<th><?php esc_html_e( 'Asunto', 'pw-calendario' ); ?></th>
+																	<th><?php esc_html_e( 'Motivo', 'pw-calendario' ); ?></th>
+																</tr>
+															</thead>
+															<tbody>
+															<?php foreach ( $pwcal_ultimos as $pwcal_fila ) : ?>
+																<tr>
+																	<td><?php echo esc_html( isset( $pwcal_fila['fecha'] ) ? $pwcal_fila['fecha'] : '' ); ?></td>
+																	<td><?php echo esc_html( isset( $pwcal_fila['destino'] ) ? $pwcal_fila['destino'] : '' ); ?></td>
+																	<td><?php echo esc_html( isset( $pwcal_fila['asunto'] ) ? $pwcal_fila['asunto'] : '' ); ?></td>
+																	<td><?php echo esc_html( isset( $pwcal_fila['motivo'] ) ? $pwcal_fila['motivo'] : '' ); ?></td>
+																</tr>
+															<?php endforeach; ?>
+															</tbody>
+														</table>
+													<?php endif; ?>
+
+												</div>
+											</div>
+
 										</div>
 										<div id="booked-subtab-customer-emails" class="subtab-content">
 

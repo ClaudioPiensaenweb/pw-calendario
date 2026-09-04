@@ -4,7 +4,7 @@ Tags: citas, reservas, calendario, visitas, bodega
 Requires at least: 6.0
 Tested up to: 6.8
 Requires PHP: 7.4
-Stable tag: 3.1.5
+Stable tag: 3.2.0
 License: GPLv2 or later
 License URI: https://www.gnu.org/licenses/gpl-2.0.html
 
@@ -73,6 +73,15 @@ en **Citas > Ajustes > Feeds de calendario**.
 No. WooCommerce solo hace falta si quieres cobrar las citas.
 
 == Changelog ==
+
+= 3.2.0 =
+* **NUEVO:** Control de en que dominio se envian los correos. Una copia del sitio en un dominio de pruebas manda confirmaciones y recordatorios de verdad a clientes de verdad. En Citas > Ajustes > Correos se indica el dominio definitivo y el plugin solo envia cuando el sitio responde en el: en cualquier otro se calla, y vuelve a enviar por si solo el dia que se publica la web. Si se deja vacio, se envia con normalidad, asi que una instalacion nueva se comporta igual que antes.
+* **NUEVO:** Se respeta el tipo de entorno de WordPress. Si `WP_ENVIRONMENT_TYPE` declara el sitio como staging, development o local, no se envia nada.
+* **NUEVO:** Ningun correo se descarta en silencio. Los bloqueados quedan anotados con destinatario, asunto y motivo, se ven en los ajustes, y mientras los envios esten detenidos hay un aviso en todas las pantallas del escritorio para que no se olvide reactivarlos.
+* **NUEVO:** Importacion de citas desde otra instalacion. Lee el archivo del exportador y crea las citas con su fecha, franja, cliente, calendario y numero de personas. Es repetible: cada cita guarda de donde viene, asi que volver a lanzarla no duplica nada, y se puede deshacer sin tocar las citas creadas en el sitio.
+* **AJUSTE:** Al importar no se copia el identificador del pedido de WooCommerce. El pedido no existe en el sitio de destino y el complemento de pagos consulta su estado sin comprobar que exista, lo que provocaria un error fatal en cualquier pantalla que muestre el estado de pago. Las citas que estaban pagadas se marcan como pagadas a mano y el numero original se conserva aparte.
+* **AJUSTE:** Al importar tampoco se copian los marcadores de producto ni la basura que dejan los maquetadores en las citas. El texto visible de la experiencia y su importe se conservan intactos.
+
 
 = 3.1.5 =
 * **CORREGIDO:** Un numero de personas negativo se convertia en positivo, asi que enviar -5 creaba una reserva de 5 personas que nadie habia pedido. El saneador de enteros aplica valor absoluto, que es razonable para un identificador pero no para una cantidad.

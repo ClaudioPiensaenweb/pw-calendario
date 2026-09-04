@@ -404,6 +404,9 @@ class Pw_Calendario {
 				'booked_email_force_sender',
 				'booked_email_force_sender_from',
 				'booked_emailer_disabled',
+				// Control de envios: ver includes/envios.php.
+				'pwcal_dominio_envios',
+				'pwcal_envios_pausados',
 				'booked_reminder_buffer',
 				'booked_admin_reminder_buffer',
 				'booked_reminder_email',

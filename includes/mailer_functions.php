@@ -157,6 +157,15 @@ function booked_mailer( $to = false, $subject = '', $message = '', $from_email =
 	if ( !$to )
 		return false;
 
+	/*
+	 * Puerta de salida. Si este sitio no tiene permiso para enviar (una
+	 * copia en un dominio de pruebas, un entorno declarado como staging,
+	 * una pausa manual), el correo se anota y no sale. Ver includes/envios.php.
+	 */
+	if ( ! pwcal_puede_enviar( $to, $subject ) ) {
+		return false;
+	}
+
 	add_filter( 'wp_mail_content_type', 'booked_set_html_content_type' );
 
 	$booked_email_logo = get_option('booked_email_logo');
