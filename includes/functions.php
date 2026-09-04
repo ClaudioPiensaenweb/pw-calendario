@@ -1378,8 +1378,21 @@ function booked_reset_password($user_login){
 	/* translators: %s: nombre del sitio. */
 	$title = sprintf( esc_html__('[%s] Restablecer la contraseña','pw-calendario'), $blogname );
 
-	$title   = apply_filters( 'retrieve_password_title', $title );
-	$message = apply_filters( 'retrieve_password_message', $message, $key );
+	/*
+	 * Los dos filtros se aplican con TODOS los argumentos que pasa
+	 * WordPress:
+	 *
+	 *   retrieve_password_title  ( $title, $user_login, $user_data )
+	 *   retrieve_password_message( $message, $key, $user_login, $user_data )
+	 *
+	 * El plugin pasaba solo el primero de cada uno. Cualquier tema o
+	 * plugin que se engancha a esos filtros declarando la firma completa
+	 * recibia menos argumentos de los que exige y la peticion moria con
+	 * ArgumentCountError. Con el tema Bricks activo pasaba siempre:
+	 * Bricks\Auth_Redirects::modify_reset_password_email() declara cuatro.
+	 */
+	$title   = apply_filters( 'retrieve_password_title', $title, $user_login, $user_data );
+	$message = apply_filters( 'retrieve_password_message', $message, $key, $user_login, $user_data );
 
 	// Misma puerta que el resto del correo del plugin.
 	if ( ! pwcal_puede_enviar( $user_email, $title ) ) {

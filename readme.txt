@@ -4,7 +4,7 @@ Tags: citas, reservas, calendario, visitas, bodega
 Requires at least: 6.0
 Tested up to: 6.8
 Requires PHP: 7.4
-Stable tag: 3.2.2
+Stable tag: 3.2.3
 License: GPLv2 or later
 License URI: https://www.gnu.org/licenses/gpl-2.0.html
 
@@ -73,6 +73,10 @@ en **Citas > Ajustes > Feeds de calendario**.
 No. WooCommerce solo hace falta si quieres cobrar las citas.
 
 == Changelog ==
+
+= 3.2.3 =
+* **CORREGIDO:** El «he olvidado la contrasena» del calendario abortaba con un error critico. El plugin aplicaba los filtros `retrieve_password_title` y `retrieve_password_message` con menos argumentos de los que pasa WordPress (1 de 3 y 2 de 4), asi que cualquier tema o plugin enganchado a ellos con la firma completa recibia menos de los que exige. Con el tema Bricks activo fallaba siempre.
+
 
 = 3.2.2 =
 * **NUEVO:** Visor del registro de errores para administradores. En un sitio sin acceso al servidor, un error critico solo deja el mensaje generico de WordPress y el detalle se queda en un archivo inaccesible.
