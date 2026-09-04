@@ -4,7 +4,7 @@ Tags: citas, reservas, calendario, visitas, bodega
 Requires at least: 6.0
 Tested up to: 6.8
 Requires PHP: 7.4
-Stable tag: 3.2.1
+Stable tag: 3.2.2
 License: GPLv2 or later
 License URI: https://www.gnu.org/licenses/gpl-2.0.html
 
@@ -73,6 +73,10 @@ en **Citas > Ajustes > Feeds de calendario**.
 No. WooCommerce solo hace falta si quieres cobrar las citas.
 
 == Changelog ==
+
+= 3.2.2 =
+* **NUEVO:** Visor del registro de errores para administradores. En un sitio sin acceso al servidor, un error critico solo deja el mensaje generico de WordPress y el detalle se queda en un archivo inaccesible.
+
 
 = 3.2.1 =
 * **CORREGIDO:** El «he olvidado la contraseña» del calendario abortaba con un error critico en las versiones recientes de WordPress. La funcion se fabricaba la clave de restablecimiento a mano con `class-phpass.php`, que el nucleo ya no incluye.

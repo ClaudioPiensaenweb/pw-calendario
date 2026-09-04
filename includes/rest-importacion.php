@@ -46,6 +46,16 @@ function pwcal_registrar_rest_importacion() {
 
 	register_rest_route(
 		'pwcal/v1',
+		'/registro',
+		array(
+			'methods'             => 'GET',
+			'callback'            => 'pwcal_rest_registro',
+			'permission_callback' => 'pwcal_rest_permiso',
+		)
+	);
+
+	register_rest_route(
+		'pwcal/v1',
 		'/estado',
 		array(
 			'methods'             => 'GET',
@@ -182,4 +192,53 @@ function pwcal_rest_estado() {
 	}
 
 	return rest_ensure_response( $estado );
+}
+
+/**
+ * Devuelve el final del registro de errores de WordPress.
+ *
+ * En un sitio sin acceso al servidor, un error critico solo deja el
+ * mensaje generico de WordPress y el detalle se queda en
+ * `wp-content/debug.log`, que no es accesible. Esto lo devuelve al
+ * administrador para poder diagnosticar sin FTP.
+ *
+ * Solo lee, y solo para quien puede administrar el sitio.
+ *
+ * @param WP_REST_Request $peticion Petición.
+ * @return WP_REST_Response|WP_Error
+ */
+function pwcal_rest_registro( $peticion ) {
+
+	$lineas = (int) $peticion->get_param( 'lineas' );
+
+	if ( $lineas < 1 || $lineas > 500 ) {
+		$lineas = 60;
+	}
+
+	$ruta = WP_CONTENT_DIR . '/debug.log';
+
+	if ( ! file_exists( $ruta ) || ! is_readable( $ruta ) ) {
+		return rest_ensure_response(
+			array(
+				'existe' => false,
+				'ruta'   => $ruta,
+				'aviso'  => __( 'No hay registro de errores. Comprueba que WP_DEBUG_LOG esté activo.', 'pw-calendario' ),
+			)
+		);
+	}
+
+	$contenido = file( $ruta, FILE_IGNORE_NEW_LINES );
+
+	if ( ! is_array( $contenido ) ) {
+		$contenido = array();
+	}
+
+	return rest_ensure_response(
+		array(
+			'existe'  => true,
+			'bytes'   => filesize( $ruta ),
+			'total'   => count( $contenido ),
+			'ultimas' => array_slice( $contenido, -$lineas ),
+		)
+	);
 }
