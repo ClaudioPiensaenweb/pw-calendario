@@ -129,6 +129,7 @@ var booked_load_calendar_date_booking_options,
 
 		// Adjust the calendar sizing on load
 		adjust_calendar_boxes();
+		pwcal_vigilar_calendarios();
 
 		$('.booked-calendar-wrap').each(function(){
 			var thisCalendar = $(this);
@@ -1494,12 +1495,77 @@ function init_tooltips(container){
 }
 
 // Function to adjust calendar sizing
+/**
+ * Pw Calendario: recalcula el tamano cuando un calendario pasa a verse.
+ *
+ * Los calendarios que nacen dentro de una pestana o un acordeon cerrados
+ * no tienen anchura hasta que se abren, y abrirlos NO dispara el evento
+ * `resize` de la ventana, que es lo unico que reajustaba el tamano. El
+ * resultado eran filas aplastadas.
+ *
+ * Se vigila cada contenedor y se recalcula en cuanto cambia de anchura.
+ * Solo se mira la anchura: adjust_calendar_boxes() modifica alturas, y
+ * reaccionar tambien a esas provocaria un bucle.
+ */
+function pwcal_vigilar_calendarios(){
+
+	if ( typeof ResizeObserver === 'undefined' ) {
+		return;
+	}
+
+	var anchos = new WeakMap();
+
+	var observador = new ResizeObserver(function( entradas ){
+
+		var recalcular = false;
+
+		entradas.forEach(function( entrada ){
+
+			var ancho = Math.round( entrada.contentRect.width );
+
+			if ( anchos.get( entrada.target ) === ancho ) {
+				return;
+			}
+
+			anchos.set( entrada.target, ancho );
+
+			// Solo interesa cuando pasa a tener anchura.
+			if ( ancho > 0 ) {
+				recalcular = true;
+			}
+		});
+
+		if ( recalcular ) {
+			adjust_calendar_boxes();
+		}
+	});
+
+	jQuery('.booked-calendar-wrap').each(function(){
+		observador.observe( this );
+	});
+}
+
 function adjust_calendar_boxes(){
 	jQuery('.booked-calendar').each(function(){
 
 		var windowWidth = jQuery(window).width();
 		var smallCalendar = jQuery(this).parents('.booked-calendar-wrap').hasClass('small');
 		var boxesWidth = jQuery(this).find('tbody tr.week td').width();
+
+		/*
+		 * Un calendario oculto mide cero: pasa cuando nace dentro de una
+		 * pestana cerrada, un acordeon o un carrusel.
+		 *
+		 * Escribir aqui una altura de cero la deja fijada EN LINEA en cada
+		 * celda, y al abrir la pestana el contenedor ya tiene anchura pero
+		 * ese cero sigue puesto: las filas se quedan aplastadas. Mejor no
+		 * tocar nada y esperar a que se vea; de eso se encarga
+		 * pwcal_vigilar_calendarios().
+		 */
+		if ( !boxesWidth || boxesWidth <= 0 ) {
+			return;
+		}
+
 		var calendarHeight = jQuery(this).height();
 		boxesHeight = boxesWidth * 1;
 		jQuery(this).find('tbody tr.week td').height(boxesHeight);
