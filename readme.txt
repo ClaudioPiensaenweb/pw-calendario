@@ -4,7 +4,7 @@ Tags: citas, reservas, calendario, visitas, bodega
 Requires at least: 6.0
 Tested up to: 6.8
 Requires PHP: 7.4
-Stable tag: 3.4.1
+Stable tag: 3.4.2
 License: GPLv2 or later
 License URI: https://www.gnu.org/licenses/gpl-2.0.html
 
@@ -73,6 +73,9 @@ en **Citas > Ajustes > Feeds de calendario**.
 No. WooCommerce solo hace falta si quieres cobrar las citas.
 
 == Changelog ==
+
+= 3.4.2 =
+* **CORREGIDO:** Un calendario colocado dentro de una pestana, un acordeon o cualquier elemento que empiece cerrado se veia con las filas aplastadas al abrirlo. El ajuste que hace cuadradas las celdas medía cero mientras estaba oculto y dejaba escrita una altura de cero que ya no se deshacia, porque abrir una pestana no dispara el evento de redimensionado de la ventana, que era lo unico que reajustaba. Ahora no se escribe nada mientras esta oculto y se recalcula solo en cuanto pasa a verse.
 
 = 3.4.1 =
 * **CORREGIDO:** En el calendario publico se podia avanzar de mes pero no volver atras: la flecha izquierda no aparecia nunca. Al endurecer la entrada se convirtio en un si/no el campo que el JavaScript usa para enviar el mes desde el que se ha navegado, y sin ese dato el calendario no sabe que se ha movido de sitio.
