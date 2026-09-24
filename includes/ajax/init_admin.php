@@ -326,7 +326,22 @@ if(!class_exists('Booked_Admin_AJAX')) {
 
 			if (isset($_POST['custom_timeslots_encoded'])):
 
-				$custom_timeslots_encoded = htmlentities( stripslashes(pwcal_post_texto( 'custom_timeslots_encoded' )), ENT_NOQUOTES );
+				/*
+				 * Sin stripslashes(): pwcal_post_texto() ya aplica
+				 * wp_unslash(). El segundo desescapado quitaba las barras
+				 * de las comillas de las franjas, que van como JSON dentro
+				 * del JSON; json_decode() devolvia null y el calendario
+				 * dejaba de aplicar TODAS las franjas personalizadas,
+				 * cierres incluidos, en cuanto alguien guardaba esta
+				 * pestana.
+				 */
+				$custom_timeslots_encoded = htmlentities( pwcal_post_texto( 'custom_timeslots_encoded' ), ENT_NOQUOTES );
+
+				// Si aun asi no es JSON valido, mejor no guardar que borrar los cierres.
+				if ( '' !== $custom_timeslots_encoded && null === json_decode( $custom_timeslots_encoded, true ) ) {
+					wp_send_json_error( array( 'mensaje' => __( 'Las franjas personalizadas no se han guardado: los datos llegaron dañados.', 'pw-calendario' ) ), 400 );
+				}
+
 				update_option('booked_custom_timeslots_encoded',$custom_timeslots_encoded);
 
 			endif;

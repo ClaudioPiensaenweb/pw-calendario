@@ -140,7 +140,7 @@ if ( ! class_exists( 'BookedFEA_Ajax' ) ) {
 				$contenido     = booked_token_replacement( $contenido, $sustituciones );
 				$asunto        = booked_token_replacement( $asunto, $sustituciones );
 
-				booked_mailer( $sustituciones['email'], $asunto, $contenido );
+				booked_mailer( $sustituciones['email'], $asunto, $contenido, false, false, 'booked_cancellation_email' );
 			}
 
 			do_action( 'booked_appointment_cancelled', $id_cita );
@@ -168,7 +168,7 @@ if ( ! class_exists( 'BookedFEA_Ajax' ) ) {
 				$contenido = booked_token_replacement( $contenido, $sustituciones );
 				$asunto    = booked_token_replacement( $asunto, $sustituciones );
 
-				booked_mailer( $sustituciones['email'], $asunto, $contenido );
+				booked_mailer( $sustituciones['email'], $asunto, $contenido, false, false, 'booked_approved_email' );
 			}
 
 			wp_publish_post( $id_cita );

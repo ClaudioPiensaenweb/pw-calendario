@@ -4,7 +4,7 @@ Tags: citas, reservas, calendario, visitas, bodega
 Requires at least: 6.0
 Tested up to: 6.8
 Requires PHP: 7.4
-Stable tag: 3.4.2
+Stable tag: 3.5.0
 License: GPLv2 or later
 License URI: https://www.gnu.org/licenses/gpl-2.0.html
 
@@ -73,6 +73,11 @@ en **Citas > Ajustes > Feeds de calendario**.
 No. WooCommerce solo hace falta si quieres cobrar las citas.
 
 == Changelog ==
+
+= 3.5.0 =
+* **NUEVO:** Pantalla Citas > Registro de correos. Lista cada correo que manda el plugin (confirmacion de cita, recordatorio, cancelacion, cita aprobada, registro y restablecimiento de contrasena, tanto al cliente como al gestor) con la fecha y hora, el destinatario, el asunto y si se ha enviado, ha fallado o estaba detenido. Se guardan los ultimos 500 y se puede vaciar.
+* **CORREGIDO:** Guardar la pestana Franjas horarias personalizadas dejaba los datos danados: se quitaban dos veces las barras de escape y las franjas, que van como JSON dentro del JSON, dejaban de poder leerse. El calendario ignoraba entonces todas las franjas personalizadas, cierres incluidos, y ofrecia dias que la bodega tiene cerrados. Ahora se desescapa una sola vez y, si los datos llegaran danados, no se guardan.
+* **CORREGIDO:** Con el almacenamiento de pedidos de alto rendimiento de WooCommerce (HPOS) no se enviaba la confirmacion de la cita al completar un pedido pagado, ni se borraba la cita al cancelarlo o reembolsarlo. El plugin comprobaba el tipo del pedido en wp_posts, donde con HPOS solo queda un marcador. Ahora reconoce el pedido con wc_get_order(), que funciona con los dos almacenamientos.
 
 = 3.4.2 =
 * **CORREGIDO:** Un calendario colocado dentro de una pestana, un acordeon o cualquier elemento que empiece cerrado se veia con las filas aplastadas al abrirlo. El ajuste que hace cuadradas las celdas medía cero mientras estaba oculto y dejaba escrita una altura de cero que ya no se deshacia, porque abrir una pestana no dispara el evento de redimensionado de la ventana, que era lo unico que reajustaba. Ahora no se escribe nada mientras esta oculto y se recalcula solo en cuanto pasa a verse.

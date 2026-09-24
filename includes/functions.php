@@ -1396,14 +1396,19 @@ function booked_reset_password($user_login){
 
 	// Misma puerta que el resto del correo del plugin.
 	if ( ! pwcal_puede_enviar( $user_email, $title ) ) {
+		pwcal_registrar_correo( $user_email, $title, 'pwcal_contrasena', 'detenido' );
 		return false;
 	}
 
-	if ( $message && ! wp_mail( $user_email, $title, $message ) ) {
-		return false;
+	if ( ! $message ) {
+		return true;
 	}
 
-	return true;
+	$enviado = wp_mail( $user_email, $title, $message );
+
+	pwcal_registrar_correo( $user_email, $title, 'pwcal_contrasena', $enviado ? 'enviado' : 'fallido' );
+
+	return $enviado;
 }
 
 function booked_appt_is_available($date,$timeslot,$calendar_id = false){

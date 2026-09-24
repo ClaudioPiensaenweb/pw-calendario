@@ -65,6 +65,33 @@ class Booked_WC_Order {
 
 class Booked_WC_Order_Hooks {
 
+	/**
+	 * Dice si el identificador es un pedido de WooCommerce.
+	 *
+	 * Antes se comprobaba con get_post() que el tipo fuera `shop_order`.
+	 * Con el almacenamiento de pedidos de alto rendimiento (HPOS) el pedido
+	 * vive en sus propias tablas y en wp_posts solo queda un marcador de
+	 * tipo `shop_order_placehold`, asi que la comprobacion fallaba siempre:
+	 * no se enviaba la confirmacion al completar el pedido ni se borraba la
+	 * cita al cancelarlo o reembolsarlo. wc_get_order() funciona con los dos
+	 * almacenamientos.
+	 *
+	 * Tambien se llama desde before_delete_post con cualquier entrada, asi
+	 * que tiene que decir que no a todo lo que no sea un pedido, reembolsos
+	 * incluidos.
+	 *
+	 * @param int $order_id Identificador.
+	 * @return bool
+	 */
+	protected static function es_pedido( $order_id ) {
+
+		if ( ! $order_id || ! function_exists( 'wc_get_order' ) ) {
+			return false;
+		}
+
+		return wc_get_order( $order_id ) instanceof WC_Order;
+	}
+
 	// woocommerce_order_status_refunded
 	// woocommerce_order_status_cancelled
 	// delete appointments on refunded or cancelled
@@ -72,8 +99,7 @@ class Booked_WC_Order_Hooks {
 
 		$order_id = (int) $order_id;
 
-		$this_post = get_post($order_id);
-		if (!$this_post || $this_post->post_type!=='shop_order') {
+		if ( ! self::es_pedido( $order_id ) ) {
 			return;
 		}
 
@@ -105,8 +131,7 @@ class Booked_WC_Order_Hooks {
 
 		$order_id = (int) $order_id;
 
-		$this_post = get_post($order_id);
-		if (!$this_post || $this_post->post_type!=='shop_order') {
+		if ( ! self::es_pedido( $order_id ) ) {
 			return;
 		}
 

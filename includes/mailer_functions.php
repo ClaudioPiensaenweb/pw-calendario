@@ -152,10 +152,17 @@ function booked_get_appointment_tokens( $appt_id ){
 // PHP 8 deprecia declarar un parametro opcional antes de uno
 // obligatorio. Se les da valor por defecto en lugar de reordenarlos,
 // porque todas las llamadas los pasan por posicion.
-function booked_mailer( $to = false, $subject = '', $message = '', $from_email = false, $from_name = false ){
+// $tipo es para las llamadas directas, que no llegan por un gancho y no
+// tienen current_action() del que deducirlo. Los ganchos se registran con
+// cinco argumentos, asi que nunca lo rellenan.
+function booked_mailer( $to = false, $subject = '', $message = '', $from_email = false, $from_name = false, $tipo = '' ){
 
 	if ( !$to )
 		return false;
+
+	if ( '' === $tipo ) {
+		$tipo = (string) current_action();
+	}
 
 	/*
 	 * Puerta de salida. Si este sitio no tiene permiso para enviar (una
@@ -163,6 +170,7 @@ function booked_mailer( $to = false, $subject = '', $message = '', $from_email =
 	 * una pausa manual), el correo se anota y no sale. Ver includes/envios.php.
 	 */
 	if ( ! pwcal_puede_enviar( $to, $subject ) ) {
+		pwcal_registrar_correo( $to, $subject, $tipo, 'detenido' );
 		return false;
 	}
 
@@ -204,10 +212,13 @@ function booked_mailer( $to = false, $subject = '', $message = '', $from_email =
 	$headers[] = 'Content-Type: text/html; charset=UTF-8';
 	$message = str_replace($filter, $replace, $template);
 
-	wp_mail( $to,$subject,$message,$headers );
+	$enviado = wp_mail( $to,$subject,$message,$headers );
+
+	pwcal_registrar_correo( $to, $subject, $tipo, $enviado ? 'enviado' : 'fallido' );
 
 	remove_filter( 'wp_mail_content_type', 'booked_set_html_content_type' );
 
+	return $enviado;
 }
 
 function booked_set_html_content_type() {

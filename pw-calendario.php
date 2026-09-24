@@ -3,7 +3,7 @@
  * Plugin Name:       Pw Calendario
  * Plugin URI:        https://piensaenweb.com
  * Description:       Gestión de citas y reservas de visitas para WordPress. Calendario público, aprobación de citas, recordatorios por correo y calendarios múltiples.
- * Version:           3.4.2
+ * Version:           3.5.0
  * Requires at least: 6.0
  * Requires PHP:      7.4
  * Author:            Piensaenweb
@@ -68,7 +68,7 @@ if ( function_exists( 'booked_appt_is_available' ) || class_exists( 'booked_plug
 	return;
 }
 
-define( 'PWCAL_VERSION', '3.4.2' );
+define( 'PWCAL_VERSION', '3.5.0' );
 define( 'PWCAL_PLUGIN_FILE', __FILE__ );
 define( 'PWCAL_PLUGIN_URL', untrailingslashit( plugin_dir_url( __FILE__ ) ) );
 define( 'PWCAL_PLUGIN_DIR', untrailingslashit( plugin_dir_path( __FILE__ ) ) );
@@ -80,6 +80,9 @@ require_once PWCAL_PLUGIN_DIR . '/includes/seguridad.php';
 
 // Control de los envios de correo. Antes que nada que pueda enviar.
 require_once PWCAL_PLUGIN_DIR . '/includes/envios.php';
+
+// Registro de los correos enviados, para consultarlo desde el escritorio.
+require_once PWCAL_PLUGIN_DIR . '/includes/registro-correos.php';
 
 // Aforo por personas: tamano de grupo de cada cita.
 require_once PWCAL_PLUGIN_DIR . '/includes/plazas.php';
