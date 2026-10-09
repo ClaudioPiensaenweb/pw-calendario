@@ -306,6 +306,14 @@ function pwcal_selector_personas( $libres ) {
 			</span>
 		</label>
 		<select name="personas" id="pwcal-personas" class="large" required>
+			<?php
+			/*
+			 * Sin «disabled»: jQuery devuelve null para una opción deshabilitada
+			 * y la comprobación de campos obligatorios de functions.js solo
+			 * detecta la cadena vacía.
+			 */
+			?>
+			<option value="" selected><?php esc_html_e( 'Seleccionar el número de personas', 'pw-calendario' ); ?></option>
 			<?php for ( $i = 1; $i <= $maximo; $i++ ) : ?>
 				<option value="<?php echo esc_attr( $i ); ?>">
 					<?php

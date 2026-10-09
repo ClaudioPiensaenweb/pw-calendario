@@ -47,6 +47,12 @@ endif;
  */
 $personas = pwcal_personas_solicitadas();
 
+// El selector arranca en «Seleccionar el número de personas» (valor vacío).
+// Sin esto, pwcal_personas_solicitadas() lo convertiría en una persona.
+if ( isset( $_POST['personas'] ) && ! is_array( $_POST['personas'] ) && '' === trim( wp_unslash( $_POST['personas'] ) ) ) {
+	$personas = 0;
+}
+
 $personas_validas = pwcal_validar_personas( $date, $timeslot, $personas, $calendar_id_for_cf );
 
 if ( is_wp_error( $personas_validas ) ) {

@@ -4,7 +4,7 @@ Tags: citas, reservas, calendario, visitas, bodega
 Requires at least: 6.0
 Tested up to: 6.8
 Requires PHP: 7.4
-Stable tag: 3.5.0
+Stable tag: 3.5.1
 License: GPLv2 or later
 License URI: https://www.gnu.org/licenses/gpl-2.0.html
 
@@ -73,6 +73,11 @@ en **Citas > Ajustes > Feeds de calendario**.
 No. WooCommerce solo hace falta si quieres cobrar las citas.
 
 == Changelog ==
+
+= 3.5.1 =
+* **CORREGIDO:** El modal de reserva mostraba el titulo de la franja y el nombre del calendario como HTML en crudo (`<p class="appointment-title">...`). Se escapaba el parrafo entero en vez de solo su texto.
+* **MEJORA:** El selector de numero de personas arranca en «Seleccionar el numero de personas» en lugar de en «1 persona», y es obligatorio elegir una opcion (tambien se comprueba en el servidor).
+* **MEJORA:** Los selectores del formulario de reserva llevan una flecha hacia abajo a la derecha, para que se reconozcan como desplegables aunque el tema quite la flecha nativa.
 
 = 3.5.0 =
 * **NUEVO:** Pantalla Citas > Registro de correos. Lista cada correo que manda el plugin (confirmacion de cita, recordatorio, cancelacion, cita aprobada, registro y restablecimiento de contrasena, tanto al cliente como al gestor) con la fecha y hora, el destinatario, el asunto y si se ha enviado, ha fallado o estaba detenido. Se guardan los ultimos 500 y se puede vaciar.

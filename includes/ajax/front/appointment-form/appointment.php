@@ -39,16 +39,18 @@ if ( $only_titles && ! $title || ! $only_titles ) {
 	}
 }
 
-if (!empty($calendar_id)): $calendar_term = get_term_by('id',$calendar_id,'booked_custom_calendars'); $calendar_name = '<p class="calendar-name">' . $calendar_term->name . '</p>'; else: $calendar_name = false; endif;
-$appt_title = $title ? '<p class="appointment-title">' . $title . '</p>' : '';
+// Se escapa el texto, no la etiqueta: escapar el párrafo entero hacía que el
+// modal mostrara el HTML en crudo.
+if (!empty($calendar_id)): $calendar_term = get_term_by('id',$calendar_id,'booked_custom_calendars'); $calendar_name = '<p class="calendar-name">' . esc_html( $calendar_term->name ) . '</p>'; else: $calendar_name = false; endif;
+$appt_title = $title ? '<p class="appointment-title">' . esc_html( $title ) . '</p>' : '';
 $appt_timeslot = $timeslotText ? $timeslotText : '';
 $appt_date_name = date_i18n( $date_format, strtotime( $date ) );
 
 ?><div class="booked-appointment-details" data-appt-key="<?php echo $appointment_key; ?>"><?php
 
 	echo $appt_date_time_before;
-	echo esc_html( $appt_title );
-	echo esc_html( $calendar_name );
+	echo $appt_title;
+	echo $calendar_name;
 
 	if ( $appt_timeslot == $all_day_text ):
 		?><p class="appointment-info"><i class="booked-icon booked-icon-calendar"></i>&nbsp;&nbsp;&nbsp;<?php echo sprintf( esc_html__( '%s el %s','pw-calendario' ), $appt_timeslot, $appt_date_name ); ?></p><?php
