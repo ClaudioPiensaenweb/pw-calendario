@@ -4,7 +4,7 @@ Tags: citas, reservas, calendario, visitas, bodega
 Requires at least: 6.0
 Tested up to: 6.8
 Requires PHP: 7.4
-Stable tag: 3.5.2
+Stable tag: 3.5.3
 License: GPLv2 or later
 License URI: https://www.gnu.org/licenses/gpl-2.0.html
 
@@ -73,6 +73,10 @@ en **Citas > Ajustes > Feeds de calendario**.
 No. WooCommerce solo hace falta si quieres cobrar las citas.
 
 == Changelog ==
+
+= 3.5.3 =
+* **MEJORA:** Si el calendario solo tiene un producto de pago, el selector «Tipo de visita» del modal de reserva se oculta. Sigue en el formulario con ese producto elegido, porque es el que lleva al pago.
+* **CORREGIDO:** El script de pagos del formulario se cargaba sin version y los navegadores podian seguir usando una copia antigua.
 
 = 3.5.2 =
 * **CORREGIDO:** La flecha de los desplegables de la 3.5.1 no se veia: una regla anterior mas especifica usaba el atajo `background` y la borraba.

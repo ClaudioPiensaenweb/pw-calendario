@@ -81,6 +81,10 @@
 
 		if ( $dropdown.find( 'option' ).length < 3 ){
 			$dropdown.find( 'option:first-child' ).remove();
+			// Con un solo producto no hay nada que elegir: se oculta el selector,
+			// pero sigue en el formulario porque su valor es el que lleva al pago.
+			// Las variaciones, si las hubiera, siguen visibles.
+			$dropdown.closest( '.field-paid-service' ).children( 'label, select' ).hide();
 			var calendar_id = parseInt( $dropdown.data('calendar-id') ),
 				product_id = $dropdown.val(),
 				field_name = $dropdown.attr('name'),

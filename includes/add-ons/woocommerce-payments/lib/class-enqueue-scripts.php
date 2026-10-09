@@ -60,7 +60,7 @@ class Booked_WC_EnqueueScript {
 
 	public function enqueue_front_end_script() {
 		if ( !is_admin() ):
-			wp_register_script( 'booked-wc-fe-functions', $this->plugin_url . '/js/frontend-functions.js', array('jquery') );
+			wp_register_script( 'booked-wc-fe-functions', $this->plugin_url . '/js/frontend-functions.js', array('jquery'), PWCAL_VERSION );
 			wp_enqueue_style( 'booked-wc-fe-styles', $this->plugin_url . '/css/frontend-style.css' );
 			$this->add_js_variables();
 			wp_enqueue_script( 'booked-wc-fe-functions' );
