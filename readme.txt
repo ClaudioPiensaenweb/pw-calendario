@@ -4,7 +4,7 @@ Tags: citas, reservas, calendario, visitas, bodega
 Requires at least: 6.0
 Tested up to: 6.8
 Requires PHP: 7.4
-Stable tag: 3.5.3
+Stable tag: 3.5.4
 License: GPLv2 or later
 License URI: https://www.gnu.org/licenses/gpl-2.0.html
 
@@ -73,6 +73,9 @@ en **Citas > Ajustes > Feeds de calendario**.
 No. WooCommerce solo hace falta si quieres cobrar las citas.
 
 == Changelog ==
+
+= 3.5.4 =
+* **CORREGIDO:** El numero de personas elegido en el modal de reserva no llegaba al servidor: el JavaScript que envia la reserva no lo incluia y cada cita se guardaba como de una persona. El carrito cobraba una sola entrada (24 EUR en vez de 24 x 5) y el aforo contaba cada grupo como una plaza.
 
 = 3.5.3 =
 * **MEJORA:** Si el calendario solo tiene un producto de pago, el selector «Tipo de visita» del modal de reserva se oculta. Sigue en el formulario con ese producto elegido, porque es el que lleva al pago.

@@ -937,6 +937,14 @@ var booked_load_calendar_date_booking_options,
 				data['is_fe_form'] = true;
 				data['total_appts'] = SubmitRequestAppointment._totalAppts();
 
+				// Número de personas (selector o campo oculto de includes/plazas.php).
+				// Faltaba aquí y el servidor recibía siempre una persona: el carrito
+				// cobraba una entrada y el aforo contaba cada grupo como uno.
+				var $personas = $( SubmitRequestAppointment.formSelector + ' [name=personas]' );
+				if ( $personas.length ) {
+					data['personas'] = $personas.val();
+				}
+
 				return data;
 			},
 
