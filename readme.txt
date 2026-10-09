@@ -4,7 +4,7 @@ Tags: citas, reservas, calendario, visitas, bodega
 Requires at least: 6.0
 Tested up to: 6.8
 Requires PHP: 7.4
-Stable tag: 3.5.1
+Stable tag: 3.5.2
 License: GPLv2 or later
 License URI: https://www.gnu.org/licenses/gpl-2.0.html
 
@@ -73,6 +73,9 @@ en **Citas > Ajustes > Feeds de calendario**.
 No. WooCommerce solo hace falta si quieres cobrar las citas.
 
 == Changelog ==
+
+= 3.5.2 =
+* **CORREGIDO:** La flecha de los desplegables de la 3.5.1 no se veia: una regla anterior mas especifica usaba el atajo `background` y la borraba.
 
 = 3.5.1 =
 * **CORREGIDO:** El modal de reserva mostraba el titulo de la franja y el nombre del calendario como HTML en crudo (`<p class="appointment-title">...`). Se escapaba el parrafo entero en vez de solo su texto.
