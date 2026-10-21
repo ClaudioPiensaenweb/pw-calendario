@@ -227,7 +227,7 @@ class Booked_WC_Settings_Fields {
 		usort($schedules, array($this, 'booked_schedule_sort'));
 
 		?>
-		<p><?php echo __('Puedes añadir más periodicidades con un plugin como <a href="https://wordpress.org/plugins/wp-crontrol/" target="_blank">WP Crontrol</a>.', 'pw-calendario') ?> <?php echo __('Estas son las periodicidades disponibles.', 'pw-calendario') ?></p>
+		<p><?php echo __('Tiempo que se guarda la plaza de una reserva sin pagar. Pasado ese plazo, la cita pendiente va a la papelera y las plazas quedan libres. Se comprueba cada 5 minutos.', 'pw-calendario') ?></p>
 		<?php foreach ($schedules as $index => $schedule_data): ?>
 			<div>
 				<input id="<?php echo esc_attr( $schedule_data['name'] ) ?>" name="<?php echo esc_attr( $this->options_name ) ?>[cleanup_mode]" type="radio" value="<?php echo esc_attr( $schedule_data['name'] ) ?>" <?php echo checked($field_value, $schedule_data['name']) ?> />

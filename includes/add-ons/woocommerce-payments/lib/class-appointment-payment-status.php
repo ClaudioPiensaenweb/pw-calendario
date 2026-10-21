@@ -45,14 +45,29 @@ class Booked_WC_Appointment_Payment_Status {
 		return $this;
 	}
 
+	/*
+	 * Pagado es cualquier estado que WooCommerce da por pagado: procesando y
+	 * completado. Antes solo contaba completado, y como Stripe deja los
+	 * pedidos en procesando, las visitas pagadas salian como pendientes de
+	 * pago en el escritorio y no recibian el recordatorio.
+	 */
+	protected function pedido_pagado() {
+		if ( ! $this->order_id || ! $this->order_obj ) {
+			return false;
+		}
+		$estado = str_replace( 'wc-', '', $this->order_obj->order->get_status() );
+		$pagados = function_exists( 'wc_get_is_paid_statuses' ) ? wc_get_is_paid_statuses() : array( 'processing', 'completed' );
+		return in_array( $estado, $pagados, true );
+	}
+
 	public function set_statuses() {
 
-		if ( $this->order_id && $this->order_id === 'manual' || $this->order_id && $this->order_obj->order->get_status() === 'wc-completed' || $this->order_id && $this->order_obj->order->get_status() === 'completed' ) {
+		if ( $this->order_id && $this->order_id === 'manual' || $this->pedido_pagado() ) {
 			$this->is_paid = true;
 			$this->payment_status = 'paid';
 			$this->payment_status_text = __('Pedido pagado', 'pw-calendario');
 		} elseif ( $this->order_id ) {
-			$this->is_paid = ( $this->order_obj->order->get_status() === 'wc-completed' || $this->order_obj->order->get_status() === 'completed' );
+			$this->is_paid = false;
 			$this->payment_status = $this->order_obj->order->get_status();
 			$this->payment_status_text = __('Pedido ', 'pw-calendario') . $this->order_obj->order->post_status_text;
 		}

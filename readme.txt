@@ -4,7 +4,7 @@ Tags: citas, reservas, calendario, visitas, bodega
 Requires at least: 6.0
 Tested up to: 6.8
 Requires PHP: 7.4
-Stable tag: 3.5.5
+Stable tag: 3.5.6
 License: GPLv2 or later
 License URI: https://www.gnu.org/licenses/gpl-2.0.html
 
@@ -73,6 +73,11 @@ en **Citas > Ajustes > Feeds de calendario**.
 No. WooCommerce solo hace falta si quieres cobrar las citas.
 
 == Changelog ==
+
+= 3.5.6 =
+* **NUEVO:** Cierre temporal de un calendario, en la ficha de cada calendario (Citas > Calendarios): casilla «Cerrado temporalmente», fecha opcional de reapertura y mensaje. Mientras esta cerrado, la web muestra el mensaje en lugar del calendario y no se aceptan reservas en el. Con fecha de reapertura vuelve solo ese dia.
+* **CORREGIDO:** Una cita se daba por pagada solo si el pedido estaba «Completado». Con Stripe los pedidos pagados quedan en «Procesando», asi que en el escritorio salian como pendientes de pago y no recibian el recordatorio. Ahora cuentan todos los estados que WooCommerce da por pagados.
+* **CAMBIO:** El ajuste de limpieza es ahora el plazo que se guarda la plaza de una reserva sin pagar, y se comprueba cada 5 minutos (antes la limpieza solo pasaba una vez por plazo y una cita podia quedar retenida el doble). Tambien se retiran las citas cuyo pedido fallo o quedo sin pagar.
 
 = 3.5.5 =
 * **CORREGIDO:** El correo de la cita (al cliente y a la bodega) solo se enviaba al pasar el pedido a «Completado». Stripe deja los pedidos pagados en «Procesando», asi que no salia nunca. Ahora sale en cuanto el pedido esta pagado, una sola vez aunque despues se complete.

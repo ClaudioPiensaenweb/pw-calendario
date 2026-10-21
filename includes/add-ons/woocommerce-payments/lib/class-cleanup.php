@@ -31,9 +31,19 @@ class Booked_WC_Cleanup {
 			if ( 'publish' === $app->post_status || 'future' === $app->post_status ) {
 				continue;
 			}
-			if ( !isset($app_meta['_booked_wc_appointment_order_id']) || isset($app_meta['_booked_wc_appointment_order_id']) && !$app_meta['_booked_wc_appointment_order_id'] ):
-				wp_trash_post($app->ID);
-			endif;
+			$id_pedido = isset( $app_meta['_booked_wc_appointment_order_id'][0] ) ? (int) $app_meta['_booked_wc_appointment_order_id'][0] : 0;
+
+			if ( ! $id_pedido ) {
+				wp_trash_post( $app->ID );
+				continue;
+			}
+
+			// Con pedido, solo si el pago fallo o no se llego a hacer. Si el
+			// cliente lo reintenta y paga, la cita se vuelve a publicar.
+			$pedido = function_exists( 'wc_get_order' ) ? wc_get_order( $id_pedido ) : false;
+			if ( ! $pedido || in_array( $pedido->get_status(), array( 'failed', 'pending', 'cancelled' ), true ) ) {
+				wp_trash_post( $app->ID );
+			}
 		}
 	}
 

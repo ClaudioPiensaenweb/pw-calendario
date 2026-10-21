@@ -60,10 +60,14 @@ class Booked_WC_WP_Crons {
 		return $schedules;
 	}
 
+	/*
+	 * El ajuste «cleanup_mode» es el plazo que se guarda una cita sin pagar
+	 * (ver Booked_WC_Cleanup::posts_where). Antes era tambien la frecuencia
+	 * de la limpieza, asi que con 30 minutos una cita podia quedar retenida
+	 * hasta una hora. Ahora se comprueba cada 5 minutos.
+	 */
 	protected function activate_scheduler() {
-		$mode = Booked_WC_Settings::get_option('cleanup_mode');
-
-		$recurrence = $mode;
+		$recurrence = 'everyfive';
 		$schedule_name = BOOKED_WC_PLUGIN_PREFIX . 'cron_' . $recurrence;
 
 		if ($recurrence && !wp_next_scheduled( $schedule_name) ) {

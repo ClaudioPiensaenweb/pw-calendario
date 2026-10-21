@@ -3,3 +3,7 @@ body.booked-noScroll{width:100%;overflow:hidden;position:relative}body .calendar
 /* Selectores del formulario de reserva: flecha hacia abajo a la derecha. El tema quita la nativa con appearance:none. Se repiten los selectores de las reglas anteriores para ganarles: usan el atajo background y borrarían la imagen. */
 body .booked-form select,body .booked-form .field select,body .booked-form .cf-block select{-webkit-appearance:none;-moz-appearance:none;appearance:none;background-color:#fff;background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='8' viewBox='0 0 12 8'%3E%3Cpath d='M1 1.5l5 5 5-5' fill='none' stroke='%23555' stroke-width='1.6' stroke-linecap='round' stroke-linejoin='round'/%3E%3C/svg%3E");background-repeat:no-repeat;background-position:right 14px center;background-size:12px 8px;padding-right:40px;cursor:pointer}
 body .booked-form select::-ms-expand{display:none}
+
+/* Calendario cerrado temporalmente (includes/cierre-calendarios.php). */
+.pwcal-calendario-cerrado{box-sizing:border-box;width:100%;padding:48px 24px;border:1px solid #e3ddd2;background:#faf8f4;text-align:center}
+.pwcal-calendario-cerrado p{margin:0;font-size:1.05em;line-height:1.6}

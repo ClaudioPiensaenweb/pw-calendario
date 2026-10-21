@@ -16,6 +16,13 @@ $customer_type = isset($_POST['customer_type']) ? pwcal_post_texto( 'customer_ty
 
 $calendar_id = (isset($_POST['calendar_id']) ? pwcal_post_calendario( 'calendar_id' ) : false);
 $calendar_id_for_cf = $calendar_id;
+
+// Calendario cerrado temporalmente (includes/cierre-calendarios.php): el
+// calendario no se muestra, pero la peticion se puede enviar igual.
+if ( $calendar_id && pwcal_calendario_cerrado( (int) $calendar_id ) ) {
+	echo 'error###' . esc_html( pwcal_mensaje_cierre( (int) $calendar_id ) );
+	wp_die();
+}
 if ($calendar_id):
 	$calendar_id = array($calendar_id);
 	$calendar_id = array_map( 'intval', $calendar_id );
