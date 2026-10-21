@@ -450,6 +450,18 @@ class Booked_WC_Functions {
 			return;
 		}
 
+		/*
+		 * Hasta que se pague no es una reserva: queda como borrador (en el
+		 * escritorio sale como pendiente) y se publica al pagarse el pedido,
+		 * en Booked_WC_Order_Hooks::woocommerce_order_complete(). Mientras
+		 * tanto sigue ocupando sus plazas, para no vender dos veces las
+		 * mismas durante el pago; si nadie paga, la limpieza automatica la
+		 * manda a la papelera.
+		 */
+		if ( 'publish' === get_post_status( $appointment_id ) ) {
+			wp_update_post( array( 'ID' => $appointment_id, 'post_status' => 'draft' ) );
+		}
+
 	}
 
 	// add edit button to the front front end appointments listing

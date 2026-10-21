@@ -4,7 +4,7 @@ Tags: citas, reservas, calendario, visitas, bodega
 Requires at least: 6.0
 Tested up to: 6.8
 Requires PHP: 7.4
-Stable tag: 3.5.4
+Stable tag: 3.5.5
 License: GPLv2 or later
 License URI: https://www.gnu.org/licenses/gpl-2.0.html
 
@@ -73,6 +73,11 @@ en **Citas > Ajustes > Feeds de calendario**.
 No. WooCommerce solo hace falta si quieres cobrar las citas.
 
 == Changelog ==
+
+= 3.5.5 =
+* **CORREGIDO:** El correo de la cita (al cliente y a la bodega) solo se enviaba al pasar el pedido a «Completado». Stripe deja los pedidos pagados en «Procesando», asi que no salia nunca. Ahora sale en cuanto el pedido esta pagado, una sola vez aunque despues se complete.
+* **CAMBIO:** Una cita de pago reservada desde la web queda como pendiente (borrador) hasta que se paga el pedido, y entonces se publica. Mientras tanto sigue ocupando sus plazas.
+* **CAMBIO:** La limpieza automatica de citas sin pagar solo toca citas sin publicar y las manda a la papelera en vez de borrarlas: antes podia borrar sin remedio las citas creadas a mano desde el escritorio.
 
 = 3.5.4 =
 * **CORREGIDO:** El numero de personas elegido en el modal de reserva no llegaba al servidor: el JavaScript que envia la reserva no lo incluia y cada cita se guardaba como de una persona. El carrito cobraba una sola entrada (24 EUR en vez de 24 x 5) y el aforo contaba cada grupo como una plaza.

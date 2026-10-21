@@ -22,8 +22,17 @@ class Booked_WC_Cleanup {
 	protected function clean() {
 		foreach ($this->appointments as $app) {
 			$app_meta = get_post_meta($app->ID);
+			/*
+			 * Solo citas sin publicar (las de pago que nadie ha pagado) y a la
+			 * papelera, no borradas del todo. Las creadas a mano en el
+			 * escritorio tambien guardan producto y fecha de creacion pero no
+			 * tienen pedido, y antes se borraban sin remedio.
+			 */
+			if ( 'publish' === $app->post_status || 'future' === $app->post_status ) {
+				continue;
+			}
 			if ( !isset($app_meta['_booked_wc_appointment_order_id']) || isset($app_meta['_booked_wc_appointment_order_id']) && !$app_meta['_booked_wc_appointment_order_id'] ):
-				wp_delete_post($app->ID, true);
+				wp_trash_post($app->ID);
 			endif;
 		}
 	}

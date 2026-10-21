@@ -71,6 +71,7 @@ class Booked_WC {
 
 		// On Order Complete
 		add_action('woocommerce_order_status_completed', array('Booked_WC_Order_Hooks', 'woocommerce_order_complete'), 10, 1);
+		add_action('woocommerce_order_status_processing', array('Booked_WC_Order_Hooks', 'woocommerce_order_complete'), 10, 1);
 
 		// Trash the appointment on order cancel, refunded or deleted
 		add_action('woocommerce_order_status_cancelled', array('Booked_WC_Order_Hooks', 'woocommerce_order_remove_appointment'), 10, 1);

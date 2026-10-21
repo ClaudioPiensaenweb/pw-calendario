@@ -127,6 +127,18 @@ class Booked_WC_Order_Hooks {
 		}
 	}
 
+	/*
+	 * Pedido pagado: se engancha a «procesando» y a «completado».
+	 *
+	 * Antes solo se escuchaba «completado», pero Stripe deja los pedidos
+	 * pagados en «procesando» (los productos de las visitas son virtuales,
+	 * no descargables), asi que ni el cliente ni la bodega recibian nunca el
+	 * correo de la cita. La marca del pedido evita mandarlo dos veces cuando
+	 * despues se pase de «procesando» a «completado».
+	 *
+	 * Tambien publica las citas: se crean como borrador al reservar y solo
+	 * pasan a ser reservas cuando el pedido esta pagado.
+	 */
 	public static function woocommerce_order_complete( $order_id ) {
 
 		$order_id = (int) $order_id;
@@ -135,11 +147,26 @@ class Booked_WC_Order_Hooks {
 			return;
 		}
 
+		$wc_order = wc_get_order( $order_id );
+		if ( $wc_order->get_meta( '_pwcal_cita_confirmada' ) ) {
+			return;
+		}
+
 		$order = Booked_WC_Order::get($order_id);
 
 		$appointments = $order->appointments;
 		if ( !$appointments ) {
 			return;
+		}
+
+		$wc_order->update_meta_data( '_pwcal_cita_confirmada', current_time( 'mysql' ) );
+		$wc_order->save();
+
+		foreach ( (array) $appointments as $id_cita ) {
+			$id_cita = (int) $id_cita;
+			if ( $id_cita && get_post( $id_cita ) && 'publish' !== get_post_status( $id_cita ) ) {
+				wp_publish_post( $id_cita );
+			}
 		}
 
 		$completed = array();
